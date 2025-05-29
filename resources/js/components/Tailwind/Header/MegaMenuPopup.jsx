@@ -102,7 +102,7 @@ const MegaMenuPopup = ({ isOpen, onClose }) => {
   const currentData = menuData[activeSection] || menuData.infraestructura;
   // 
   return (
-    <div className="fixed bg-black/40 inset-0 z-50 flex items-start justify-center mt-[72px]">
+    <div className="fixed bg-black/70 inset-0 z-50 flex items-start justify-center mt-[72px]">
       <div className="bg-white 2xl:rounded-lg w-full max-h-[90vh] overflow-hidden">
         <div className="flex flex-row h-full">
           

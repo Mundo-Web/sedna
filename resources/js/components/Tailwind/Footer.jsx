@@ -305,6 +305,8 @@ const Footer = ({ terms, footerLinks = [] }) => {
                             )}
                         </div>
                     </div>
+                    
+                    <div className="hidden md:flex"></div>
 
                     {/* Columna 2 - Sobre Sedna */}
                     <div className="flex flex-col gap-2 font-Poppins_Regular text-[15px]">
@@ -326,7 +328,7 @@ const Footer = ({ terms, footerLinks = [] }) => {
                     </div>
 
                     {/* Columna 3 - Portafolio */}
-                    <div className="flex flex-col gap-2 font-Poppins_Regular text-[15px]">
+                    {/* <div className="flex flex-col gap-2 font-Poppins_Regular text-[15px]">
                         <h3 className="text-lg pb-3 font-Poppins_Medium">
                             {t("public.footer.portfolio", "Nuestro Portafolio")}
                         </h3>
@@ -342,7 +344,7 @@ const Footer = ({ terms, footerLinks = [] }) => {
                                 "Opciones de compra"
                             )}
                         </a>
-                    </div>
+                    </div> */}
 
                     {/* Columna 4 - Soporte */}
                     <div className="flex flex-col gap-2 font-Poppins_Regular text-[15px]">
