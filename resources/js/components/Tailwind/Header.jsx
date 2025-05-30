@@ -83,12 +83,14 @@ const Header = ({
     backgroundHeight = "h-full",
     backgroundPosition = "object-top",
     children,
+    landing
+    
 }) => {
     const { t, loading, error } = useTranslation();
     /*  if (loading) {
         return <div className="text-center py-4">Cargando menú...</div>;
     }
-
+    
     if (error) {
         return (
             <div className="alert alert-danger m-3">
@@ -96,6 +98,7 @@ const Header = ({
             </div>
         );
     }*/
+    
     const [isOpen, setIsOpen] = useState(false);
     const menuRef = useRef(null);
     const btnToggleRef = useRef(null);
@@ -172,13 +175,20 @@ const Header = ({
 
     const [socials, setSocials] = useState([]);
     const [languagesSystem, setLanguagesSystem] = useState([]);
+    const [megamenu, setMegaMenu] = useState({
+        solutions: [],
+        services: [],
+        options: [],
+    });
     useEffect(() => {
         const fetchSocials = async () => {
             try {
                 const data = await generalRest.getSocials();
                 const languages = await generalRest.getLanguages();
+                const megamenu = await generalRest.getMegamenu();
                 setSocials(data);
                 setLanguagesSystem(languages);
+                setMegaMenu(megamenu);
             } catch (error) {
                 console.error("Error fetching socials:", error);
             }
@@ -186,7 +196,7 @@ const Header = ({
 
         fetchSocials();
     }, []);
-
+    
     const TikTok = socials.find((social) => social.description === "TikTok");
     const WhatsApp = socials.find(
         (social) => social.description === "WhatsApp"
@@ -353,7 +363,7 @@ const Header = ({
                                             "Opciones de compra"
                                         ),
                                         "/contact": t(
-                                            "public.header.contac",
+                                            "public.header.help",
                                             "Ayuda"
                                         ),
                                     }[path];
@@ -364,8 +374,12 @@ const Header = ({
                                                 key={path}
                                                 href={path}
                                                 onClick={(e) => {
-                                                    e.preventDefault();
-                                                    toggleMegaMenu(path);
+                                                    if (["#solutions", "#services", "#options"].includes(path)) {
+                                                        e.preventDefault();
+                                                        toggleMegaMenu(path);
+                                                    } else {
+                                                        setActiveMegaMenu(null); 
+                                                    }
                                                     handleLinkClick(path);
                                                 }}
                                                 variants={itemVariants}
@@ -391,6 +405,15 @@ const Header = ({
                                                         <MegaMenuPopup 
                                                          isOpen={activeMegaMenu === path} 
                                                          onClose={closeMegaMenu}
+                                                         data={
+                                                            activeMegaMenu === "#solutions"
+                                                            ? megamenu.solutions
+                                                            : activeMegaMenu === "#services"
+                                                            ? megamenu.services
+                                                            : activeMegaMenu === "#options"
+                                                            ? megamenu.options
+                                                            : []
+                                                        }
                                                         />
                                                     </div>
                                                 )}

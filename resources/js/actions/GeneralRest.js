@@ -86,6 +86,27 @@ class GeneralRest extends BasicRest {
             return [];
         }
     };
+
+    getMegamenu = async () => {
+        try {
+            const { status, result } = await Fetch(
+                `/api/${this.path}/get-megamenu`,
+                {
+                    method: "GET",
+                }
+            );
+
+            if (!status)
+                throw new Error(
+                    result?.message ?? "Ocurrió un error al consultar"
+                );
+
+            return result?.data ?? [];
+        } catch (error) {
+            console.error("Error en getMegamenu:", error);
+            return [];
+        }
+    };
 }
 
 export default GeneralRest;

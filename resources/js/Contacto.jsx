@@ -11,8 +11,9 @@ import TextWithHighlight from "./Utils/TextWithHighlight";
 import ContactForm from "./Components/Contact/ContactForm";
 import MaintenancePage from "./Utils/MaintenancePage";
 import { useTranslation } from "./hooks/useTranslation";
+import ContactFormSedna from "./components/Contact/ContactFormSedna";
 
-// Animaciones
+
 const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -104,7 +105,7 @@ const ContactoPage = ({ landing, sedes, whatsapp, staff }) => {
         sedesValidas.every(
             (sede, _, arr) =>
                 JSON.stringify(sede.horario) === JSON.stringify(arr[0].horario)
-        );
+    );
 
     const { t } = useTranslation();
 
@@ -145,7 +146,7 @@ const ContactoPage = ({ landing, sedes, whatsapp, staff }) => {
         return (
             <section className="px-[5%] xl:px-[8%] py-10 lg:py-16">
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 md:gap-10 xl:gap-16">
-                    <div className="flex flex-col gap-3 items-left justify-center">
+                    <div className="flex flex-col gap-3 items-left justify-start">
                         <h2 className="font-Poppins_Regular font-semibold text-[#3E2F4D] text-3xl sm:text-4xl lg:text-[44px] !leading-tight !tracking-tight">
                             {landingVentas.title}
                         </h2>
@@ -253,49 +254,145 @@ const ContactoPage = ({ landing, sedes, whatsapp, staff }) => {
                                 />
                             ) : activeForm === 'form1' ? (
                                 // Formulario 1 (para el segundo ítem del acordeón)
+                                // <div className="bg-white p-6 rounded-lg shadow-md max-w-md w-full">
+                                //     <h3 className="text-xl font-semibold mb-4 text-[#4B246D]">Solicitar un mensaje</h3>
+                                //     <form className="space-y-4">
+                                //         <div className="grid grid-cols-2 gap-4">
+                                //             <div>
+                                //                 <label className="block text-sm font-medium text-[#5C4774]">Nombre</label>
+                                //                 <input type="text" className="mt-1 block w-full border border-gray-300 rounded-md p-2" />
+                                //             </div>
+                                //             <div>
+                                //                 <label className="block text-sm font-medium text-[#5C4774]">Apellido</label>
+                                //                 <input type="text" className="mt-1 block w-full border border-gray-300 rounded-md p-2" />
+                                //             </div>
+                                //         </div>
+                                        
+                                //         <div>
+                                //             <label className="block text-sm font-medium text-[#5C4774]">E-mail</label>
+                                //             <input type="email" className="mt-1 block w-full border border-gray-300 rounded-md p-2" />
+                                //         </div>
+                                        
+                                //         <div>
+                                //             <label className="block text-sm font-medium text-[#5C4774]">Celular</label>
+                                //             <input type="tel" className="mt-1 block w-full border border-gray-300 rounded-md p-2" />
+                                //         </div>
+                                        
+                                //         <div>
+                                //             <label className="block text-sm font-medium text-[#5C4774]">Nombre de la empresa</label>
+                                //             <input type="text" className="mt-1 block w-full border border-gray-300 rounded-md p-2" />
+                                //         </div>
+                                        
+                                //         <div>
+                                //             <label className="block text-sm font-medium text-[#5C4774]">RUC</label>
+                                //             <input type="text" className="mt-1 block w-full border border-gray-300 rounded-md p-2" />
+                                //         </div>
+                                        
+                                //         <div>
+                                //             <label className="block text-sm font-medium text-[#5C4774] mb-2">Interés</label>
+                                //             <div className="space-y-2">
+                                //                 <div className="flex items-center">
+                                //                     <input type="radio" id="solucion" name="interes" className="mr-2" />
+                                //                     <label htmlFor="solucion">Solución</label>
+                                //                 </div>
+                                //                 <div className="flex items-center">
+                                //                     <input type="radio" id="servicio" name="interes" className="mr-2" />
+                                //                     <label htmlFor="servicio">Servicio</label>
+                                //                 </div>
+                                //                 <div className="flex items-center">
+                                //                     <input type="radio" id="opciones" name="interes" className="mr-2" />
+                                //                     <label htmlFor="opciones">Opciones de compra</label>
+                                //                 </div>
+                                //             </div>
+                                //         </div>
+                                        
+                                //         <div>
+                                //             <label className="block text-sm font-medium text-[#5C4774]">Mensaje</label>
+                                //             <textarea rows="4" className="mt-1 block w-full border border-gray-300 rounded-md p-2"></textarea>
+                                //         </div>
+                                        
+                                //         <div className="flex items-center">
+                                //             <input type="checkbox" id="terminos" className="mr-2" />
+                                //             <label htmlFor="terminos" className="text-sm text-[#5C4774]">Acepto los Términos y condiciones</label>
+                                //         </div>
+                                        
+                                //         <button type="submit" className="bg-[#7B5E9A] text-white px-4 py-2 rounded-md w-full">
+                                //             Enviar formulario
+                                //         </button>
+                                //     </form>
+                                // </div>
+                                <ContactFormSedna />
+                            ) : (
+                                // Formulario 2 (para el tercer ítem del acordeón)
                                 <div className="bg-white p-6 rounded-lg shadow-md max-w-md w-full">
-                                    <h3 className="text-xl font-semibold mb-4 text-[#4B246D]">Formulario de Contacto 1</h3>
+                                    <h3 className="text-xl font-semibold mb-4 text-[#4B246D]">Agendar Reunión</h3>
                                     <form className="space-y-4">
-                                        <div>
-                                            <label className="block text-sm font-medium text-[#5C4774]">Nombre</label>
-                                            <input type="text" className="mt-1 block w-full border border-gray-300 rounded-md p-2" />
+                                        <div className="grid grid-cols-2 gap-4">
+                                            <div>
+                                                <label className="block text-sm font-medium text-[#5C4774]">Nombre</label>
+                                                <input type="text" className="mt-1 block w-full border border-gray-300 rounded-md p-2" />
+                                            </div>
+                                            <div>
+                                                <label className="block text-sm font-medium text-[#5C4774]">Apellido</label>
+                                                <input type="text" className="mt-1 block w-full border border-gray-300 rounded-md p-2" />
+                                            </div>
                                         </div>
+                                        
                                         <div>
-                                            <label className="block text-sm font-medium text-[#5C4774]">Email</label>
+                                            <label className="block text-sm font-medium text-[#5C4774]">E-mail</label>
                                             <input type="email" className="mt-1 block w-full border border-gray-300 rounded-md p-2" />
                                         </div>
+                                        
+                                        <div>
+                                            <label className="block text-sm font-medium text-[#5C4774]">Celular</label>
+                                            <input type="tel" className="mt-1 block w-full border border-gray-300 rounded-md p-2" />
+                                        </div>
+                                        
+                                        <div>
+                                            <label className="block text-sm font-medium text-[#5C4774]">Nombre de la empresa</label>
+                                            <input type="text" className="mt-1 block w-full border border-gray-300 rounded-md p-2" />
+                                        </div>
+                                        
+                                        <div>
+                                            <label className="block text-sm font-medium text-[#5C4774]">RUC</label>
+                                            <input type="text" className="mt-1 block w-full border border-gray-300 rounded-md p-2" />
+                                        </div>
+                                        
+                                        <div>
+                                            <label className="block text-sm font-medium text-[#5C4774] mb-2">Interés</label>
+                                            <div className="space-y-2">
+                                                <div className="flex items-center">
+                                                    <input type="radio" id="solucion" name="interes" className="mr-2" />
+                                                    <label htmlFor="solucion">Solución</label>
+                                                </div>
+                                                <div className="flex items-center">
+                                                    <input type="radio" id="servicio" name="interes" className="mr-2" />
+                                                    <label htmlFor="servicio">Servicio</label>
+                                                </div>
+                                                <div className="flex items-center">
+                                                    <input type="radio" id="opciones" name="interes" className="mr-2" />
+                                                    <label htmlFor="opciones">Opciones de compra</label>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div>
+                                            <label className="block text-sm font-medium text-[#5C4774]">Fecha</label>
+                                            <input type="date" className="mt-1 block w-full border border-gray-300 rounded-md p-2" />
+                                        </div>
+                                        
                                         <div>
                                             <label className="block text-sm font-medium text-[#5C4774]">Mensaje</label>
                                             <textarea rows="4" className="mt-1 block w-full border border-gray-300 rounded-md p-2"></textarea>
                                         </div>
-                                        <button type="submit" className="bg-[#7B5E9A] text-white px-4 py-2 rounded-md">
-                                            Enviar
-                                        </button>
-                                    </form>
-                                </div>
-                            ) : (
-                                // Formulario 2 (para el tercer ítem del acordeón)
-                                <div className="bg-white p-6 rounded-lg shadow-md max-w-md w-full">
-                                    <h3 className="text-xl font-semibold mb-4 text-[#4B246D]">Formulario de Contacto 2</h3>
-                                    <form className="space-y-4">
-                                        <div>
-                                            <label className="block text-sm font-medium text-[#5C4774]">Empresa</label>
-                                            <input type="text" className="mt-1 block w-full border border-gray-300 rounded-md p-2" />
+                                        
+                                        <div className="flex items-center">
+                                            <input type="checkbox" id="terminos" className="mr-2" />
+                                            <label htmlFor="terminos" className="text-sm text-[#5C4774]">Acepto los Términos y condiciones</label>
                                         </div>
-                                        <div>
-                                            <label className="block text-sm font-medium text-[#5C4774]">Teléfono</label>
-                                            <input type="tel" className="mt-1 block w-full border border-gray-300 rounded-md p-2" />
-                                        </div>
-                                        <div>
-                                            <label className="block text-sm font-medium text-[#5C4774]">Servicio de interés</label>
-                                            <select className="mt-1 block w-full border border-gray-300 rounded-md p-2">
-                                                <option>Seleccione...</option>
-                                                <option>Servicio 1</option>
-                                                <option>Servicio 2</option>
-                                            </select>
-                                        </div>
-                                        <button type="submit" className="bg-[#7B5E9A] text-white px-4 py-2 rounded-md">
-                                            Solicitar información
+                                        
+                                        <button type="submit" className="bg-[#7B5E9A] text-white px-4 py-2 rounded-md w-full">
+                                            Enviar formulario
                                         </button>
                                     </form>
                                 </div>

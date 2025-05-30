@@ -12,6 +12,9 @@ use App\Models\Indicator;
 use App\Models\Lang;
 use App\Models\Slider;
 use App\Models\Social;
+use App\Models\Solution;
+use App\Models\Service;
+use App\Models\PurchaseOption;
 use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
@@ -112,6 +115,32 @@ class GeneralController extends BasicController
 
             $response->status = 400;
             $response->message = $th->getMessage();
+        } finally {
+            return response(
+                $response->toArray(),
+                $response->status
+            );
+        }
+    }
+
+    public function getMegamenu(Request $request): HttpResponse|ResponseFactory
+    {
+        $response = new Response();
+        try {
+           
+            $solutions = Solution::where('status', true)->where('lang_id', app('current_lang_id'))->with('category')->get();
+            $service = Service::where('status', true)->where('lang_id', app('current_lang_id'))->with('category')->get();
+            $options = PurchaseOption::where('status', true)->where('lang_id', app('current_lang_id'))->with('category')->get();
+
+            $response->data = ['solutions' => $solutions, 'services' => $service, 'options' => $options];
+            $response->status = 200;
+            $response->message = 'Operacion correcta';
+
+        } catch (\Throwable $th) {
+
+            $response->status = 400;
+            $response->message = $th->getMessage();
+
         } finally {
             return response(
                 $response->toArray(),

@@ -20,6 +20,7 @@ class CategorySolution extends Model
         'visible',
         'status',
         'lang_id',
+        'type',
     ];
     public function lang()
     {
