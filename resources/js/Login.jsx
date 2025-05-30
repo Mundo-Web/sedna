@@ -84,7 +84,7 @@ const Login = ({}) => {
                                 <h1 className="text-3xl font-bold text-center">
                                     Bienvenido a {" "}
                                     <span className="text-azul">
-                                        NoPain
+                                        Sedna
                                     </span>
                                 </h1>
                             </div>
