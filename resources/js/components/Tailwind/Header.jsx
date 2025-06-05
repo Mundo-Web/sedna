@@ -646,7 +646,7 @@ const Header = ({
                                     
                                     <a
                                         href="/"
-                                        className="text-[#5C4774] text-base font-Poppins_SemiBold border-l-4 py-1 pl-1 rounded-l-md border-transparent"
+                                        className="text-[#5C4774] text-base font-Poppins_SemiBold border-l-4 py-1 pl-1 rounded-l-md border-l-transparent border-b pb-3 border-[#EAE8EB]"
                                     >
                                         {t("public.header.home", "Inicio")}
                                     </a>
