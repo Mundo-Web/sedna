@@ -235,6 +235,7 @@ const Header = ({
             setSelectLanguage(languagesSystem[0]);
         }
     }, [currentLanguage, languagesSystem]);
+    
     const onUseLanguage = async (langData) => {
         try {
             // Obtén el token CSRF de las cookies automáticamente
@@ -298,6 +299,156 @@ const Header = ({
 
     const closeMegaMenu = () => setActiveMegaMenu(null);
 
+    const [openAccordion, setOpenAccordion] = useState(null);
+
+    const toggleAccordion = (accordion) => {
+        setOpenAccordion(openAccordion === accordion ? null : accordion);
+    };
+
+    useEffect(() => {
+        if (isOpen) {
+          const originalStyle = window.getComputedStyle(document.body).overflow;
+          document.body.style.overflow = 'hidden';
+          return () => {
+            document.body.style.overflow = originalStyle;
+          };
+        }
+    }, [isOpen]);
+
+    const AccordionItem = ({ title, items, isOpen, toggleAccordion, onItemClick  }) => (
+        <div className="border-b border-[#EAE8EB] pb-2">
+          <button 
+            onClick={toggleAccordion}
+            className={`flex justify-between items-center w-full text-left pl-2 py-3 rounded-md  overflow-hidden relative ${isOpen ? 'bg-[#F5F2F9]' : 'bg-transparent'}`}
+          >
+            <span className={`w-1 h-full absolute left-0 top-0 transition-colors duration-300 ${isOpen ? 'bg-[#3E2F4D]' : 'bg-transparent'}`}></span>
+            <span className="text-[#5C4774] text-base font-Poppins_SemiBold ">{title}</span>
+            <motion.span
+              animate={{ rotate: isOpen ? 180 : 0 }}
+              className="text-[#5C4774]"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <mask id="mask0_476_2405" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24" mask-type="alpha">
+                    <rect width="24" height="24" transform="matrix(1 0 0 -1 0 24)" fill="#D9D9D9" />
+                </mask>
+                <g mask="url(#mask0_476_2405)">
+                    <path d="M12 8.62344L6 14.6234L7.4 16.0234L12 11.4484L16.6 16.0234L18 14.6234L12 8.62344Z" fill="#3E2F4D" />
+                </g>
+               </svg>
+            </motion.span>
+          </button>
+          
+          <AnimatePresence>
+            {isOpen && (
+              <motion.ul
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: 'auto' }}
+                exit={{ opacity: 0, height: 0 }}
+                className="overflow-hidden pl-4 pt-2 space-y-2"
+              >
+                {items.map((item, index) => (
+                  <motion.li key={index}>
+                    <button 
+                      className="text-[#5C4774] text-sm font-Poppins_Regular hover:text-[#7B5E9A]"
+                      onClick={() => onItemClick(item)}
+                    >
+                      {item}
+                    </button>
+                  </motion.li>
+                ))}
+              </motion.ul>
+            )}
+          </AnimatePresence>
+        </div>
+    );
+
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [modalContent, setModalContent] = useState(null);
+
+    const ServiceModal = ({ isOpen, onClose, content }) => {
+        if (!content) return null;
+        
+        return (
+            <AnimatePresence>
+            {isOpen && (
+                <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="fixed inset-0 bg-black bg-opacity-70 z-[99] flex items-center justify-center p-4"
+                onClick={onClose}
+                >
+                <motion.div 
+                    initial={{ y: 50 }}
+                    animate={{ y: 0 }}
+                    exit={{ y: 50 }}
+                    className="bg-white rounded-lg max-w-2xl w-full h-[90vh] overflow-y-auto"
+                    onClick={(e) => e.stopPropagation()}
+                >
+                    <div className="px-4 py-6 relative">
+                        <div className="flex justify-between items-start mb-4 ">
+                            <h3 className="text-2xl font-Poppins_SemiBold text-[#3E2F4D]">{content.categoryName}</h3>
+                            <button onClick={onClose} className="text-[#5C4774] absolute right-2.5 top-7">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M18 6L6 18M6 6L18 18" stroke="#5C4774" strokeWidth="2" strokeLinecap="round"/>
+                                </svg>
+                            </button>
+                        </div>
+                    
+                        <div className="flex flex-col gap-4">
+                            {content.items.map((item, index) => (
+                                <a key={index} href={`/${item.category.type}/${item.slug}`} className="">
+                                    <div className="border-b border-[#EAE8EB] p-3 rounded-md last:border-0 bg-[#F5F2F9]">
+                                        <h4 className="font-Poppins_SemiBold text-[#3E2F4D]">{item.title}</h4>
+                                        <p className="text-[#5C4774] text-sm mt-1 line-clamp-3">{item.description}</p>
+                                    </div>
+                                </a>
+                            ))}
+                        </div>
+                    </div>
+                </motion.div>
+                </motion.div>
+            )}
+            </AnimatePresence>
+        );
+    };
+
+    const solutionsCategories = [
+        ...new Set(
+            megamenu.solutions
+            .filter(item => item.category && item.category.name !== "Undefined")
+            .map(item => item.category.name)
+        )
+    ];
+      
+    const servicesCategories = [
+    ...new Set(
+        megamenu.services
+        .filter(item => item.category && item.category.name !== "Undefined")
+        .map(item => item.category.name)
+    )
+    ];
+    
+    const optionsCategories = [
+    ...new Set(
+        megamenu.options
+        .filter(item => item.category && item.category.name !== "Undefined")
+        .map(item => item.category.name)
+    )
+    ];
+
+    const menuData = {};
+    
+    [...megamenu.solutions, ...megamenu.services, ...megamenu.options].forEach(item => {
+        menuData[item.title] = {
+            title: item.title,
+            description: item.description,
+            slug: item.slug,
+        };
+    });
+
+    
+    
     return (
         <>
 
@@ -450,7 +601,9 @@ const Header = ({
 
                         <motion.div
                             variants={itemVariants}
-                            className="xl:hidden text-base"
+                            className={`xl:hidden text-base z-[50] ${
+                                isModalOpen ? "hidden" : "flex"
+                            } `}
                         >
                             <div>
                                 <motion.button
@@ -513,74 +666,105 @@ const Header = ({
                             animate="visible"
                             exit="exit"
                             variants={menuVariants}
-                            className={`fixed md:top-20 inset-0 text-white z-[999] ${
-                                isScrolled
-                                    ? "top-[3.75rem] bg-[#224483]"
-                                    : "top-28 bg-[#224483]"
-                            } p-[5%] h-max overflow-y-auto`}
-                        >
-                            <motion.ul
-                                variants={containerVariants}
-                                className="flex flex-col gap-4 items-center justify-center"
-                            >
-                                {[
-                                    "/",
-                                    "/services",
-                                    "/about",
-                                    "/offices",
-                                    "/contact",
-                                    "/blog",
-                                ].map((path) => {
-                                    const text = {
-                                        "/": t("public.header.home", "Inicio"),
-                                        "/services": t(
+                            className="fixed inset-0 bg-[#FFFFFF] text-[#000000] z-[30] p-[5%] overflow-y-auto"
+                        >   
+                            
+                            <div className="flex flex-col items-start justify-between h-full">
+                                <div className="flex flex-col gap-3 flex-grow w-full">
+                                    <h2 className="text-2xl text-[#3E2F4D] font-Poppins_SemiBold h-12">Menú</h2>
+                                    
+                                    <a
+                                        href="/"
+                                        className="text-[#5C4774] text-base font-Poppins_SemiBold border-l-4 py-1 pl-1 rounded-l-md border-transparent"
+                                    >
+                                        {t("public.header.home", "Inicio")}
+                                    </a>
+
+                                    {/* Acordeón de Soluciones */}
+                                    <AccordionItem 
+                                        title= {t(
+                                            "public.header.solutions",
+                                            "Soluciones")} 
+                                        items={solutionsCategories}
+                                        isOpen={openAccordion === 'solutions'}
+                                        toggleAccordion={() => toggleAccordion('solutions')}
+                                        onItemClick={(category) => {
+                                            const categoryItems = megamenu.solutions.filter(
+                                                item => item.category && item.category.name === category && item.category.name !== "Undefined"
+                                            );
+                                            setModalContent({
+                                              categoryName: category,
+                                              items: categoryItems
+                                            });
+                                            setIsModalOpen(true);
+                                        }}
+                                    />
+                                    
+                                    {/* Acordeón de Servicios */}
+                                    <AccordionItem 
+                                        title={t(
                                             "public.header.services",
                                             "Servicios"
-                                        ),
-                                        "/about": t(
-                                            "public.header.aboutus",
-                                            "Nosotros"
-                                        ),
-                                        "/offices": t(
-                                            "public.header.facilities",
-                                            "Instalaciones"
-                                        ),
-                                        "/contact": t(
-                                            "public.header.contac",
-                                            "Contacto"
-                                        ),
-                                        "/blog": t(
-                                            "public.header.blog",
-                                            "Blog"
-                                        ),
-                                    }[path];
+                                        )} 
+                                        items={servicesCategories}
+                                        isOpen={openAccordion === 'services'}
+                                        toggleAccordion={() => toggleAccordion('services')}
+                                        onItemClick={(category) => {
+                                            const categoryItems = megamenu.services.filter(
+                                                item => item.category && item.category.name === category && item.category.name !== "Undefined"
+                                            );
+                                            setModalContent({
+                                                categoryName: category,
+                                                items: categoryItems
+                                            });
+                                            setIsModalOpen(true);
+                                        }}
+                                    />
+                                    
+                                    {/* Acordeón de Opciones de compra */}
+                                    <AccordionItem 
+                                        title={t(
+                                            "public.header.options",
+                                            "Opciones de compra"
+                                        )}
+                                        items={optionsCategories}
+                                        isOpen={openAccordion === 'options'}
+                                        toggleAccordion={() => toggleAccordion('options')}
+                                        onItemClick={(category) => {
+                                            const categoryItems = megamenu.options.filter(
+                                                item => item.category && item.category.name === category && item.category.name !== "Undefined"
+                                            );
+                                            setModalContent({
+                                              categoryName: category,
+                                              items: categoryItems
+                                            });
+                                            setIsModalOpen(true);
+                                        }}
+                                        
+                                    />
 
-                                    return (
-                                        <motion.li
-                                            key={path}
-                                            variants={itemVariants}
-                                        >
-                                            <a
-                                                href={path}
-                                                onClick={() => {
-                                                    handleLinkClick(path);
-                                                    setIsOpen(false);
-                                                }}
-                                                className={`relative py-2 rounded-full transition-all duration-300 ${
-                                                    isActive(path)
-                                                        ? "bg-[#EFF0F1] pl-8 pr-3 text-azul"
-                                                        : "bg-transparent px-5 text-white"
-                                                }`}
-                                            >
-                                                {text}
-                                                {isActive(path) && (
-                                                    <span className="absolute left-3 ml-2 top-[50%] -translate-x-1/2 -translate-y-1/2 h-2 w-2 bg-[#224483] rounded-full"></span>
-                                                )}
-                                            </a>
-                                        </motion.li>
-                                    );
-                                })}
-                            </motion.ul>
+                                    <a
+                                        href="/contact"
+                                        className="text-[#5C4774] text-base font-Poppins_SemiBold"
+                                    >
+                                        {t(
+                                            "public.header.help",
+                                            "Ayuda"
+                                        )}
+                                    </a>
+                                </div>
+                                
+                                <a href="/contact" className="bg-[#7B5E9A] rounded-md text-white py-3 w-full text-center">
+                                    <span className="font-bold">Contáctanos</span>
+                                </a>
+                                
+                                <ServiceModal 
+                                    isOpen={isModalOpen}
+                                    onClose={() => setIsModalOpen(false)}
+                                    content={modalContent}
+                                />
+
+                            </div>
                         </motion.div>
                     )}
                 </AnimatePresence>
