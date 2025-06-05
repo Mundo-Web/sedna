@@ -6,6 +6,7 @@ import HtmlContent from "../../Utils/HtmlContent";
 import GeneralRest from "../../actions/GeneralRest";
 import { X } from "lucide-react";
 import { useTranslation } from "../../hooks/useTranslation";
+import { motion, AnimatePresence } from "framer-motion";
 
 ReactModal.setAppElement("#app");
 
@@ -82,7 +83,38 @@ const Footer = ({ terms, footerLinks = [] }) => {
     };
 
     return (
-        <>
+        <>  
+            {Whatsapp && (
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.5 }}
+                    className="flex justify-end w-full mx-auto z-[100] relative"
+                >
+                    <div className="fixed bottom-3 right-2 md:bottom-[1rem] lg:bottom-[2rem] lg:right-3 z-20 cursor-pointer">
+                        <a
+                            target="_blank"
+                            id="whatsapp-toggle"
+                            href={Whatsapp.link}
+                        >
+                            <motion.img
+                                animate={{
+                                    y: [0, -10, 0],
+                                }}
+                                transition={{
+                                    duration: 1.5,
+                                    repeat: Infinity,
+                                    repeatType: "loop",
+                                }}
+                                src="/assets/img/icons/WhatsApp.svg"
+                                alt="whatsapp"
+                                className="mr-3 w-16 h-16 md:w-[80px] md:h-[80px]"
+                            />
+                        </a>
+                    </div>
+                </motion.div>
+            )}
+
             <footer className="bg-[#3E2F4D]">
                 {" "}
                 {/* <div className="px-[5%] max-w-xl lg:max-w-[82rem]  mx-auto py-10 lg:pt-16 lg:pb-8">

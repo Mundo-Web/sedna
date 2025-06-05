@@ -316,7 +316,7 @@ const Header = ({
     }, [isOpen]);
 
     const AccordionItem = ({ title, items, isOpen, toggleAccordion, onItemClick  }) => (
-        <div className="border-b border-[#EAE8EB] pb-2">
+        <div className={`border-b border-[#EAE8EB] ${isOpen ? 'pb-3' : ' pb-0'}`}>
           <button 
             onClick={toggleAccordion}
             className={`flex justify-between items-center w-full text-left pl-2 py-3 rounded-md  overflow-hidden relative ${isOpen ? 'bg-[#F5F2F9]' : 'bg-transparent'}`}
@@ -324,7 +324,7 @@ const Header = ({
             <span className={`w-1 h-full absolute left-0 top-0 transition-colors duration-300 ${isOpen ? 'bg-[#3E2F4D]' : 'bg-transparent'}`}></span>
             <span className="text-[#5C4774] text-base font-Poppins_SemiBold ">{title}</span>
             <motion.span
-              animate={{ rotate: isOpen ? 180 : 0 }}
+              animate={{ rotate: isOpen ? 0 : 180 }}
               className="text-[#5C4774]"
             >
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -344,7 +344,7 @@ const Header = ({
                 initial={{ opacity: 0, height: 0 }}
                 animate={{ opacity: 1, height: 'auto' }}
                 exit={{ opacity: 0, height: 0 }}
-                className="overflow-hidden pl-4 pt-2 space-y-2"
+                className="overflow-hidden pl-4 pt-3 space-y-4"
               >
                 {items.map((item, index) => (
                   <motion.li key={index}>
@@ -625,36 +625,7 @@ const Header = ({
                         </motion.div>
                     </div>
 
-                    {WhatsApp && (
-                        <motion.div
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 0.5 }}
-                            className="flex justify-end w-full mx-auto z-[100] relative"
-                        >
-                            <div className="fixed bottom-3 right-2 md:bottom-[1rem] lg:bottom-[2rem] lg:right-3 z-20 cursor-pointer">
-                                <a
-                                    target="_blank"
-                                    id="whatsapp-toggle"
-                                    href={WhatsApp.link}
-                                >
-                                    <motion.img
-                                        animate={{
-                                            y: [0, -10, 0],
-                                        }}
-                                        transition={{
-                                            duration: 1.5,
-                                            repeat: Infinity,
-                                            repeatType: "loop",
-                                        }}
-                                        src="/assets/img/icons/WhatsApp.svg"
-                                        alt="whatsapp"
-                                        className="mr-3 w-16 h-16 md:w-[80px] md:h-[80px]"
-                                    />
-                                </a>
-                            </div>
-                        </motion.div>
-                    )}
+                    
                 </motion.header>
 
                 {/* Menú móvil */}
@@ -745,7 +716,7 @@ const Header = ({
 
                                     <a
                                         href="/contact"
-                                        className="text-[#5C4774] text-base font-Poppins_SemiBold"
+                                        className="text-[#5C4774] text-base font-Poppins_SemiBold border-l-4 py-1 pl-1 rounded-l-md border-transparent"
                                     >
                                         {t(
                                             "public.header.help",
