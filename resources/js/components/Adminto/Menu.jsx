@@ -31,7 +31,7 @@ const Menu = ({
         <div
             className="left-side-menu"
             style={{
-                background: "#7B5E9A",
+                background: "#3E2F4D",
             }}
         >
             <div className="h-100" data-simplebar>

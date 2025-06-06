@@ -187,7 +187,7 @@ const NavBar = ({ session = {}, title = "Pagina", languagesSystem }) => {
             <div
                 className="logo-box"
                 style={{
-                    background: "#224483 ",
+                    background: "#3E2F4D",
                 }}
             >
                 <a href="/home" className="logo logo-light text-center">
