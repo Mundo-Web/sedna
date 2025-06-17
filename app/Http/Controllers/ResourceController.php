@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\LandingHome;
 use App\Models\Slider;
+use App\Models\Category;
 
 class ResourceController extends BasicController
 {
