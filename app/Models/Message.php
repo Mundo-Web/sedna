@@ -19,6 +19,11 @@ class Message extends Model
         'subject',
         'description',
         'seen',
+        'date',
+        'business',
+        'phone',
         'status',
+        'ruc',
+        'interest' 
     ];
 }

@@ -8,6 +8,7 @@ import Header from "./components/Tailwind/Header";
 import Footer from "./components/Tailwind/Footer";
 import { CarritoContext, CarritoProvider } from "./context/CarritoContext";
 import { useTranslation } from "./hooks/useTranslation";
+import FilterFaq from "./Components/Faqs/FilterFaq";
 
 const FAQs = ({ faqs,landing }) => {
   const { t, loading, error } = useTranslation();
@@ -18,6 +19,27 @@ const FAQs = ({ faqs,landing }) => {
     (item) => item.correlative === "page_faqs_footer"
   );
   
+  const [filter, setFilter] = useState({
+    category: null,
+    search: null,
+    sortOrder: "asc",
+  });
+
+  const [filteredFaqs, setFilteredFaqs] = useState(faqs);
+
+  useEffect(() => {
+    if (filter.search) {
+      const searchTerm = filter.search.toLowerCase();
+      const filtered = faqs.filter(faq => 
+        faq.name.toLowerCase().includes(searchTerm) || 
+        (faq.summary && faq.summary.toLowerCase().includes(searchTerm))
+      );
+      setFilteredFaqs(filtered);
+    } else {
+      setFilteredFaqs(faqs);
+    }
+  }, [filter.search, faqs]);
+
   return (
     <div>
       <Header />
@@ -38,18 +60,34 @@ const FAQs = ({ faqs,landing }) => {
                 </div>
       </section>
 
+      <FilterFaq
+          filter={filter}
+          setFilter={setFilter}
+          landing={landing}
+      />
+
       <section className='px-[5%] py-10 lg:py-16'>
         <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-5 xl:gap-8'>
-          {
-            faqs.map((faq, index) => {
-              return <a href={`/faqs/${faq.slug}`} ><div key={index} className='flex flex-col gap-3 rounded-xl text-[#3E2F4D] px-3 py-2'>
-                <p className='text-xs font-Poppins_Regular'>{t("public.subtitle.adv","Anuncio")} | {new Date(faq.created_at).toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
-                <h1 className='flex font-Poppins_Regular font-semibold  cursor-pointer'>
-                  <span className='line-clamp-4'>{faq.name}</span>
-                </h1>
-              </div></a>
-            })
-          }
+          {filteredFaqs.length > 0 ? (
+              filteredFaqs.map((faq, index) => (
+                <a href={`/faqs/${faq.slug}`} key={index}>
+                  <div className='flex flex-col gap-3 rounded-xl text-[#3E2F4D] px-3 py-2'>
+                    <p className='text-xs font-Poppins_Regular'>
+                      {t("public.subtitle.adv","Anuncio")} | {new Date(faq.created_at).toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' })}
+                    </p>
+                    <h1 className='flex font-Poppins_Regular font-semibold cursor-pointer'>
+                      <span className='line-clamp-4'>{faq.name}</span>
+                    </h1>
+                  </div>
+                </a>
+              ))
+            ) : (
+              <div className="col-span-full text-center py-10">
+                <p className="text-lg text-[#5C4774]">
+                  {t("public.no_results", "No se encontraron resultados para tu búsqueda")}
+                </p>
+              </div>
+            )}
         </div>
       </section>
 

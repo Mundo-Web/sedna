@@ -1,12 +1,23 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import TextWithHighlight from "../../Utils/TextWithHighlight";
 import { useTranslation } from "../../hooks/useTranslation";
+import { useDebounce } from "../../Utils/useDebounce";
 
 const Filter = ({ categories, filter, setFilter, landing }) => {
+    
+    const [searchTerm, setSearchTerm] = useState("");
+    const debouncedSearchTerm = useDebounce(searchTerm, 500);
     const landingFooter = landing.find(
         (item) => item.correlative === "page_blog_footer"
     );
+
+    useEffect(() => {
+        setFilter(old => ({
+            ...old,
+            search: debouncedSearchTerm
+        }));
+    }, [debouncedSearchTerm, setFilter]);
 
     // Animaciones
     const containerVariants = {
@@ -56,6 +67,7 @@ const Filter = ({ categories, filter, setFilter, landing }) => {
     };
 
     const { t } = useTranslation();
+
     return (
         <motion.section
             className="py-8 xl:py-12 px-[5%]"
@@ -83,15 +95,17 @@ const Filter = ({ categories, filter, setFilter, landing }) => {
                         type="text"
                         placeholder={t(
                             "public.post.search",
-                            "	Buscar publicación"
+                            "Buscar publicación"
                         )}
+                        value={searchTerm}
                         className="w-full bg-transparent border-none outline-none text-slate-800"
-                        onChange={(e) =>
-                            setFilter((old) => ({
-                                ...old,
-                                search: e.target.value,
-                            }))
-                        }
+                        // onChange={(e) =>
+                        //     setFilter((old) => ({
+                        //         ...old,
+                        //         search: e.target.value,
+                        //     }))
+                        // }
+                        onChange={(e) => setSearchTerm(e.target.value)}
                         whileFocus={{
                             outline: "none",
                             x: 3,

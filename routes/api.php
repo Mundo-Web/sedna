@@ -120,6 +120,7 @@ Route::get('/items/get-testimonies', [TestimonyController::class, 'getTestimonie
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/signup', [AuthController::class, 'signup']);
 Route::get('/sliders/media/{uuid}', [AdminSliderController::class, 'media']);
+Route::get('/sliders/documents/{uuid}', [AdminSliderController::class, 'document']);
 
 Route::get('/landing_home/media/{uuid}', [LandingHomeController::class, 'media']);
 Route::get('/landing_home/video/{uuid}', [LandingHomeController::class, 'video']);

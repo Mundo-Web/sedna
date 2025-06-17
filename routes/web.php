@@ -75,6 +75,7 @@ use App\Http\Controllers\SupplyController;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\TestResultController;
 use App\Http\Controllers\ThankController;
+use App\Http\Controllers\ResourceController;
 use Illuminate\Http\Request;
 
 /*
@@ -114,6 +115,7 @@ Route::get('/opcion/{slug}', [PurchaseOptionController::class, 'reactView'])->na
 Route::get('/plans', [PlanController::class, 'reactView'])->name('Plans.jsx');
 Route::get('/supplies', [SupplyController::class, 'reactView'])->name('Supplies.jsx');
 Route::get('/faqs', [FaqController::class, 'reactView'])->name('FAQs.jsx');
+Route::get('/resources', [ResourceController::class, 'reactView'])->name('Resources.jsx');
 Route::get('/faqs/{slug}', [FaqDetailController::class, 'reactView'])->name('DetailFaq.jsx');
 Route::get('/aliances', [PartnerController::class, 'reactView'])->name('Partners.jsx');
 Route::get('/legal', [LegalController::class, 'reactView'])->name('Legal.jsx');

@@ -460,4 +460,27 @@ class BasicController extends Controller
       );
     }
   }
+
+  public function document(Request $request, string $uuid)
+  {
+      try {
+          $snake_case = Text::camelToSnakeCase(str_replace('App\\Models\\', '', $this->model));
+          
+          if (Text::has($uuid, '.')) {
+              $route = "documents/{$snake_case}/{$uuid}";
+          } else {
+              $route = "documents/{$snake_case}/{$uuid}"; // Sin extensión predeterminada
+          }
+          
+          $file = Storage::get($route);
+          if (!$file) throw new Exception('Documento no encontrado');
+          
+          return response($file, 200, [
+              'Content-Type' => 'application/octet-stream',
+              'Content-Disposition' => 'attachment; filename="' . basename($route) . '"'
+          ]);
+      } catch (\Throwable $th) {
+          return response(null, 404);
+      }
+  }
 }

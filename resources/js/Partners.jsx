@@ -56,7 +56,7 @@ const Partners = ({ landing, aliances }) => {
           </section>
 
           <section className="flex flex-col md:justify-center items-center px-[5%] pt-10 lg:pt-16">
-            <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-12">
+            <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-12">
                 {aliances.map((logo, index) => (
                     <div className="flex flex-col items-center justify-center h-[60px] gap-3">
                         <img

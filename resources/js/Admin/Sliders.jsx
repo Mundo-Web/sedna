@@ -13,6 +13,9 @@ import SlidersRest from "../Actions/Admin/SlidersRest";
 import ImageFormGroup from "../Components/Adminto/form/ImageFormGroup";
 import Swal from "sweetalert2";
 import VideoFormGroup from "../components/Adminto/form/VideoFormGroup";
+import SelectAPIFormGroup from "../Components/Adminto/form/SelectAPIFormGroup";
+import FileFormGroup from "../components/Adminto/form/FileFormGroup";
+import SetSelectValue from '../Utils/SetSelectValue';
 
 const slidersRest = new SlidersRest();
 
@@ -23,10 +26,12 @@ const Sliders = () => {
     // Form elements ref
     const idRef = useRef();
     const nameRef = useRef();
-    const descriptionRef = useRef();
-    const bgImageRef = useRef();
-    const buttonTextRef = useRef();
-    const buttonLinkRef = useRef();
+    // const descriptionRef = useRef();
+    // const bgImageRef = useRef();
+    // const buttonTextRef = useRef();
+    // const buttonLinkRef = useRef();
+    const categoryRef = useRef();
+    const documentRef = useRef();
 
     const [isEditing, setIsEditing] = useState(false);
 
@@ -36,13 +41,21 @@ const Sliders = () => {
 
         idRef.current.value = data?.id ?? "";
         nameRef.current.value = data?.name ?? "";
-        descriptionRef.current.value = data?.description ?? "";
+        // descriptionRef.current.value = data?.description ?? "";
         // Configurar video existente si estamos editando
-        if (bgImageRef.current && data?.image) {
-            bgImageRef.current.setVideoSrc(`/api/sliders/media/${data.image}`);
+        // if (bgImageRef.current && data?.image) {
+        //     bgImageRef.current.setVideoSrc(`/api/sliders/media/${data.image}`);
+        // }
+
+        if (data?.category) {
+            SetSelectValue(categoryRef.current, data.category.id, data.category.name);
         }
-        buttonTextRef.current.value = data?.button_text ?? "";
-        buttonLinkRef.current.value = data?.button_link ?? "";
+
+        if (documentRef.current && data?.archive) {
+            documentRef.current.setFileSrc(`/api/sliders/documents/${data.archive}`);
+        }
+        // buttonTextRef.current.value = data?.button_text ?? "";
+        // buttonLinkRef.current.value = data?.button_link ?? "";
 
         $(modalRef.current).modal("show");
     };
@@ -53,9 +66,10 @@ const Sliders = () => {
         const request = {
             id: idRef.current.value || undefined,
             name: nameRef.current.value,
-            description: descriptionRef.current.value,
-            button_text: buttonTextRef.current.value,
-            button_link: buttonLinkRef.current.value,
+            category_id: categoryRef.current.value,
+            // description: descriptionRef.current.value,
+            // button_text: buttonTextRef.current.value,
+            // button_link: buttonLinkRef.current.value,
         };
 
         const formData = new FormData();
@@ -64,10 +78,18 @@ const Sliders = () => {
         }
 
         // Obtener el archivo de video
-        if (bgImageRef.current) {
-            const videoFile = bgImageRef.current.getFile();
-            if (videoFile) {
-                formData.append("video", videoFile);
+        // if (bgImageRef.current) {
+        //     const videoFile = bgImageRef.current.getFile();
+        //     if (videoFile) {
+        //         formData.append("video", videoFile);
+        //     }
+        // }
+
+         // Obtener el archivo de documento
+         if (documentRef.current) {
+            const documentFile = documentRef.current.getFile();
+            if (documentFile) {
+                formData.append("archive", documentFile);
             }
         }
 
@@ -269,11 +291,28 @@ const Sliders = () => {
             >
                 <div className="row" id="sliders-container">
                     <input ref={idRef} type="hidden" />
-                    <VideoFormGroup
+
+                    <SelectAPIFormGroup 
+                        eRef={categoryRef} 
+                        searchAPI="/api/admin/categories/paginate" 
+                        searchBy="name" 
+                        label="Categoría" 
+                        dropdownParent="#sliders-container" 
+                        col="col-12"
+                    />
+
+                    <FileFormGroup
+                        eRef={documentRef}
+                        label="Documento (PDF, Word, Excel, PPT, SVG, Imágenes)"
+                        accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.svg,.jpg,.jpeg,.png"
+                        col="col-12"
+                    />
+
+                    {/* <VideoFormGroup
                         eRef={bgImageRef}
                         label="Selecciona un video"
                         col="col-12"
-                    />
+                    /> */}
 
                     <TextareaFormGroup
                         eRef={nameRef}
@@ -282,21 +321,21 @@ const Sliders = () => {
                         rows={2}
                         required
                     />
-                    <TextareaFormGroup
+                    {/* <TextareaFormGroup
                         eRef={descriptionRef}
                         label="Descripción"
                         rows={3}
-                    />
-                    <InputFormGroup
+                    /> */}
+                    {/* <InputFormGroup
                         eRef={buttonTextRef}
                         label="Texto botón primario"
                         col="col-sm-6"
-                    />
-                    <InputFormGroup
+                    /> */}
+                    {/* <InputFormGroup
                         eRef={buttonLinkRef}
                         label="URL botón primario"
                         col="col-sm-6"
-                    />
+                    /> */}
                 </div>
             </Modal>
         </>
@@ -305,7 +344,7 @@ const Sliders = () => {
 
 CreateReactScript((el, properties) => {
     createRoot(el).render(
-        <BaseAdminto {...properties} title="Sliders">
+        <BaseAdminto {...properties} title="Recursos">
             <Sliders {...properties} />
         </BaseAdminto>
     );

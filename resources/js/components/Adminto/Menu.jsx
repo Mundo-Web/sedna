@@ -209,7 +209,7 @@ const Menu = ({
                                         "Alianzas comerciales"
                                     )}
                                 </MenuItem>
-                                <MenuItem
+                                {/* <MenuItem
                                     href="/admin/facilities"
                                     icon="mdi mdi-office-building-marker"
                                 >
@@ -217,7 +217,7 @@ const Menu = ({
                                         "admin.sidebar.facilities",
                                         "Instalaciones"
                                     )}
-                                </MenuItem>
+                                </MenuItem> */}
                                 <MenuItem
                                     href="/admin/staff"
                                     icon="mdi mdi-account-heart"
@@ -305,12 +305,12 @@ const Menu = ({
                                 >
                                     Pop-ups
                                 </MenuItem>*/}
-                                {/* <MenuItem
+                                <MenuItem
                                     href="/admin/sliders"
                                     icon="mdi mdi-page-layout-body"
                                 >
-                                    {t("admin.sidebar.pages", "Sliders")}
-                                </MenuItem> */}
+                                    {t("admin.sidebar.pages", "Recursos")}
+                                </MenuItem>
                                 {/* <MenuItem
                                     href="/admin/about"
                                     icon="mdi mdi-briefcase"
@@ -347,7 +347,7 @@ const Menu = ({
                                         "Sectores"
                                     )}
                                 </MenuItem>
-                                {/* <MenuItem
+                                <MenuItem
                                     href="/admin/categories"
                                     icon="mdi mdi-clipboard-list-outline"
                                 >
@@ -355,7 +355,7 @@ const Menu = ({
                                         "admin.sidebar.categories",
                                         "Categorias"
                                     )}
-                                </MenuItem> */}
+                                </MenuItem>
                                 <MenuItem
                                     href="/admin/posts"
                                     icon="mdi mdi-book-open-page-variant"

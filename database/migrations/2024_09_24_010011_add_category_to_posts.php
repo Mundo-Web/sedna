@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::table('posts', function (Blueprint $table) {
             $table->char('category_id', 36)->nullable();
-
             $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
         });
     }

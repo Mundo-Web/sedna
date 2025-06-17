@@ -14,12 +14,25 @@ class Slider extends Model
     protected $keyType = 'string';
 
     protected $fillable = [
+        'category_id',
         'name',
         'description',
         'image',
         'button_text',
         'button_link',
+        'archive',
         'visible',
         'status',
+        'lang_id'
     ];
+
+    public function lang()
+    {
+        return $this->belongsTo(Lang::class);
+    }
+
+    public function category()
+    {
+        return $this->hasOne(Category::class, 'id', 'category_id');
+    }
 }

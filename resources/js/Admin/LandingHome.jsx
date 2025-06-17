@@ -107,6 +107,8 @@ const LandingHome = ({
         faqs: "Faqs",
         contact: "Contacto",
         blog: "Blog",
+        legal: "Legal",
+        resources: "Recursos",
     };
 
     // Cargar traducciones cuando cambia el idioma

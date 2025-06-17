@@ -19,6 +19,7 @@ const PhoneInput = ({ onPhoneChange }) => {
     const [phoneNumber, setPhoneNumber] = useState("");
     const [showDropdown, setShowDropdown] = useState(false);
     const dropdownRef = useRef(null);
+    
 
     // Cargar países y establecer Perú como predeterminado
     useEffect(() => {
@@ -149,60 +150,96 @@ const PhoneInput = ({ onPhoneChange }) => {
     );
 };
 
-const ContactFormSedna = ({}) => {
+const ContactFormSedna = ({title = "", date = false, button = "", subject= ""}) => {
     const [formData, setFormData] = useState({
         phone: "",
+        date: "",
+        interest: ""
     });
     const nameRef = useRef();
     const lastNameRef = useRef();
     const emailRef = useRef();
     const businessRef = useRef();
-    const subjectRef = useRef();
+    const rucRef = useRef();
     const descriptionRef = useRef();
-
+    const phoneRef = useRef();
+    
     const [sending, setSending] = useState(false);
 
     const onMessageSubmit = async (e) => {
         e.preventDefault();
         setSending(true);
-
-        const request = {
-            name: nameRef.current.value + " " + lastNameRef.current.value,
+    
+        // Validación mejorada
+        if (!nameRef.current.value || !emailRef.current.value || !formData.phone) {
+            Swal.fire({
+                icon: "error",
+                title: "Error",
+                text: "Por favor complete los campos requeridos",
+            });
+            setSending(false);
+            return;
+        }
+    
+        // Prepara los datos para enviar
+        const requestData = {
+            name: `${nameRef.current.value} ${lastNameRef.current.value}`.trim(),
             email: emailRef.current.value,
-            business: businessRef.current.value,
-            subject: formData.phone,
+            business: businessRef.current.value || null, // Asegura que sea null si está vacío
+            phone: formData.phone, // Usa el estado directamente
+            ruc: rucRef.current.value || null,
             description: descriptionRef.current.value,
+            date: date ? formData.date : null, // Solo envía date si el prop date es true
+            subject: subject || "Consulta general", // Valor por defecto
+            interest: formData.interest || null,
+            status: "pending" // Agrega un estado por defecto
         };
-
-        const result = await messagesRest.save(request);
-        setSending(false);
-        window.location.href = "/thanks";
-        if (!result) return;
-
-        Swal.fire({
-            icon: "success",
-            title: "Mensaje enviado",
-            text: "Tu mensaje ha sido enviado correctamente. ¡Nos pondremos en contacto contigo pronto!",
-            showConfirmButton: false,
-            timer: 3000,
-        });
-
-        nameRef.current.value = null;
-        lastNameRef.current.value = null;
-        emailRef.current.value = null;
-        businessRef.current.value = null;
-        subjectRef.current.value = null;
-        descriptionRef.current.value = null;
-        setFormData({
-            phone: "",
-        });
+    
+        console.log("Datos a enviar:", requestData); // Para depuración
+    
+        try {
+            const result = await messagesRest.save(requestData);
+         
+            if (result) {
+                Swal.fire({
+                    icon: "success",
+                    title: "Mensaje enviado",
+                    text: "Tu mensaje ha sido enviado correctamente",
+                    showConfirmButton: false,
+                    timer: 3000,
+                });
+                
+                // Resetear formulario
+                nameRef.current.value = "";
+                lastNameRef.current.value = "";
+                emailRef.current.value = "";
+                businessRef.current.value = "";
+                rucRef.current.value = "";
+                descriptionRef.current.value = "";
+                phoneRef.current.value = "";
+                setFormData({
+                    phone: "",
+                    date: "",
+                    interest: ""
+                });
+            }
+        } catch (error) {
+            console.error("Error al enviar:", error);
+            Swal.fire({
+                icon: "error",
+                title: "Error",
+                text: "Hubo un problema al enviar el formulario: " + error.message,
+            });
+        } finally {
+            setSending(false);
+        }
     };
 
     const { t } = useTranslation();
 
     return (
-        <form className="flex flex-col gap-y-4 bg-[#F5F2F9] p-6 rounded-xl font-poppins" onSubmit={onMessageSubmit}>
-            <h3 className="text-xl font-semibold text-[#4B246D]">Solicitar un mensaje</h3>
+        <form className="flex flex-col gap-y-4 bg-[#F5F2F9] p-6 rounded-xl font-Poppins_Regular" onSubmit={onMessageSubmit}>
+            <h3 className="text-xl font-semibold text-[#4B246D]">{title}</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-5">
                 <div>
                     <label
@@ -261,7 +298,6 @@ const ContactFormSedna = ({}) => {
                 />
             </div>
 
-
             <div>
                 <label
                     htmlFor="business"
@@ -286,7 +322,7 @@ const ContactFormSedna = ({}) => {
                     {t("public.form.ruc", "RUC")}
                 </label>
                 <input
-                    ref={businessRef}
+                    ref={rucRef}
                     type="text"
                     id="ruc"
                     placeholder={t("public.form.ruc", "RUC")}
@@ -294,60 +330,49 @@ const ContactFormSedna = ({}) => {
                 />
             </div>
 
-            <div>
-                <label className="block text-sm font-medium text-[#5C4774] mb-2">Interés</label>
-                <div className="space-y-2">
-                    <div className="flex flex-row items-center gap-2">
-                        <input
-                            ref={businessRef}
-                            type="radio"
-                            id="solucion"
-                            name="interes"
-                            placeholder={t("public.form.solution", "Solución")}
-                            className="border border-gray-300 rounded-md focus:outline-none text-[#7B5E9A] bg-[#7B5E9A] focus:ring-0"
-                        />
-                         <label
-                            htmlFor="solucion"
-                            className="block text-sm font-medium  mb-1"
-                        >
-                            {t("public.form.solution", "Solución")}
-                        </label>
-                    </div>
-                    <div className="flex flex-row items-center gap-2">
-                        <input
-                            ref={businessRef}
-                            type="radio"
-                            id="solucion"
-                            name="interes"
-                            placeholder={t("public.form.solution", "Solución")}
-                            className="border border-gray-300 rounded-md focus:outline-none text-[#7B5E9A] bg-[#7B5E9A] focus:ring-0"
-                        />
-                         <label
-                            htmlFor="solucion"
-                            className="block text-sm font-medium  mb-1"
-                        >
-                            {t("public.form.solution", "Solución")}
-                        </label>
-                    </div>
-                    <div className="flex flex-row items-center gap-2">
-                        <input
-                            ref={businessRef}
-                            type="radio"
-                            id="solucion"
-                            name="interes"
-                            placeholder={t("public.form.solution", "Solución")}
-                            className="border border-gray-300 rounded-md focus:outline-none text-[#7B5E9A] bg-[#7B5E9A] focus:ring-0"
-                        />
-                         <label
-                            htmlFor="solucion"
-                            className="block text-sm font-medium  mb-1"
-                        >
-                            {t("public.form.solution", "Solución")}
-                        </label>
-                    </div>
-                
+            
+
+            <div className="bg-white rounded-md p-4 text-[#4B246D]">
+                <label className="block text-sm font-medium mb-1">Interés*</label>
+                <div className="space-y-2 mt-3">
+                    {['solution', 'service', 'option'].map((option) => (
+                        <div key={option} className="flex flex-row items-center gap-2">
+                            <input
+                                type="radio"
+                                id={option}
+                                name="interest"
+                                checked={formData.interest === option}
+                                onChange={() => setFormData({...formData, interest: option})}
+                                className="border border-gray-300 rounded-md focus:outline-none text-[#7B5E9A] bg-[#7B5E9A] focus:ring-0"
+                            />
+                            <label htmlFor={option} className="block text-sm font-medium">
+                                {t(`public.form.${option}`, 
+                                    option === 'solution' ? 'Solución' : 
+                                    option === 'service' ? 'Servicio' : 'Opciones de compra')}
+                            </label>
+                        </div>
+                    ))}
                 </div>
             </div>
+
+            {date && (
+                <div>
+                    <label
+                        htmlFor="date"
+                        className="block text-sm font-medium mb-1"
+                    >
+                        {t("public.form.date", "Fecha de reunión")}
+                    </label>
+                    <input
+                        type="date"
+                        id="date"
+                        value={formData.date}
+                        onChange={(e) => setFormData({...formData, date: e.target.value})}
+                        className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    />
+                </div>
+            )}
+
 
             <div>
                 <label
@@ -377,7 +402,7 @@ const ContactFormSedna = ({}) => {
                     <label htmlFor="privacidad" className="">
                         {t(
                             "public.form.privacy",
-                            "Usted acepta nuestra amigable política de privacidad."
+                            "Acepto los Terminos y condiciones."
                         )}
                     </label>
                 </div>
@@ -386,14 +411,11 @@ const ContactFormSedna = ({}) => {
             <button
                 disabled={sending}
                 type="submit"
-                className=" mt-5 bg-[#224483] font-semibold w-8/12 lg:w-3/6 text-white py-1 pl-1 pr-3  gap-2 rounded-full flex items-center lg:h-14"
+                className=" mt-2 bg-[#7B5E9A] font-semibold text-white py-3 text-center w-full gap-2 rounded-lg flex flex-col items-center"
             >
-                <div className="bg-[#EFF0F1] w-12 p-2 rounded-full">
-                    <img src="/assets/img/icons/send.png" className=" h-auto" />
-                </div>
                 {!sending ? (
                     <p className="ml-4">
-                        {t("public.btn.send_form", "Enviar formulario")}
+                        {button}
                     </p>
                 ) : (
                     <p> {t("public.btn.sending", "Enviando formulario...")}</p>

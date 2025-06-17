@@ -34,6 +34,12 @@ class SliderController extends BasicController
     public $model = Slider::class;
     public $reactView = 'Admin/Sliders';
     public $imageFields = ['image'];
+    public $documentFields = ['archive'];
+
+    public function setPaginationInstance(string $model)
+    {
+        return $model::with(['category']);
+    }
 
     public function setReactViewProperties(Request $request)
     {
@@ -47,6 +53,51 @@ class SliderController extends BasicController
             $body = $this->beforeSave($request);
             $snake_case = Text::camelToSnakeCase(str_replace('App\\Models\\', '', $this->model));
 
+            // Manejo de documentos
+            foreach ($this->documentFields as $field) {
+                if (!$request->hasFile($field)) continue;
+                $file = $request->file($field);
+                
+                // Validar tipo de archivo
+                $validMimes = [
+                    'application/pdf',
+                    'application/msword',
+                    'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+                    'application/vnd.ms-excel',
+                    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                    'application/vnd.ms-powerpoint',
+                    'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+                    'image/svg+xml',
+                    'image/jpeg',
+                    'image/png'
+                ];
+                
+                if (!in_array($file->getMimeType(), $validMimes)) {
+                    throw new \Exception("Tipo de documento no válido");
+                }
+
+                // Tamaño máximo 10MB
+                if ($file->getSize() > 10 * 1024 * 1024) {
+                    throw new \Exception("El documento no puede exceder los 10MB");
+                }
+
+                $uuid = Crypto::randomUUID();
+                $ext = $file->getClientOriginalExtension();
+                $filePath = "documents/{$snake_case}/{$uuid}.{$ext}";
+
+                Storage::put($filePath, file_get_contents($file));
+                $body[$field] = "{$uuid}.{$ext}";
+                
+                // Eliminar documento anterior si existe
+                $jpa = $this->model::find($body['id'] ?? null);
+                if ($jpa && $jpa->document) {
+                    $oldFilePath = "documents/{$snake_case}/{$jpa->document}";
+                    if (Storage::exists($oldFilePath)) {
+                        Storage::delete($oldFilePath);
+                    }
+                }
+            }
+
             // Manejo de imágenes (código existente)
             foreach ($this->imageFields as $field) {
                 if (!$request->hasFile($field)) continue;
@@ -57,7 +108,7 @@ class SliderController extends BasicController
                 Storage::put($path, file_get_contents($full));
                 $body[$field] = "{$uuid}.{$ext}";
             }
-
+            
             // Manejo específico para el video
             if ($request->hasFile('video')) {
                 $video = $request->file('video');
@@ -82,6 +133,13 @@ class SliderController extends BasicController
 
                 // Guardar referencia en la base de datos
                 $body['image'] = "{$uuid}.{$ext}"; // Solo guardamos el nombre del archivo
+            }
+
+            // Asignar lang_id si el modelo lo tiene y no fue enviado
+            $langId = app('current_lang_id');
+            $table = (new $this->model)->getTable();
+            if (Schema::hasColumn($table, 'lang_id') && !isset($body['lang_id'])) {
+                $body['lang_id'] = $langId;
             }
 
             $jpa = $this->model::find(isset($body['id']) ? $body['id'] : null);

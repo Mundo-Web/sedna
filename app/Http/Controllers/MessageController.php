@@ -12,24 +12,27 @@ class MessageController extends BasicController
     public $model = Message::class;
 
     public function beforeSave(Request $request): array
-    {
+    {   
+        // dd($request->all()); // Esto detiene la ejecución, quítalo para producción
+        
         $messages = [
             'name.required' => 'El nombre es obligatorio.',
-            'name.string' => 'El nombre debe ser una cadena de texto.',
-            'email.email' => 'El correo electrónico debe tener el formato user@domain.com.',
-            'email.max' => 'El correo electrónico no debe exceder los 320 caracteres.',
-            'subject.required' => 'El asunto es obligatorio.',
-            'subject.string' => 'El asunto debe ser una cadena de texto.',
-            'description.required' => 'El mensaje es obligatorio.',
-            'description.string' => 'El mensaje debe ser una cadena de texto.'
+            // Agrega mensajes para los nuevos campos
+            'phone.required' => 'El teléfono es obligatorio.',
+            'business.string' => 'El nombre de empresa debe ser texto.',
+            'date.date' => 'La fecha debe ser válida.'
         ];
 
-        // Validación de los datos
         $validatedData = $request->validate([
             'name' => 'required|string',
             'email' => 'nullable|email|max:320',
             'subject' => 'required|string',
             'description' => 'required|string',
+            // 'phone' => 'required|string', // Agregar validación
+            'business' => 'nullable|string', // Agregar validación
+            'date' => 'nullable|date', // Agregar validación
+            'ruc' => 'nullable|string', // Agregar validación
+            'interest' => 'nullable|string' // Agregar validación
         ], $messages);
 
         return $validatedData;
