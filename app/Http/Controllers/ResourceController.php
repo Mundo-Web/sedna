@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\LandingHome;
 use App\Models\Slider;
 use App\Models\Category;
+use Illuminate\Support\Facades\DB;
 
 class ResourceController extends BasicController
 {
