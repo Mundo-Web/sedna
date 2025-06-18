@@ -13,14 +13,13 @@ import { useTranslation } from "../../hooks/useTranslation";
 
 const messagesRest = new MessagesRest();
 
-const PhoneInput = ({ onPhoneChange }) => {
+const PhoneInput = ({ onPhoneChange, initialPhone }) => {
     const [countries, setCountries] = useState([]);
     const [selectedCountry, setSelectedCountry] = useState(null);
     const [phoneNumber, setPhoneNumber] = useState("");
     const [showDropdown, setShowDropdown] = useState(false);
     const dropdownRef = useRef(null);
     
-
     // Cargar países y establecer Perú como predeterminado
     useEffect(() => {
         const loadCountries = async () => {
@@ -45,6 +44,28 @@ const PhoneInput = ({ onPhoneChange }) => {
 
         loadCountries();
     }, []);
+
+    // Procesar initialPhone cuando cambia o cuando se cargan los países
+    useEffect(() => {
+        if (initialPhone && countries.length > 0) {
+            // Extraer el código del país (ej: +51 de "+51987654321")
+            const phoneCodeMatch = initialPhone.match(/^\+\d+/);
+            if (phoneCodeMatch) {
+                const phoneCode = phoneCodeMatch[0].substring(1); // Quita el "+"
+                const number = initialPhone.substring(phoneCodeMatch[0].length);
+                
+                // Buscar el país correspondiente al código
+                const country = countries.find(
+                    (c) => c.phoneCode.replace(/\D/g, "") === phoneCode
+                );
+                
+                if (country) {
+                    setSelectedCountry(country);
+                    setPhoneNumber(number);
+                }
+            }
+        }
+    }, [initialPhone, countries]);
 
     // Cerrar dropdown al hacer clic fuera
     useEffect(() => {
@@ -76,9 +97,20 @@ const PhoneInput = ({ onPhoneChange }) => {
         }
     };
 
+    // const handleCountrySelect = (country) => {
+    //     setSelectedCountry(country);
+    //     setShowDropdown(false);
+    // };
+
     const handleCountrySelect = (country) => {
         setSelectedCountry(country);
         setShowDropdown(false);
+        
+        // Actualizar el número completo cuando cambia el país
+        if (phoneNumber) {
+            const fullNumber = `+${country.phoneCode.replace(/\D/g, "")}${phoneNumber}`;
+            onPhoneChange(fullNumber);
+        }
     };
 
     return (
@@ -164,41 +196,30 @@ const ContactFormSedna = ({title = "", date = false, button = "", subject= ""}) 
     const descriptionRef = useRef();
     const phoneRef = useRef();
     
+
     const [sending, setSending] = useState(false);
 
     const onMessageSubmit = async (e) => {
         e.preventDefault();
         setSending(true);
     
-        // Validación mejorada
-        if (!nameRef.current.value || !emailRef.current.value || !formData.phone) {
-            Swal.fire({
-                icon: "error",
-                title: "Error",
-                text: "Por favor complete los campos requeridos",
-            });
-            setSending(false);
-            return;
-        }
-    
         // Prepara los datos para enviar
-        const requestData = {
+        const request = {
             name: `${nameRef.current.value} ${lastNameRef.current.value}`.trim(),
             email: emailRef.current.value,
-            business: businessRef.current.value || null, // Asegura que sea null si está vacío
-            phone: formData.phone, // Usa el estado directamente
-            ruc: rucRef.current.value || null,
             description: descriptionRef.current.value,
-            date: date ? formData.date : null, // Solo envía date si el prop date es true
-            subject: subject || "Consulta general", // Valor por defecto
+            business: businessRef.current.value || null, 
+            ruc: rucRef.current.value || null,
+            subject: subject || "Consulta general", 
             interest: formData.interest || null,
-            status: "pending" // Agrega un estado por defecto
+            phone: formData.phone, 
+            date: formData.date || null, 
         };
     
-        console.log("Datos a enviar:", requestData); // Para depuración
+        console.log("Datos a enviar:", request); // Para depuración
     
         try {
-            const result = await messagesRest.save(requestData);
+            const result = await messagesRest.save(request);
          
             if (result) {
                 Swal.fire({
@@ -216,12 +237,13 @@ const ContactFormSedna = ({title = "", date = false, button = "", subject= ""}) 
                 businessRef.current.value = "";
                 rucRef.current.value = "";
                 descriptionRef.current.value = "";
-                phoneRef.current.value = "";
                 setFormData({
                     phone: "",
                     date: "",
                     interest: ""
                 });
+
+                window.location.href = "/thanks";
             }
         } catch (error) {
             console.error("Error al enviar:", error);
@@ -268,7 +290,7 @@ const ContactFormSedna = ({title = "", date = false, button = "", subject= ""}) 
                         ref={lastNameRef}
                         type="text"
                         id="apellido-materno"
-                        placeholder={t("public.form.lastname", "Apelldios")}
+                        placeholder={t("public.form.lastname", "Apellidos")}
                         className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
                 </div>
@@ -292,9 +314,8 @@ const ContactFormSedna = ({title = "", date = false, button = "", subject= ""}) 
 
             <div>
                 <PhoneInput
-                    onPhoneChange={(fullNumber) =>
-                        setFormData({ ...formData, phone: fullNumber })
-                    }
+                     onPhoneChange={(fullNumber) => setFormData({...formData, phone: fullNumber})}
+                     initialPhone={formData.phone}
                 />
             </div>
 
@@ -373,7 +394,6 @@ const ContactFormSedna = ({title = "", date = false, button = "", subject= ""}) 
                 </div>
             )}
 
-
             <div>
                 <label
                     htmlFor="mensaje"
@@ -395,6 +415,7 @@ const ContactFormSedna = ({title = "", date = false, button = "", subject= ""}) 
                     <input
                         id="privacidad"
                         type="checkbox"
+                        required
                         className="h-4 w-4 text-azul border-gray-300 rounded focus:ring-azul/50"
                     />
                 </div>

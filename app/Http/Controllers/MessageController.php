@@ -28,7 +28,7 @@ class MessageController extends BasicController
             'email' => 'nullable|email|max:320',
             'subject' => 'required|string',
             'description' => 'required|string',
-            // 'phone' => 'required|string', // Agregar validación
+            'phone' => 'required|string', // Agregar validación
             'business' => 'nullable|string', // Agregar validación
             'date' => 'nullable|date', // Agregar validación
             'ruc' => 'nullable|string', // Agregar validación
