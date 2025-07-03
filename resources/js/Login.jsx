@@ -75,7 +75,7 @@ const Login = ({}) => {
                             alt="Imagen decorativa"
                             className="h-[400px] w-full object-cover rounded-xl"
                         >
-                            <source src="/assets/img/backgrounds/login.mp4" />
+                            <source src="/assets/img/home/sed_icono1.png" />
                         </video>
                     </div>
                     <div className="flex items-center justify-center px-8">
