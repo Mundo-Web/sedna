@@ -26,4 +26,34 @@ class PurchaseOptionController extends BasicController
             'allOptions' => $allOptions,
         ];
     }
+
+
+    public function getOptions(Request $request)
+    {
+        try {
+            $langId = app('current_lang_id');
+            $query = $request->input('query');
+            
+            $results = PurchaseOption::where('status', true)
+                ->where('visible', true)
+                ->where('lang_id', $langId)
+                ->where(function($q) use ($query) {
+                    $q->where('title', 'like', '%'.$query.'%')
+                    ->orWhere('description', 'like', '%'.$query.'%');
+                })
+                ->get();
+
+            return response()->json([
+                'status' => true,
+                'data' => $results,
+                'message' => 'Solutions retrieved successfully'
+            ]);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => false,
+                'message' => $e->getMessage()
+            ], 500);
+        }
+    }
 }

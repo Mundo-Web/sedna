@@ -14,7 +14,7 @@ import { useTranslation } from "./hooks/useTranslation";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 
-const DetailService = ({ landing, services, allServices, linkWhatsApp, randomImage }) => {
+const DetailService = ({ landing, services, allServices, linkWhatsApp, randomImage, allSubServices }) => {
     const landingHero = landing?.find(
         (item) => item.correlative === "page_services_hero"
     );
@@ -35,7 +35,10 @@ const DetailService = ({ landing, services, allServices, linkWhatsApp, randomIma
         e.target.onerror = null;
         e.target.src = "/api/cover/thumbnail/null";
     };
-    
+    const [activeSubservice, setActiveService] = useState(
+        allSubServices.length > 0 ? allSubServices[0] : services
+    );
+
     const handleServicesMenu = () => {
         setShowServicesMenu(!showServicesMenu);
     };
@@ -126,8 +129,8 @@ const DetailService = ({ landing, services, allServices, linkWhatsApp, randomIma
     // }, [services]);
 
     const { t } = useTranslation();
-    const parsedCharacteristics = services.characteristics;
-    const parsedBenefits= services.benefits;
+    const parsedCharacteristics = activeSubservice?.characteristics;
+    const parsedBenefits= activeSubservice?.benefits;
 
     const ArrowIcon = () => (
         <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
@@ -143,18 +146,17 @@ const DetailService = ({ landing, services, allServices, linkWhatsApp, randomIma
     return (
         <div className="font-poppins">
             <Header />
-            
 
             <section className="bg-center h-[87vh] lg:h-[75vh] bg-cover bg-no-repeat flex flex-col justify-center relative"  style={{ backgroundImage: `url('/api/service/media/${services.image_banner}')` }}>
                 <div className="flex flex-col lg:flex-row h-full justify-center items-start lg:items-end relative">
                     <div className="absolute w-[20%] h-40 top-0 left-0 bg-gradient-to-r from-[rgba(31,24,39,0.4)] via-[rgba(31,24,39,0.4)] to-[rgba(123,94,154,0.4)] mix-blend-hard-light blur-[200px]"></div>
                     <div className="pl-[5%] pr-[5%] lg:w-2/3 w-full min-h-[300px] h-full flex flex-col justify-center gap-4 py-8">
                         <h2 className="font-Poppins_SemiBold leading-none text-white text-4xl md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-7xl">
-                          {services.title}
+                          {services?.title}
                         </h2>
 
                         <p className="font-Poppins_Regular leading-normal text-lg 2xl:text-xl text-white">
-                            {services.description}
+                            {services?.description}
                         </p>
                     </div>
 
@@ -166,165 +168,187 @@ const DetailService = ({ landing, services, allServices, linkWhatsApp, randomIma
 
             <section className="px-[5%]  bg-center min-h-60 bg-cover bg-no-repeat flex flex-col md:justify-center items-center relative py-10 gap-5 2xl:gap-8" style={{ backgroundImage: `url('/api/landing_home/media/${landingHero?.image}')`}} >
                 <div className="flex flex-row items-start justify-start md:justify-center w-full max-w-2xl 2xl:max-w-3xl md:text-center">
-                    <h2 className="font-Poppins_Medium text-white text-3xl sm:text-4xl lg:text-[44px] !leading-tight">{landingHero?.title}</h2>
-                </div>
-        
-                <div className="flex flex-col items-end justify-start w-full max-w-2xl 2xl:max-w-3xl gap-5 md:text-center">
-                    <p className="font-Poppins_Regular text-base 2xl:text-lg text-white">
-                        {landingHero?.description}
-                    </p>
-                </div>
-            </section>
-
-
-            {allServices.length > 1 && (
-                <section className="w-full px-[5%] pt-10 lg:pt-16">
-                    <div className="flex flex-wrap items-center justify-center gap-5 2xl:gap-8 max-w-4xl mx-auto text-[#3E2F4D] font-Poppins_Regular text-base 2xl:text-lg">
-                    {allServices.map((service) => {
-                        const isActive = service.id === services.id;
-                        return (
-                        <a
-                            key={service.id}
-                            href={`/servicio/${service.slug}`}
-                            className={`pb-[1px] border-b hover:border-[#3E2F4D] transition-all duration-200 ${
-                            isActive ? 'font-bold border-[#3E2F4D]' : 'border-transparent'
-                            } hover:font-bold`}
-                        >
-                            {service.title}
-                        </a>
-                        );
-                    })}
-                    </div>
-                </section>
-            )}
-
-
-            <section className="grid grid-cols-1 md:grid-cols-2 gap-10 px-[5%] pt-10 lg:pt-16">
-                    <div className="flex flex-col gap-3 items-left justify-center">
-                        <h2 className="font-Poppins_Medium text-[#3E2F4D] text-3xl sm:text-4xl lg:text-[44px] !leading-tight !tracking-tight">
-                            {services.title_second}
-                        </h2>
-                        <p className="font-Poppins_Regular text-base 2xl:text-lg text-[#4B246D]">
-                             {services.description_second}
-                        </p>
-                    </div>
-                    <div className="flex flex-col gap-3 items-center justify-start">
-                        <img className="object-cover w-full h-full rounded-lg aspect-[4/3] overflow-hidden" src={`/api/service/media/${services.image}`} onError={(e) =>(e.target.src = "/api/cover/thumbnail/null")} />
-                    </div>
-            </section>
-
-
-
-            <section className="flex flex-col md:justify-center items-center gap-5 2xl:gap-8 px-[5%] pt-10 lg:pt-16">
-                <div className="flex flex-row items-start justify-start md:justify-center w-full max-w-2xl 2xl:max-w-3xl md:text-center">
-                    <h2 className="font-Poppins_Medium text-[#3E2F4D] text-3xl sm:text-4xl lg:text-[44px] !leading-tight">{services.how_it_helps}</h2>
+                    <h2 className="font-Poppins_Medium text-white text-3xl sm:text-4xl lg:text-[44px] !leading-tight">{services?.how_it_helps}</h2>
                 </div>
         
                 <div className="flex flex-col items-center justify-start w-full max-w-2xl 2xl:max-w-3xl gap-5 md:text-center">
-                    <p className="font-Poppins_Regular text-base 2xl:text-lg text-[#5C4774]">
-                        {services.description_helps}
+                    <p className="font-Poppins_Regular text-base 2xl:text-lg text-white">
+                        {services?.description_helps}
                     </p>
                 </div>
             </section>
 
 
-            <section className="flex flex-col gap-5 2xl:gap-8 px-[5%] pt-10 lg:pt-16">
-                <div className="flex flex-row items-start justify-start w-full">
-                    <h2 className="font-Poppins_Medium text-[#3E2F4D] text-3xl sm:text-4xl 2xl:text-[44px] !leading-tight !tracking-tight max-w-xl 2xl:max-w-2xl">
-                          {services.value_proposition}
-                    </h2>
-                </div>
+            {allSubServices.length > 0 && (
+                <>
+                    <section className="w-full px-[5%] pt-10 lg:pt-16">
+                        <div className="flex flex-wrap items-center justify-center gap-5 2xl:gap-8 max-w-4xl mx-auto text-[#3E2F4D] font-Poppins_Regular text-base 2xl:text-lg">
+                        {allSubServices.map((service) => {
+                            const isActive = service.id === activeSubservice.id;
+                            return (
+                                <button
+                                    key={service.id}
+                                    onClick={() => setActiveSubsolution(service)}
+                                    className={`pb-[1px] border-b hover:border-[#3E2F4D] transition-all duration-200 ${
+                                        isActive ? 'font-bold border-[#3E2F4D]' : 'border-transparent'
+                                    } hover:font-bold`}
+                                >
+                                    {service.title}
+                                </button>
+                            );
+                        })}
+                        </div>
+                    </section>
 
-                <div className="w-full">
-                    <Swiper
-                        className="carrusel_opciones"
-                        loop={true}
-                        grabCursor={true}
-                        centeredSlides={false}
-                        initialSlide={0}
-                        spaceBetween={20}
-                        breakpoints={{
-                            0: {
-                            slidesPerView: 1,
-                            spaceBetween: 15,
-                            },
-                            600: {
-                            slidesPerView: 2,
-                            spaceBetween: 20,
-                            },
-                            1024: {
-                            slidesPerView: 3,
-                            spaceBetween: 20,
-                            },
-                            1350: {
-                            slidesPerView: 4,
-                            spaceBetween: 20,
-                            },
-                        }}
-                        >
-                            {parsedCharacteristics.map((item, index) => (
-                                <SwiperSlide key={index}>
-                                    <div className="flex flex-col gap-2 p-6 2xl:p-8 bg-[#F5F2F9] rounded-lg">
-                                        <div className="rounded-full aspect-square w-16 bg-white flex flex-col justify-center items-center">
-                                            <img src={`/api/service/media/${item.image}`} alt={item.title} className="w-8 h-8 object-contain" />
-                                        </div>
-                                        <h3 className="font-Poppins_Regular font-semibold text-[#3E2F4D] text-lg 2xl:text-xl">{item.title}</h3>
-                                        <p className="font-Poppins_Regular text-[#5C4774] text-base 2xl:text-lg">{item.description}</p>
-                                    </div>
-                                </SwiperSlide>
-                            ))}
-                    </Swiper>
-                </div>
-            </section>
-                        
-            
-            <section className="px-[5%] pt-10 lg:pt-16">
-                <div className="bg-[#F5F2F9] py-10 lg:py-16 px-5 md:px-10 rounded-xl overflow-hidden flex flex-col lg:flex-row items-start gap-12">
-                    <div className="w-full lg:w-3/5 order-2 lg:order-1">
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                        {parsedBenefits.map((benefit, index) => (
-                            <div
-                                key={index}
-                                className="flex flex-col gap-4 p-4 2xl:p-6 bg-white rounded-lg group hover:bg-[#7B5E9A] transition-colors duration-300"
-                            >
-                                <div className="flex flex-row gap-4 items-center">
-                                <div className="rounded-full aspect-square w-16 bg-[#F5F2F9] group-hover:bg-white flex justify-center items-center overflow-hidden">
-                                    {benefit.image && (
-                                    <img
-                                        src={`/api/service/media/${benefit.image}`}
-                                        alt={benefit.title}
-                                        className="object-cover w-8 h-8"
-                                        onError={(e) =>(e.target.src = "/api/cover/thumbnail/null")}
+
+                    {(activeSubservice?.title || activeSubservice?.description || activeSubservice?.image) && (
+                        <>
+                            <section className="grid grid-cols-1 md:grid-cols-2 gap-10 px-[5%] pt-10 lg:pt-16">
+                                <div className="flex flex-col gap-3 items-left justify-center">
+                                    <h2 className="font-Poppins_Medium text-[#3E2F4D] text-3xl sm:text-4xl lg:text-[44px] !leading-tight !tracking-tight">
+                                        {activeSubservice?.title}
+                                    </h2>
+                                    <p className="font-Poppins_Regular text-base 2xl:text-lg text-[#4B246D]">
+                                        {activeSubservice?.description}
+                                    </p>
+                                </div>
+                                <div className="flex flex-col gap-3 items-center justify-start">
+                                    <img 
+                                        className="object-cover w-full h-full rounded-lg aspect-[4/3] overflow-hidden" 
+                                        src={`/api/serviceSubtheme/media/${activeSubservice.image}`} 
+                                        onError={(e) => (e.target.src = "/api/cover/thumbnail/null")} 
+                                        alt={activeSubservice.title}
                                     />
-                                    )}
                                 </div>
-                                <h2 className="font-Poppins_Medium text-[#3E2F4D] text-xl 2xl:text-2xl group-hover:text-white">
-                                    {benefit.title}
-                                </h2>
+                            </section>
+                        </>
+                    )}
+
+
+                    {(activeSubservice?.how_it_helps || activeSubservice?.description_helps) && (
+                        <>
+                            <section className="flex flex-col md:justify-center items-center gap-5 2xl:gap-8 px-[5%] pt-10 lg:pt-16">
+                                <div className="flex flex-row items-start justify-start md:justify-center w-full max-w-2xl 2xl:max-w-3xl md:text-center">
+                                    <h2 className="font-Poppins_Medium text-[#3E2F4D] text-3xl sm:text-4xl lg:text-[44px] !leading-tight">{activeSubservice?.how_it_helps}</h2>
                                 </div>
-                                {benefit.description && (
-                                <p className="font-Poppins_Regular text-[#5C4774] text-base 2xl:text-lg group-hover:text-white">
-                                    {benefit.description}
-                                </p>
-                                )}
-                            </div>
-                        ))}
-                        </div>
-                    </div>
+                        
+                                <div className="flex flex-col items-center justify-start w-full max-w-2xl 2xl:max-w-3xl gap-5 md:text-center">
+                                    <p className="font-Poppins_Regular text-base 2xl:text-lg text-[#5C4774]">
+                                        {activeSubservice?.description_helps}
+                                    </p>
+                                </div>
+                            </section>
+                        </>
+                    )}
 
-                    <div className="w-full lg:w-2/5 order-1 lg:order-2">
-                        <div className="flex flex-col gap-2">
-                            <h2 className="font-Poppins_SemiBold text-[#3E2F4D] text-3xl sm:text-4xl md:text-3xl lg:text-[44px] !leading-tight ">
-                                    <TextWithHighlight text={services?.innovation_focus} ></TextWithHighlight>
-                            </h2>
-                            <p className="font-Poppins_Regular text-[#5C4774] text-base 2xl:text-lg">{services?.customer_relation}</p>
-                        </div>
-                    </div>
-                </div>
-            </section>
+                    {(activeSubservice?.title_benefit || parsedCharacteristics.length > 0) && (
+                        <>
+                            <section className="flex flex-col gap-5 2xl:gap-8 px-[5%] pt-10 lg:pt-16">
+                                <div className="flex flex-row items-start justify-start w-full">
+                                    <h2 className="font-Poppins_Medium text-[#3E2F4D] text-3xl sm:text-4xl 2xl:text-[44px] !leading-tight !tracking-tight max-w-xl 2xl:max-w-2xl">
+                                        {activeSubservice?.title_benefit}
+                                    </h2>
+                                </div>
 
-            
-            <section className="flex flex-col lg:flex-row gap-6 px-[5%]  mt-10 lg:mt-16 bg-cover bg-bottom" style={{ backgroundImage: "url('/assets/img/servicios/texturacontactos.png')" }}>
+                                <div className="w-full">
+                                    <Swiper
+                                        className="carrusel_opciones"
+                                        loop={true}
+                                        grabCursor={true}
+                                        centeredSlides={false}
+                                        initialSlide={0}
+                                        spaceBetween={20}
+                                        breakpoints={{
+                                            0: {
+                                            slidesPerView: 1,
+                                            spaceBetween: 15,
+                                            },
+                                            600: {
+                                            slidesPerView: 2,
+                                            spaceBetween: 20,
+                                            },
+                                            1024: {
+                                            slidesPerView: 3,
+                                            spaceBetween: 20,
+                                            },
+                                            1350: {
+                                            slidesPerView: 4,
+                                            spaceBetween: 20,
+                                            },
+                                        }}
+                                        >
+                                            {parsedCharacteristics.map((item, index) => (
+                                                <SwiperSlide key={index}>
+                                                    <div className="flex flex-col gap-2 p-6 2xl:p-8 bg-[#F5F2F9] rounded-lg">
+                                                        <div className="rounded-full aspect-square w-16 bg-white flex flex-col justify-center items-center">
+                                                            <img src={`/api/solution/media/${item.image}`} alt={item.title} className="w-8 h-8 object-contain" onError={(e) =>(e.target.src = "/api/cover/thumbnail/null")} />
+                                                        </div>
+                                                        <h3 className="font-Poppins_Regular font-semibold text-[#3E2F4D] text-lg 2xl:text-xl">{item.title}</h3>
+                                                        <p className="font-Poppins_Regular text-[#5C4774] text-base 2xl:text-lg">{item.description}</p>
+                                                    </div>
+                                                </SwiperSlide>
+                                            ))}
+                                    </Swiper>
+                                </div>
+                            </section>
+                        </>
+                    )}
+
+
+                    {(activeSubservice?.title_characteristics || activeSubservice?.description_characteristics || parsedBenefits.length > 0) && (
+                        <>
+                            <section className="px-[5%] pt-10 lg:pt-16">
+                                <div className="bg-[#F5F2F9] py-10 lg:py-16 px-5 md:px-10 rounded-xl overflow-hidden flex flex-col lg:flex-row items-start gap-12">
+                                    <div className="w-full lg:w-3/5 order-2 lg:order-1">
+                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                        {parsedBenefits.map((benefit, index) => (
+                                            <div
+                                                key={index}
+                                                className="flex flex-col gap-4 p-4 2xl:p-6 bg-white rounded-lg group hover:bg-[#7B5E9A] transition-colors duration-300"
+                                            >
+                                                <div className="flex flex-row gap-4 items-center">
+                                                <div className="rounded-full aspect-square w-16 bg-[#F5F2F9] group-hover:bg-white flex justify-center items-center overflow-hidden">
+                                                    {benefit.image && (
+                                                    <img
+                                                        src={`/api/solution/media/${benefit.image}`}
+                                                        alt={benefit.title}
+                                                        className="object-cover w-8 h-8"
+                                                        onError={(e) =>(e.target.src = "/api/cover/thumbnail/null")}
+                                                    />
+                                                    )}
+                                                </div>
+                                                <h2 className="font-Poppins_Medium text-[#3E2F4D] text-xl 2xl:text-2xl group-hover:text-white">
+                                                    {benefit.title}
+                                                </h2>
+                                                </div>
+                                                {benefit.description && (
+                                                <p className="font-Poppins_Regular text-[#5C4774] text-base 2xl:text-lg group-hover:text-white">
+                                                    {benefit.description}
+                                                </p>
+                                                )}
+                                            </div>
+                                        ))}
+                                        </div>
+                                    </div>
+
+                                    <div className="w-full lg:w-2/5 order-1 lg:order-2">
+                                        <div className="flex flex-col gap-2">
+                                            <h2 className="font-Poppins_SemiBold text-[#3E2F4D] text-3xl sm:text-4xl md:text-3xl lg:text-[44px] !leading-tight ">
+                                                    <TextWithHighlight text={activeSubservice?.title_characteristics} ></TextWithHighlight>
+                                            </h2>
+                                            <p className="font-Poppins_Regular text-[#5C4774] text-base 2xl:text-lg">{activeSubservice?.description_characteristics}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+                        </>
+                    )}
+
+                </>
+            )}
+           
+
+            <section className={`${allSubServices.length > 0 ? 'mt-10 lg:mt-16' : '' } flex flex-col lg:flex-row gap-6 px-[5%]   bg-cover bg-bottom`} style={{ backgroundImage: "url('/assets/img/servicios/texturacontactos.png')" }}>
                 <div className="flex flex-col w-full lg:w-1/2 gap-5 py-10 lg:py-16">
                     <div className="flex flex-col max-w-xl">
                         <h2 className="font-Poppins_SemiBold text-[#3E2F4D] text-3xl sm:text-4xl md:text-3xl lg:text-[44px] !leading-tight">

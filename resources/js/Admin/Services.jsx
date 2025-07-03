@@ -197,24 +197,25 @@ const Services = ({ brands }) => {
         // Resetear valores como en el primer código
         idRef.current.value = data?.id ?? "";
         titleRef.current.value = data?.title ?? "";
-        titlesecondRef.current.value = data?.title_second ?? "";
+        // titlesecondRef.current.value = data?.title_second ?? "";
         categoryRef.current.value = data?.category.name ?? "";
         setSelectedCategory(data?.category.name);
         setSelectedItem(data);
 
         descriptionRef.current.value = data?.description ?? "";
-        descriptionsecondRef.current.value = data?.description_second ?? "";
+        // descriptionsecondRef.current.value = data?.description_second ?? "";
         howItHelpsRef.current.value = data?.how_it_helps ?? "";
         descriptionHelpsRef.current.value = data?.description_helps ?? "";
-        valuePropositionRef.current.value = data?.value_proposition ?? "";
-        innovationFocusRef.current.value = data?.innovation_focus ?? "";
-        customerRelationRef.current.value = data?.customer_relation ?? "";
+        // valuePropositionRef.current.value = data?.value_proposition ?? "";
+        // innovationFocusRef.current.value = data?.innovation_focus ?? "";
+        // customerRelationRef.current.value = data?.customer_relation ?? "";
 
         // Manejo de imágenes como en el primer código
-        imageRef.image.src = `/api/service/media/${data?.image ?? "undefined"}`;
+        // imageRef.image.src = `/api/service/media/${data?.image ?? "undefined"}`;
         imageSecondaryRef.image.src = `/api/service/media/${
             data?.image_secondary ?? "undefined"
         }`;
+
         imageBannerRef.image.src = `/api/service/media/${
             data?.image_banner ?? "undefined"
         }`;
@@ -243,26 +244,28 @@ const Services = ({ brands }) => {
                 }))
             );
         }*/
+        
         // En onModalOpen, al cargar características y beneficios
-        if (data?.characteristics) {
-            setCharacteristics(
-                data.characteristics.map((char) => ({
-                    title: char.title,
-                    description: char.description,
-                    image: char.image, // Guardar directamente el string del nombre de archivo
-                }))
-            );
-        }
 
-        if (data?.benefits) {
-            setBenefits(
-                data.benefits.map((char) => ({
-                    title: char.title,
-                    description: char.description,
-                    image: char.image, // Guardar directamente el string del nombre de archivo
-                }))
-            );
-        }
+        // if (data?.characteristics) {
+        //     setCharacteristics(
+        //         data.characteristics.map((char) => ({
+        //             title: char.title,
+        //             description: char.description,
+        //             image: char.image, // Guardar directamente el string del nombre de archivo
+        //         }))
+        //     );
+        // }
+
+        // if (data?.benefits) {
+        //     setBenefits(
+        //         data.benefits.map((char) => ({
+        //             title: char.title,
+        //             description: char.description,
+        //             image: char.image, // Guardar directamente el string del nombre de archivo
+        //         }))
+        //     );
+        // }
 
         $(modalRef.current).modal("show");
     };
@@ -277,14 +280,14 @@ const Services = ({ brands }) => {
         const request = {
             id: idRef.current.value || undefined,
             title: titleRef.current.value,
-            title_second: titlesecondRef.current.value,
+            // title_second: titlesecondRef.current.value,
             description: descriptionRef.current.value,
-            description_second: descriptionsecondRef.current.value,
+            // description_second: descriptionsecondRef.current.value,
             how_it_helps: howItHelpsRef.current.value,
             description_helps: descriptionHelpsRef.current.value,
-            value_proposition: valuePropositionRef.current.value,
-            innovation_focus: innovationFocusRef.current.value,
-            customer_relation: customerRelationRef.current.value,
+            // value_proposition: valuePropositionRef.current.value,
+            // innovation_focus: innovationFocusRef.current.value,
+            // customer_relation: customerRelationRef.current.value,
         };
 
         // Añadir campos básicos al formData
@@ -293,8 +296,9 @@ const Services = ({ brands }) => {
         }
 
         // Añadir imágenes como en el primer código
-        const image = imageRef.current.files[0];
-        if (image) formData.append("image", image);
+
+        // const image = imageRef.current.files[0];
+        // if (image) formData.append("image", image);
 
         const imageSecondary = imageSecondaryRef.current.files[0];
         if (imageSecondary) formData.append("image_secondary", imageSecondary);
@@ -330,54 +334,56 @@ const Services = ({ brands }) => {
                 );
             }
         });*/
+        
         // Dentro de onModalSubmit, al procesar características
-        characteristics.forEach((char, index) => {
-            formData.append(`characteristics[${index}][title]`, char.title);
-            formData.append(
-                `characteristics[${index}][description]`,
-                char.description
-            );
 
-            if (char.image) {
-                if (char.image.file) {
-                    formData.append(
-                        `characteristics[${index}][image]`,
-                        char.image.file
-                    );
-                }
-                // Si es una imagen existente (viene del servidor como string)
-                else if (typeof char.image === "string") {
-                    formData.append(
-                        `characteristics[${index}][existing_image]`,
-                        char.image
-                    );
-                }
-            }
-        });
+        // characteristics.forEach((char, index) => {
+        //     formData.append(`characteristics[${index}][title]`, char.title);
+        //     formData.append(
+        //         `characteristics[${index}][description]`,
+        //         char.description
+        //     );
 
-        benefits.forEach((char, index) => {
-            formData.append(`benefits[${index}][title]`, char.title);
-            formData.append(
-                `benefits[${index}][description]`,
-                char.description
-            );
+        //     if (char.image) {
+        //         if (char.image.file) {
+        //             formData.append(
+        //                 `characteristics[${index}][image]`,
+        //                 char.image.file
+        //             );
+        //         }
+        //         // Si es una imagen existente (viene del servidor como string)
+        //         else if (typeof char.image === "string") {
+        //             formData.append(
+        //                 `characteristics[${index}][existing_image]`,
+        //                 char.image
+        //             );
+        //         }
+        //     }
+        // });
 
-            if (char.image) {
-                if (char.image.file) {
-                    formData.append(
-                        `benefits[${index}][image]`,
-                        char.image.file
-                    );
-                }
-                // Si es una imagen existente (viene del servidor como string)
-                else if (typeof char.image === "string") {
-                    formData.append(
-                        `benefits[${index}][existing_image]`,
-                        char.image
-                    );
-                }
-            }
-        });
+        // benefits.forEach((char, index) => {
+        //     formData.append(`benefits[${index}][title]`, char.title);
+        //     formData.append(
+        //         `benefits[${index}][description]`,
+        //         char.description
+        //     );
+
+        //     if (char.image) {
+        //         if (char.image.file) {
+        //             formData.append(
+        //                 `benefits[${index}][image]`,
+        //                 char.image.file
+        //             );
+        //         }
+        //         // Si es una imagen existente (viene del servidor como string)
+        //         else if (typeof char.image === "string") {
+        //             formData.append(
+        //                 `benefits[${index}][existing_image]`,
+        //                 char.image
+        //             );
+        //         }
+        //     }
+        // });
 
         // Separar IDs existentes y nuevos nombres
         formData.append("category_name", selectedCategory);
@@ -578,7 +584,7 @@ const Services = ({ brands }) => {
                     </div>
                 </div>
 
-                <div className="row mt-3">
+                {/* <div className="row mt-3">
                     <div className="col-md-12">
                         <InputFormGroup
                             eRef={titlesecondRef}
@@ -595,16 +601,16 @@ const Services = ({ brands }) => {
                             />
                         </div>
                     </div>
-                </div>
+                </div> */}
 
                 <div className="row mt-3">
-                    <div className="col-md-6">
+                    {/* <div className="col-md-6">
                         <ImageFormGroup
                             eRef={imageRef}
                             label="Imagen principal"
                             aspect={16 / 9}
                         />
-                    </div>
+                    </div> */}
                     <div className="col-md-6">
                         <ImageFormGroup
                             eRef={imageSecondaryRef}
@@ -612,16 +618,16 @@ const Services = ({ brands }) => {
                             aspect={16 / 9}
                         />
                     </div>
-                    <div className="col-md-12 mt-3">
+                    <div className="col-md-6 mt-3">
                         <ImageFormGroup
                             eRef={imageBannerRef}
                             label="Banner"
-                            aspect={16 / 9}
+                            aspect={16 / 5}
                         />
                     </div>
                 </div>
 
-                <div className="row mt-3">
+                {/* <div className="row mt-3">
                     <div className="col-12">
                         <InputFormGroup
                             eRef={valuePropositionRef}
@@ -644,9 +650,9 @@ const Services = ({ brands }) => {
                             />
                         ))}
                     </div>
-                </div>
+                </div> */}
 
-                <div className="row mt-3">
+                {/* <div className="row mt-3">
                     <div className="col-md-6">
                         <InputFormGroup
                             eRef={innovationFocusRef}
@@ -683,7 +689,7 @@ const Services = ({ brands }) => {
                             />
                         ))}
                     </div>
-                </div>
+                </div> */}
             </Modal>
         </>
     );

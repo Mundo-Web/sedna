@@ -198,7 +198,6 @@ class BasicController extends Controller
   {
     $response = new dxResponse();
     try {
-
       //$instance = $this->setPaginationInstance($this->model);
       // Obtener los with desde el request (si no se envían, será un array vacío)
       // [NUEVO] Obtener el idioma actual
@@ -418,8 +417,16 @@ class BasicController extends Controller
     $response = new Response();
     try {
       $data = [];
+      
+      if ($request->value === true || $request->value === 'true' || $request->value === 1 || $request->value === '1') {
+        $request->value = 1;
+      } elseif ($request->value === 'false' || $request->value === false || $request->value === 0 || $request->value === '0') {
+        $request->value = 0;
+      } else {
+        throw new Exception('El valor debe ser true o false');
+      }
+      
       $data[$request->field] = $request->value;
-
       $this->model::where('id', $request->id)
         ->update($data);
 

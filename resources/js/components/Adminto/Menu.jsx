@@ -179,18 +179,43 @@ const Menu = ({
                                         "Reclamaciones"
                                     )}
                                 </MenuItem>
-                                <MenuItem
-                                    href="/admin/services"
-                                    icon="mdi mdi-shield-star"
+                                
+                                <MenuItemContainer
+                                    title="Soluciones"
+                                    icon="mdi mdi-cash-register"
                                 >
-                                    {t("admin.sidebar.services", "Servicios")}
-                                </MenuItem>
-                                <MenuItem
-                                    href="/admin/solutions"
-                                    icon="mdi mdi-shield-star"
+                                    <MenuItem
+                                        href="/admin/solutions"
+                                        icon="mdi mdi-shield-star"
+                                    >
+                                        {t("admin.sidebar.solutions", "Soluciones")}
+                                    </MenuItem>
+                                    <MenuItem
+                                        href="/admin/topicsolutions"
+                                        icon="mdi mdi-shield-star"
+                                    >
+                                        {t("admin.sidebar.topicsolutions", "Temas de Soluciones")}
+                                    </MenuItem>
+                                </MenuItemContainer>
+
+                                <MenuItemContainer
+                                    title="Servicios"
+                                    icon="mdi mdi-cash-register"
                                 >
-                                    {t("admin.sidebar.solutions", "Soluciones")}
-                                </MenuItem>
+                                    <MenuItem
+                                        href="/admin/services"
+                                        icon="mdi mdi-shield-star"
+                                    >
+                                        {t("admin.sidebar.services", "Servicios")}
+                                    </MenuItem>
+                                    <MenuItem
+                                        href="/admin/topicservices"
+                                        icon="mdi mdi-shield-star"
+                                    >
+                                        {t("admin.sidebar.topicservices", "Temas de Servicios")}
+                                    </MenuItem>
+                                </MenuItemContainer>
+                               
                                 <MenuItem
                                     href="/admin/purchaseOptions"
                                     icon="mdi mdi-shield-star"
@@ -264,7 +289,7 @@ const Menu = ({
                                         Tallas
                                     </MenuItem>
                                 </MenuItemContainer>*/}
-                                {/*<MenuItemContainer
+                                {/* <MenuItemContainer
                                     title="Ventas"
                                     icon="mdi mdi-cash-register"
                                 >
@@ -274,7 +299,7 @@ const Menu = ({
                                     >
                                         Cupones
                                     </MenuItem>
-                                </MenuItemContainer>*/}
+                                </MenuItemContainer> */}
                                 <li className="menu-title">Landing Page</li>
                                 <MenuItem
                                     href="/admin/translations"

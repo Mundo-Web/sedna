@@ -24,6 +24,7 @@ class GeneralRest extends BasicRest {
             return [];
         }
     };
+
     getLanguages = async () => {
         try {
             const { status, result } = await Fetch(
@@ -44,6 +45,7 @@ class GeneralRest extends BasicRest {
             return [];
         }
     };
+
     getBenefits = async () => {
         try {
             const { status, result } = await Fetch(
@@ -86,7 +88,7 @@ class GeneralRest extends BasicRest {
             return [];
         }
     };
-
+    
     getMegamenu = async () => {
         try {
             const { status, result } = await Fetch(

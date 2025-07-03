@@ -76,7 +76,7 @@ const FeatureCard = ({
                         />
                     </div>
                 </div>
-                <div className="d-flex justify-content-between">
+                {/* <div className="d-flex justify-content-between">
                     <button
                         type="button"
                         className="btn btn-sm btn-outline-danger"
@@ -103,7 +103,7 @@ const FeatureCard = ({
                                 : "Beneficio"}
                         </button>
                     ) : null}
-                </div>
+                </div> */}
             </div>
         </div>
     );
@@ -142,6 +142,7 @@ const Solutions = ({ brands }) => {
         { title: "", description: "", image: undefined },
     ]);
     const [selectedCategory, setSelectedCategory] = useState("");
+    
     // Funciones para características (simplificadas)
     const addCharacteristic = () => {
         setCharacteristics([
@@ -178,6 +179,7 @@ const Solutions = ({ brands }) => {
             },
         ]);
     };
+
     const updateBenefit = useCallback((index, field, value) => {
         setBenefits((prev) => {
             const updated = [...prev];
@@ -199,26 +201,26 @@ const Solutions = ({ brands }) => {
         // Resetear valores como en el primer código
         idRef.current.value = data?.id ?? "";
         titleRef.current.value = data?.title ?? "";
-        titlesecondRef.current.value = data?.title_second ?? "";
+        // titlesecondRef.current.value = data?.title_second ?? "";
 
         categoryRef.current.value = data?.category.name ?? "";
         setSelectedCategory(data?.category.name);
         setSelectedItem(data);
         descriptionRef.current.value = data?.description ?? "";
-        descriptionsecondRef.current.value = data?.description_second ?? "";
+        // descriptionsecondRef.current.value = data?.description_second ?? "";
         howItHelpsRef.current.value = data?.how_it_helps ?? "";
         descriptionHelpsRef.current.value = data?.description_helps ?? "";
-        valuePropositionRef.current.value = data?.value_proposition ?? "";
-        innovationFocusRef.current.value = data?.innovation_focus ?? "";
-        customerRelationRef.current.value = data?.customer_relation ?? "";
+        // valuePropositionRef.current.value = data?.value_proposition ?? "";
+        // innovationFocusRef.current.value = data?.innovation_focus ?? "";
+        // customerRelationRef.current.value = data?.customer_relation ?? "";
 
         // Manejo de imágenes como en el primer código
         imageIconRef.image.src = `/api/solution/media/${
             data?.image_icon ?? "undefined"
         }`;
-        imageRef.image.src = `/api/solution/media/${
-            data?.image ?? "undefined"
-        }`;
+        // imageRef.image.src = `/api/solution/media/${
+        //     data?.image ?? "undefined"
+        // }`;
         imageSecondaryRef.image.src = `/api/solution/media/${
             data?.image_secondary ?? "undefined"
         }`;
@@ -227,49 +229,52 @@ const Solutions = ({ brands }) => {
         }`;
 
         // Cargar características y beneficios si existen
-        /*if (data?.characteristics) {
-            setCharacteristics(
-                data.characteristics.map((char) => ({
-                    title: char.title || "",
-                    description: char.description || "",
-                    image: char.image
-                        ? { preview: `/api/solution/media/${char.image}` }
-                        : null,
-                }))
-            );
-        }
 
-        if (data?.benefits) {
-            setBenefits(
-                data.benefits.map((benefit) => ({
-                    title: benefit.title || "",
-                    description: benefit.description || "",
-                    image: benefit.image
-                        ? { preview: `/api/solution/media/${benefit.image}` }
-                        : null,
-                }))
-            );
-        }*/
+        // if (data?.characteristics) {
+        //     setCharacteristics(
+        //         data.characteristics.map((char) => ({
+        //             title: char.title || "",
+        //             description: char.description || "",
+        //             image: char.image
+        //                 ? { preview: `/api/solution/media/${char.image}` }
+        //                 : null,
+        //         }))
+        //     );
+        // }
+
+        // if (data?.benefits) {
+        //     setBenefits(
+        //         data.benefits.map((benefit) => ({
+        //             title: benefit.title || "",
+        //             description: benefit.description || "",
+        //             image: benefit.image
+        //                 ? { preview: `/api/solution/media/${benefit.image}` }
+        //                 : null,
+        //         }))
+        //     );
+        // }
+
         // En onModalOpen, al cargar características y beneficios
-        if (data?.characteristics) {
-            setCharacteristics(
-                data.characteristics.map((char) => ({
-                    title: char.title,
-                    description: char.description,
-                    image: char.image, // Guardar directamente el string del nombre de archivo
-                }))
-            );
-        }
 
-        if (data?.benefits) {
-            setBenefits(
-                data.benefits.map((char) => ({
-                    title: char.title,
-                    description: char.description,
-                    image: char.image, // Guardar directamente el string del nombre de archivo
-                }))
-            );
-        }
+        // if (data?.characteristics) {
+        //     setCharacteristics(
+        //         data.characteristics.map((char) => ({
+        //             title: char.title,
+        //             description: char.description,
+        //             image: char.image, 
+        //         }))
+        //     );
+        // }
+
+        // if (data?.benefits) {
+        //     setBenefits(
+        //         data.benefits.map((char) => ({
+        //             title: char.title,
+        //             description: char.description,
+        //             image: char.image, 
+        //         }))
+        //     );
+        // }
 
         $(modalRef.current).modal("show");
     };
@@ -284,14 +289,14 @@ const Solutions = ({ brands }) => {
         const request = {
             id: idRef.current.value || undefined,
             title: titleRef.current.value,
-            title_second: titlesecondRef.current.value,
+            // title_second: titlesecondRef.current.value,
             description: descriptionRef.current.value,
-            description_second: descriptionsecondRef.current.value,
+            // description_second: descriptionsecondRef.current.value,
             how_it_helps: howItHelpsRef.current.value,
             description_helps: descriptionHelpsRef.current.value,
-            value_proposition: valuePropositionRef.current.value,
-            innovation_focus: innovationFocusRef.current.value,
-            customer_relation: customerRelationRef.current.value,
+            // value_proposition: valuePropositionRef.current.value,
+            // innovation_focus: innovationFocusRef.current.value,
+            // customer_relation: customerRelationRef.current.value,
         };
 
         // Añadir campos básicos al formData
@@ -303,8 +308,8 @@ const Solutions = ({ brands }) => {
         const imageicon = imageIconRef.current.files[0];
         if (imageicon) formData.append("image_icon", imageicon);
 
-        const image = imageRef.current.files[0];
-        if (image) formData.append("image", image);
+        // const image = imageRef.current.files[0];
+        // if (image) formData.append("image", image);
 
         const imageSecondary = imageSecondaryRef.current.files[0];
         if (imageSecondary) formData.append("image_secondary", imageSecondary);
@@ -340,54 +345,56 @@ const Solutions = ({ brands }) => {
                 );
             }
         });*/
+        
         // Dentro de onModalSubmit, al procesar características
-        characteristics.forEach((char, index) => {
-            formData.append(`characteristics[${index}][title]`, char.title);
-            formData.append(
-                `characteristics[${index}][description]`,
-                char.description
-            );
+        // characteristics.forEach((char, index) => {
+        //     formData.append(`characteristics[${index}][title]`, char.title);
+        //     formData.append(
+        //         `characteristics[${index}][description]`,
+        //         char.description
+        //     );
 
-            if (char.image) {
-                if (char.image.file) {
-                    formData.append(
-                        `characteristics[${index}][image]`,
-                        char.image.file
-                    );
-                }
-                // Si es una imagen existente (viene del servidor como string)
-                else if (typeof char.image === "string") {
-                    formData.append(
-                        `characteristics[${index}][existing_image]`,
-                        char.image
-                    );
-                }
-            }
-        });
+        //     if (char.image) {
+        //         if (char.image.file) {
+        //             formData.append(
+        //                 `characteristics[${index}][image]`,
+        //                 char.image.file
+        //             );
+        //         }
+        //         // Si es una imagen existente (viene del servidor como string)
+        //         else if (typeof char.image === "string") {
+        //             formData.append(
+        //                 `characteristics[${index}][existing_image]`,
+        //                 char.image
+        //             );
+        //         }
+        //     }
+        // });
 
-        benefits.forEach((char, index) => {
-            formData.append(`benefits[${index}][title]`, char.title);
-            formData.append(
-                `benefits[${index}][description]`,
-                char.description
-            );
+        // benefits.forEach((char, index) => {
+        //     formData.append(`benefits[${index}][title]`, char.title);
+        //     formData.append(
+        //         `benefits[${index}][description]`,
+        //         char.description
+        //     );
 
-            if (char.image) {
-                if (char.image.file) {
-                    formData.append(
-                        `benefits[${index}][image]`,
-                        char.image.file
-                    );
-                }
-                // Si es una imagen existente (viene del servidor como string)
-                else if (typeof char.image === "string") {
-                    formData.append(
-                        `benefits[${index}][existing_image]`,
-                        char.image
-                    );
-                }
-            }
-        });
+        //     if (char.image) {
+        //         if (char.image.file) {
+        //             formData.append(
+        //                 `benefits[${index}][image]`,
+        //                 char.image.file
+        //             );
+        //         }
+        //         // Si es una imagen existente (viene del servidor como string)
+        //         else if (typeof char.image === "string") {
+        //             formData.append(
+        //                 `benefits[${index}][existing_image]`,
+        //                 char.image
+        //             );
+        //         }
+        //     }
+        // });
+
         formData.append("category_name", selectedCategory);
         const result = await servicesRest.save(formData);
         if (!result) return;
@@ -557,13 +564,13 @@ const Solutions = ({ brands }) => {
                             <textarea
                                 ref={descriptionHelpsRef}
                                 className="form-control"
-                                rows={4}
+                                rows={6}
                             />
                         </div>
                     </div>
                 </div>
 
-                <div className="row mt-3">
+                {/* <div className="row mt-3">
                     <div className="col-md-12">
                         <InputFormGroup
                             eRef={titlesecondRef}
@@ -580,25 +587,23 @@ const Solutions = ({ brands }) => {
                             />
                         </div>
                     </div>
-                </div>
+                </div> */}
 
                 <div className="row mt-3">
-                    <div className="col-md-12">
-                        <div className="col-md-2">
-                            <ImageFormGroup
-                                eRef={imageIconRef}
-                                label="Imagen icono (Card en portada)"
-                                aspect={1 / 1}
-                            />
-                        </div>
+                    <div className="col-md-3">
+                        <ImageFormGroup
+                            eRef={imageIconRef}
+                            label="Imagen icono (Card en portada)"
+                            aspect={1 / 1}
+                        />
                     </div>
-                    <div className="col-md-6">
+                    {/* <div className="col-md-6">
                         <ImageFormGroup
                             eRef={imageRef}
                             label="Imagen principal"
                             aspect={16 / 9}
                         />
-                    </div>
+                    </div> */}
                     <div className="col-md-6">
                         <ImageFormGroup
                             eRef={imageSecondaryRef}
@@ -610,12 +615,12 @@ const Solutions = ({ brands }) => {
                         <ImageFormGroup
                             eRef={imageBannerRef}
                             label="Banner"
-                            aspect={16 / 9}
+                            aspect={16 / 5}
                         />
                     </div>
                 </div>
 
-                <div className="row mt-3">
+                {/* <div className="row mt-3">
                     <div className="col-12">
                         <InputFormGroup
                             eRef={valuePropositionRef}
@@ -638,9 +643,9 @@ const Solutions = ({ brands }) => {
                             />
                         ))}
                     </div>
-                </div>
+                </div> */}
 
-                <div className="row mt-3">
+                {/* <div className="row mt-3">
                     <div className="col-md-6">
                         <InputFormGroup
                             eRef={innovationFocusRef}
@@ -677,7 +682,7 @@ const Solutions = ({ brands }) => {
                             />
                         ))}
                     </div>
-                </div>
+                </div> */}
             </Modal>
         </>
     );

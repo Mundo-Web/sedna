@@ -15,6 +15,8 @@ use App\Http\Controllers\Admin\ServiceController as AdminServiceController;
 use App\Http\Controllers\Admin\SolutionController as AdminSolutionController;
 use App\Http\Controllers\Admin\PurchaseOptionController as AdminPurchaseOptionController;
 use App\Http\Controllers\Admin\FacilityController as AdminFacilityController;
+use App\Http\Controllers\Admin\ServiceSubthemeController as AdminServiceSubthemeController;
+use App\Http\Controllers\Admin\SolutionSubthemeController as AdminSolutionSubthemeController;
 
 use App\Http\Controllers\Admin\StaffController as AdminStaffController;
 use App\Http\Controllers\Admin\SpecialityController as AdminSpecialityController;
@@ -76,7 +78,9 @@ use App\Http\Controllers\MessageController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\SaleController;
 use App\Http\Controllers\ServiceController;
+use App\Http\Controllers\ServiceSubthemeController;
 use App\Http\Controllers\SolutionController;
+use App\Http\Controllers\SolutionSubthemeController;
 use App\Http\Controllers\PurchaseOptionController;
 use App\Http\Controllers\SpecialityController;
 use App\Http\Controllers\LangController;
@@ -126,7 +130,10 @@ Route::get('/landing_home/media/{uuid}', [LandingHomeController::class, 'media']
 Route::get('/landing_home/video/{uuid}', [LandingHomeController::class, 'video']);
 
 Route::get('/service/media/{uuid}', [ServiceController::class, 'media']);
+Route::get('/serviceSubtheme/media/{uuid}', [ServiceSubthemeController::class, 'media']);
 Route::get('/solution/media/{uuid}', [SolutionController::class, 'media']);
+Route::get('/solutionSubtheme/media/{uuid}', [SolutionSubthemeController::class, 'media']);
+
 Route::get('/purchaseOption/media/{uuid}', [PurchaseOptionController::class, 'media']);
 Route::get('/facility/media/{uuid}', [FacilityController::class, 'media']);
 Route::get('/indicator/media/{uuid}', [IndicatorController::class, 'media']);
@@ -152,6 +159,9 @@ Route::get('/mailing/media/{uuid}', [MailingController::class, 'media']);
 Route::post('/posts/paginate', [PostController::class, 'paginate']);
 Route::post('/items/paginate', [ItemController::class, 'paginate']);
 Route::post('/supplies/paginate', [SupplyController::class, 'paginate']);
+Route::post('/solutions/getSolutions', [SolutionController::class, 'getSolutions']);
+Route::post('/services/getServices', [ServiceController::class, 'getServices']);
+Route::post('/purchaseOptions/getOptions', [PurchaseOptionController::class, 'getOptions']);
 
 Route::post('/messages', [MessageController::class, 'save']);
 Route::post('/appointments', [MessageController::class, 'save']);
@@ -394,11 +404,23 @@ Route::middleware('auth')->group(function () {
         Route::patch('/services/{field}', [AdminServiceController::class, 'boolean']);
         Route::delete('/services/{id}', [AdminServiceController::class, 'delete']);
 
+        Route::post('/serviceSubtheme', [AdminServiceSubthemeController::class, 'save']);
+        Route::post('/serviceSubtheme/paginate', [AdminServiceSubthemeController::class, 'paginate']);
+        Route::patch('/serviceSubtheme/status', [AdminServiceSubthemeController::class, 'status']);
+        Route::patch('/serviceSubtheme/{field}', [AdminServiceSubthemeController::class, 'boolean']);
+        Route::delete('/serviceSubtheme/{id}', [AdminServiceSubthemeController::class, 'delete']);
+
         Route::post('/solutions', [AdminSolutionController::class, 'save']);
         Route::post('/solutions/paginate', [AdminSolutionController::class, 'paginate']);
         Route::patch('/solutions/status', [AdminSolutionController::class, 'status']);
         Route::patch('/solutions/{field}', [AdminSolutionController::class, 'boolean']);
         Route::delete('/solutions/{id}', [AdminSolutionController::class, 'delete']);
+
+        Route::post('/solutionSubtheme', [AdminSolutionSubthemeController::class, 'save']);
+        Route::post('/solutionSubtheme/paginate', [AdminSolutionSubthemeController::class, 'paginate']);
+        Route::patch('/solutionSubtheme/status', [AdminSolutionSubthemeController::class, 'status']);
+        Route::patch('/solutionSubtheme/{field}', [AdminSolutionSubthemeController::class, 'boolean']);
+        Route::delete('/solutionSubtheme/{id}', [AdminSolutionSubthemeController::class, 'delete']);
 
         Route::post('/purchaseOptions', [AdminPurchaseOptionController::class, 'save']);
         Route::post('/purchaseOptions/paginate', [AdminPurchaseOptionController::class, 'paginate']);

@@ -52,4 +52,9 @@ class Service extends Model
     {
         return $this->belongsTo(CategoryService::class, 'category_service_id');
     }
+
+    public function subthemes()
+    {
+        return $this->hasMany(ServiceSubtheme::class);
+    }
 }

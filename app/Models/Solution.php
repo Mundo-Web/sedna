@@ -53,4 +53,9 @@ class Solution extends Model
     {
         return $this->belongsTo(CategorySolution::class, 'category_solution_id');
     }
+
+    public function subthemes()
+    {
+        return $this->hasMany(SolutionSubtheme::class);
+    }
 }

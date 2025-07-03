@@ -9,8 +9,15 @@ import { useTranslation } from "../../hooks/useTranslation";
 import { LanguageContext } from "../../context/LanguageContext";
 import LanguageDropdown from "./Header/LanguageDropdown";
 import MegaMenuPopup from "./Header/MegaMenuPopup";
+import SolutionRest from "../../actions/SolutionsRest";
+import ServiceRest from "../../actions/ServicesRest";
+import PurchaseOptionsRest from "../../actions/PurchaseOptionsRest";
 
 const generalRest = new GeneralRest();
+const solutionRest = new SolutionRest();
+const serviceRest = new ServiceRest();
+const purchaseRest = new PurchaseOptionsRest();
+
 
 // Variantes de animación
 const containerVariants = {
@@ -174,7 +181,7 @@ const Header = ({
     }, 0);
 
     const [socials, setSocials] = useState([]);
-    const [languagesSystem, setLanguagesSystem] = useState([]);
+    
     const [megamenu, setMegaMenu] = useState({
         solutions: [],
         services: [],
@@ -223,6 +230,7 @@ const Header = ({
         return activeLink === path;
     };
 
+    const [languagesSystem, setLanguagesSystem] = useState([]);
     const { currentLanguage, changeLanguage } = useContext(LanguageContext);
     const [selectLanguage, setSelectLanguage] = useState(
         currentLanguage || languagesSystem[0]
@@ -252,7 +260,8 @@ const Header = ({
             if (response.ok) {
                 await changeLanguage(langData); // ✅ Agrega await aquí
                 setSelectLanguage(langData);
-                window.location.reload(); // ⚠️ Opcional temporal para forzar actualización
+                // window.location.reload();
+                window.location.href = "/";
             } else {
                 console.log("Error de extracion:", await response.text());
             }
@@ -364,6 +373,64 @@ const Header = ({
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [modalContent, setModalContent] = useState(null);
+
+    const [searchModalOpen, setSearchModalOpen] = useState(false);
+    const [searchQuery, setSearchQuery] = useState("");
+    const [searchResults, setSearchResults] = useState([]);
+    const searchModalRef = useRef(null);
+    const [isSearching, setIsSearching] = useState(false);
+    
+
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+          if (searchModalRef.current && !searchModalRef.current.contains(event.target)) {
+            setSearchModalOpen(false);
+          }
+        };
+    
+        if (searchModalOpen) {
+          document.addEventListener('mousedown', handleClickOutside);
+        }
+    
+        return () => {
+          document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [searchModalOpen]);
+      
+    useEffect(() => {
+    if (searchQuery.length > 2) {
+        setIsSearching(true);
+        const promises = [
+            solutionRest.getSolutions({ query: searchQuery }),
+            serviceRest.getServices({ query: searchQuery }),
+            purchaseRest.getOptions({ query: searchQuery })
+        ];
+
+        Promise.all(promises)
+            .then(([solutions, services, purchases]) => {
+                const combinedResults = [
+                    ...(solutions.data || []).map(item => ({ ...item, type: 'solution' })),
+                    ...(services.data || []).map(item => ({ ...item, type: 'service' })),
+                    ...(purchases.data || []).map(item => ({ ...item, type: 'purchase' }))
+                ];
+                setSearchResults(combinedResults);
+            })
+            .catch(error => {
+                console.error("Error en la búsqueda:", error);
+                setSearchResults([]);
+            })
+            .finally(() => {
+                setIsSearching(false);
+            });
+    } else {
+        setSearchResults([]);
+    }
+    }, [searchQuery]);
+    
+    useEffect(() => {
+        setSearchQuery('')
+    }, [searchModalOpen])
+
 
     const ServiceModal = ({ isOpen, onClose, content }) => {
         if (!content) return null;
@@ -577,6 +644,17 @@ const Header = ({
 
                         <motion.div
                             variants={itemVariants}
+                            className="p-3 flex flex-row justify-center items-center">
+                                <button onClick={() => setSearchModalOpen(true)} >
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none">
+                                        <path d="M17.5 17.5L22 22" stroke="#3E2F4D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <path d="M20 11C20 6.02944 15.9706 2 11 2C6.02944 2 2 6.02944 2 11C2 15.9706 6.02944 20 11 20C15.9706 20 20 15.9706 20 11Z" stroke="#3E2F4D" stroke-width="1.5" stroke-linejoin="round"/>
+                                    </svg>
+                                </button>
+                        </motion.div>
+
+                        <motion.div
+                            variants={itemVariants}
                             className="flex h-full items-center gap-4 justify-end mr-4"
                         >
                             <LanguageDropdown 
@@ -590,7 +668,7 @@ const Header = ({
                             variants={itemVariants}
                             className="hidden xl:flex flex-col justify-center items-center font-Poppins_Medium"
                         >
-                                <a href="/contacto">
+                                <a href="/contact">
                                     <div className="bg-[#7B5E9A] text-base 2xl:text-lg px-4 py-3 my-auto rounded-md">
                                         <p className="leading-none text-white">
                                             {t("public.header.contact", "Contáctanos")}
@@ -726,7 +804,7 @@ const Header = ({
                                 </div>
                                 
                                 <a href="/contact" className="bg-[#7B5E9A] rounded-md text-white py-3 w-full text-center">
-                                    <span className="font-bold">Contáctanos</span>
+                                    <span className="font-bold">{t("public.header.contact", "Contáctanos")}</span>
                                 </a>
                                 
                                 <ServiceModal 
@@ -739,6 +817,56 @@ const Header = ({
                         </motion.div>
                     )}
                 </AnimatePresence>
+
+                {/* Modal de búsqueda */}
+                {searchModalOpen && (
+                <div className="fixed inset-0 bg-black/50 z-50 flex items-start justify-center pt-20">
+                    <div ref={searchModalRef} className="bg-white w-full max-w-xl rounded-lg shadow-xl mx-4">
+                    <div className="relative">
+                        <input
+                        type="text"
+                        autoFocus
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        placeholder="Estoy buscando (mínimo 2 caracteres)..."
+                        className="w-full p-3 px-4 bg-transparent focus:outline-none"
+                        />
+                        <button
+                        onClick={() => setSearchModalOpen(false)}
+                        className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700"
+                        >
+                        <i className="mdi mdi-close text-xl"></i>
+                        </button>
+                    </div>
+
+                    <div className="max-h-[60vh] overflow-y-auto">
+                        {searchResults.map((result) => (
+                        <a
+                            href={`/${result.type === 'solution' ? 'solucion' : result.type === 'service' ? 'servicio' : 'opcion'}/${result.slug}`}
+                            key={result.id}
+                            className="px-4 py-3 hover:bg-gray-50 cursor-pointer flex gap-2 items-center border-t"
+                        >
+                            <img
+                                src={`/api/${result.type === 'solution' ? 'solution' : result.type === 'service' ? 'service' : 'purchaseOption'}/media/${result.image}`}
+                                className="h-12 aspect-[4/3] rounded"
+                                alt={result.name}
+                                onError={e => e.target.src = '/api/cover/thumbnail/null'} />
+                            <div className="w-[calc(100%-60px)]">
+                                <h3 className="font-bold truncate w-full">{result.title}</h3>
+                                <p className="text-sm text-gray-600 line-clamp-2">{result.description}</p>
+                            </div>
+                        </a>
+                        ))}
+
+                        {searchQuery.length > 2 && searchResults.length === 0 && (
+                        <div className="p-4 text-center text-gray-500 border-t">
+                            No se encontraron resultados para "{searchQuery}"
+                        </div>
+                        )}
+                    </div>
+                    </div>
+                </div>
+                )}
 
                 {/* Contenido dinámico */}
                 {children && (
@@ -1033,6 +1161,7 @@ const Header = ({
             </div>
         </>
     );
+    
 };
 
 export default Header;
