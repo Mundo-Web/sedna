@@ -78,7 +78,7 @@ const Login = ({}) => {
                             <source src="/assets/img/home/login.mp4" />
                         </video> */}
 
-                        <img className="object-contain" src='/assets/img/home/sed_icono1.png' onError={handleImageError} />
+                        <img className="object-contain" src='/assets/img/home/sed_icono1.png'/>
 
                     </div>
                     <div className="flex items-center justify-center px-8">
