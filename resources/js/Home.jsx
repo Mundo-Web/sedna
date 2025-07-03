@@ -860,7 +860,7 @@ const Home = ({
                                 <div className="rounded-full aspect-square w-16 bg-[#F5F2F9] group-hover:bg-white flex flex-col justify-center items-center">
                                     <img className="object-contain" src={`/api/landing_home/media/${landingCaractersOne?.image}`}  onError={handleImageError} />
                                 </div>
-                                <h2 className="font-Poppins_Medium text-[#3E2F4D] text-xl 2xl:text-2xl group-hover:text-white">
+                                <h2 className="font-Poppins_Medium text-[#3E2F4D] text-lg 2xl:text-2xl group-hover:text-white">
                                     {landingCaractersOne?.title}
                                 </h2>
                             </div>
@@ -872,7 +872,7 @@ const Home = ({
                                 <div className="rounded-full aspect-square w-16 bg-[#F5F2F9] group-hover:bg-white flex flex-col justify-center items-center">
                                     <img className="object-contain" src={`/api/landing_home/media/${landingCaractersTwo?.image}`} onError={handleImageError} />
                                 </div>
-                                <h2 className="font-Poppins_Medium text-[#3E2F4D] text-xl 2xl:text-2xl group-hover:text-white">
+                                <h2 className="font-Poppins_Medium text-[#3E2F4D] text-lg 2xl:text-2xl group-hover:text-white">
                                     {landingCaractersTwo?.title}
                                 </h2>
                             </div>
@@ -884,7 +884,7 @@ const Home = ({
                                 <div className="rounded-full aspect-square w-16 bg-[#F5F2F9] group-hover:bg-white flex flex-col justify-center items-center">
                                     <img className="object-contain" src={`/api/landing_home/media/${landingCaractersTree?.image}`} onError={handleImageError} />
                                 </div>
-                                <h2 className="font-Poppins_Medium text-[#3E2F4D] text-xl 2xl:text-2xl group-hover:text-white">
+                                <h2 className="font-Poppins_Medium text-[#3E2F4D] text-lg 2xl:text-2xl group-hover:text-white">
                                     {landingCaractersTree?.title}
                                 </h2>
                             </div>
@@ -896,7 +896,7 @@ const Home = ({
                                 <div className="rounded-full aspect-square w-16 bg-[#F5F2F9] group-hover:bg-white flex flex-col justify-center items-center">
                                     <img className="object-contain" src={`/api/landing_home/media/${landingCaractersFour?.image}`} onError={handleImageError} />
                                 </div>
-                                <h2 className="font-Poppins_Medium text-[#3E2F4D] text-xl 2xl:text-2xl group-hover:text-white">
+                                <h2 className="font-Poppins_Medium text-[#3E2F4D] text-lg 2xl:text-2xl group-hover:text-white">
                                      {landingCaractersFour?.title}
                                 </h2>
                             </div>
