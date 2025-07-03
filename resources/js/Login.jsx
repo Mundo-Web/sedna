@@ -68,15 +68,18 @@ const Login = ({}) => {
             <div className=" w-full px-[5%] min-h-screen flex items-center mx-auto py-16 bg-[#F3E5FF]">
                 <div className="max-w-5xl mx-auto p-8 lg:grid lg:grid-cols-2 gap-8 bg-white rounded-xl">
                     <div className="hidden lg:block">
-                        <video
+                        {/* <video
                             autoPlay
                             loop
                             muted
                             alt="Imagen decorativa"
                             className="h-[400px] w-full object-cover rounded-xl"
                         >
-                            <source src="/assets/img/home/sed_icono1.png" />
-                        </video>
+                            <source src="/assets/img/home/login.mp4" />
+                        </video> */}
+
+                        <img className="object-contain" src='/assets/img/home/sed_icono1.png' onError={handleImageError} />
+
                     </div>
                     <div className="flex items-center justify-center px-8">
                         <div className="mx-auto w-full max-w-md space-y-6">
