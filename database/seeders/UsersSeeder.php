@@ -20,6 +20,7 @@ class UsersSeeder extends Seeder
             'lastname' => 'Admin',
             'password' => 'r00tme'
         ])->assignRole('Admin');
+        
         User::updateOrCreate([
             'email' => 'admin@wefem.pe'
         ], [
