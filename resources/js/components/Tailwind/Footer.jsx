@@ -7,8 +7,38 @@ import GeneralRest from "../../actions/GeneralRest";
 import { X } from "lucide-react";
 import { useTranslation } from "../../hooks/useTranslation";
 import { motion, AnimatePresence } from "framer-motion";
+import {
+  FaFacebook,
+  FaTwitter,
+  FaInstagram,
+  FaLinkedin,
+  FaYoutube,
+  FaTiktok,
+  FaWhatsapp,
+  FaTelegram,
+  FaDiscord,
+  FaSnapchat,
+  FaPinterest,
+  FaReddit
+} from 'react-icons/fa';
 
 ReactModal.setAppElement("#app");
+
+// Mapeo de iconos de redes sociales
+const socialIconsMap = {
+  'fab fa-facebook': FaFacebook,
+  'fab fa-twitter': FaTwitter,
+  'fab fa-instagram': FaInstagram,
+  'fab fa-linkedin': FaLinkedin,
+  'fab fa-youtube': FaYoutube,
+  'fab fa-tiktok': FaTiktok,
+  'fab fa-whatsapp': FaWhatsapp,
+  'fab fa-telegram': FaTelegram,
+  'fab fa-discord': FaDiscord,
+  'fab fa-snapchat': FaSnapchat,
+  'fab fa-pinterest': FaPinterest,
+  'fab fa-reddit': FaReddit
+};
 
 const Footer = ({ terms, footerLinks = [] }) => {
     const { t } = useTranslation();
@@ -21,38 +51,48 @@ const Footer = ({ terms, footerLinks = [] }) => {
         links[fl.correlative] = fl.description;
     });*/
     const [socials, setSocials] = useState([]);
+    const [whatsappData, setWhatsappData] = useState({
+        number: '',
+        message: ''
+    });
 
     useEffect(() => {
         const fetchSocials = async () => {
             try {
                 const data = await generalRest.getSocials();
-                setSocials(data);
+                // Filtrar solo las redes sociales visibles
+                const visibleSocials = data.filter(social => social.visible === 1 || social.visible === true);
+                setSocials(visibleSocials);
             } catch (error) {
                 console.error("Error fetching socials:", error);
             }
         };
 
         fetchSocials();
-    }, []); // Asegúrate de que este array de dependencias está vacío si solo se ejecuta una vez
+    }, []);
 
-    const Facebook = socials.find(
-        (social) => social.description === "Facebook"
+    // Buscar WhatsApp para el botón flotante
+    const Whatsapp = socials.find(
+        (social) => social.description === "WhatsApp" || social.icon === "fab fa-whatsapp"
     );
-    const Twitter = socials.find((social) => social.description === "Twitter");
-    const Instagram = socials.find(
-        (social) => social.description === "Instagram"
-    );
-    const Youtube = socials.find((social) => social.description === "Youtube");
-    const Tiktok = socials.find((social) => social.description === "Tiktok");
-    const Whatsapp = socials.find((social) => social.description === "WhatsApp");
 
-    const [aboutuses, setAboutuses] = useState(null); // o useState({});
+    const [aboutuses, setAboutuses] = useState(null);
 
     useEffect(() => {
         const fetchAboutuses = async () => {
             try {
                 const data = await generalRest.getAboutuses();
                 setAboutuses(data);
+                
+                // Extraer datos de WhatsApp de los generales
+                const generals = data?.generals || [];
+                const whatsappNumber = generals.find((x) => x.correlative === "whatsapp_number")?.description ?? "";
+                const whatsappMessage = generals.find((x) => x.correlative === "whatsapp_message")?.description ?? "";
+                
+                setWhatsappData({
+                    number: whatsappNumber,
+                    message: whatsappMessage
+                });
             } catch (error) {
                 console.error("Error fetching about:", error);
             }
@@ -82,9 +122,31 @@ const Footer = ({ terms, footerLinks = [] }) => {
             .replace(/[*]+/g, ""); // Cualquier asterisco suelto
     };
 
+    // Construir el enlace de WhatsApp
+    const whatsappLink = whatsappData.number 
+        ? `https://api.whatsapp.com/send?phone=${whatsappData.number}${whatsappData.message ? `&text=${encodeURIComponent(whatsappData.message)}` : ''}`
+        : null;
+
+    // Función para hacer scroll al header y abrir el mega menú
+    const scrollToHeaderAndOpenMenu = (menuType) => {
+        // Hacer scroll suave al inicio de la página
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+
+        // Esperar a que termine el scroll y luego disparar el evento para abrir el mega menú
+        setTimeout(() => {
+            const event = new CustomEvent('openMegaMenu', {
+                detail: { menuType }
+            });
+            window.dispatchEvent(event);
+        }, 1000); // Ajusta el tiempo según la duración del scroll
+    };
+
     return (
         <>  
-            {Whatsapp && (
+            {whatsappLink && (
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -95,7 +157,8 @@ const Footer = ({ terms, footerLinks = [] }) => {
                         <a
                             target="_blank"
                             id="whatsapp-toggle"
-                            href={Whatsapp.link}
+                            href={whatsappLink}
+                            rel="noopener noreferrer"
                         >
                             <motion.img
                                 animate={{
@@ -134,81 +197,31 @@ const Footer = ({ terms, footerLinks = [] }) => {
                                 "Simplifica la tecnología y potencia tu negocio con Sedna. Estamos a solo un clic de distancia."
                             )}
                         </p>
-                        <div className="flex flex-row gap-5 text-white mt-3">
-                            {Facebook && (
-                                <a
-                                    href={Facebook.link}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                >
-                                    
-                                    <i className="fa-brands fa-facebook fa-xl"></i>
-                                </a>
-                            )}
-
-                            {Tiktok && (
-                                <a
-                                    href={Tiktok.link}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                >
-                                    <i className="fa-brands fa-tiktok fa-xl"></i>
-                                </a>
-                            )} 
-
-                            {Instagram && (
-                                <a
-                                    href={Instagram.link}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                >
-                                    <i className="fa-brands fa-instagram fa-xl"></i>
-                                </a>
-                            )} 
-
-                            {/* {datosgenerales?.linkedin && (
-                                <a
-                                    href={datosgenerales.linkedin}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                >
-                                    <i className="fa-brands fa-linkedin fa-xl"></i>
-                                </a>
-                            )} */}
-
-                            {Twitter && (
-                                <a
-                                    href={Twitter.link}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                >
-                                    <i className="fa-brands fa-twitter fa-xl"></i>
-                                </a>
-                            )} 
-
-                            {Youtube && (
-                                <a
-                                    href={Youtube.link}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                >
-                                    <i className="fa-brands fa-youtube fa-xl"></i>
-                                </a>
-                            )}
-
-                            {Whatsapp && (
-                                <a
-                                    href={Whatsapp.link}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                >
-                                    <i className="fa-brands fa-whatsapp fa-xl"></i>
-                                </a>
-                            )}
+                        <div className="flex flex-row gap-5 text-white mt-3 flex-wrap">
+                            {socials.map((social, index) => {
+                                const IconComponent = socialIconsMap[social.icon];
+                                
+                                return (
+                                    <a
+                                        key={index}
+                                        href={social.link}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="hover:text-[#7B5E9A] transition-colors duration-300"
+                                        title={social.description}
+                                    >
+                                        {IconComponent ? (
+                                            <IconComponent className="text-2xl" />
+                                        ) : (
+                                            <i className={`${social.icon} fa-xl`}></i>
+                                        )}
+                                    </a>
+                                );
+                            })}
                         </div>
                     </div>
                     
-                    <div className="hidden md:flex"></div>
+                    
 
                     {/* Columna 2 - Sobre Sedna */}
                     <div className="flex flex-col gap-2 font-Poppins_Regular text-[15px]">
@@ -229,24 +242,33 @@ const Footer = ({ terms, footerLinks = [] }) => {
                         </a>
                     </div>
 
-                    {/* Columna 3 - Portafolio */}
-                    {/* <div className="flex flex-col gap-2 font-Poppins_Regular text-[15px]">
+                
+                    <div className="flex flex-col gap-2 font-Poppins_Regular text-[15px]">
                         <h3 className="text-lg pb-3 font-Poppins_Medium">
                             {t("public.footer.portfolio", "Nuestro Portafolio")}
                         </h3>
-                        <a href="/soluciones" className="cursor-pointer">
+                        <button 
+                            onClick={() => scrollToHeaderAndOpenMenu('#solutions')} 
+                            className="cursor-pointer text-left hover:text-[#7B5E9A] transition-colors duration-300"
+                        >
                             {t("public.footer.solutions", "Soluciones")}
-                        </a>
-                        <a href="/servicios" className="cursor-pointer">
+                        </button>
+                        <button 
+                            onClick={() => scrollToHeaderAndOpenMenu('#services')} 
+                            className="cursor-pointer text-left hover:text-[#7B5E9A] transition-colors duration-300"
+                        >
                             {t("public.footer.services", "Servicios")}
-                        </a>
-                        <a href="/opciones-compra" className="cursor-pointer">
+                        </button>
+                        <button 
+                            onClick={() => scrollToHeaderAndOpenMenu('#options')} 
+                            className="cursor-pointer text-left hover:text-[#7B5E9A] transition-colors duration-300"
+                        >
                             {t(
                                 "public.footer.purchase_options",
                                 "Opciones de compra"
                             )}
-                        </a>
-                    </div> */}
+                        </button>
+                    </div>
 
                     {/* Columna 4 - Soporte */}
                     <div className="flex flex-col gap-2 font-Poppins_Regular text-[15px]">

@@ -280,6 +280,19 @@ const Header = ({
     const [activeMegaMenu, setActiveMegaMenu] = useState(null);
 
     useEffect(() => {
+        const handleOpenMegaMenu = (event) => {
+            const { menuType } = event.detail;
+            setActiveMegaMenu(menuType);
+        };
+
+        window.addEventListener('openMegaMenu', handleOpenMegaMenu);
+
+        return () => {
+            window.removeEventListener('openMegaMenu', handleOpenMegaMenu);
+        };
+    }, []);
+
+    useEffect(() => {
         if (activeMegaMenu) {
           document.body.style.overflow = 'hidden';
           // Opcional: también podrías querer prevenir el scroll del touch en móviles

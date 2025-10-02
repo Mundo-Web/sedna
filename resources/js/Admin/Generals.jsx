@@ -38,6 +38,12 @@ const Generals = ({ generals }) => {
         supportEmail:
             generals.find((x) => x.correlative == "support_email")
                 ?.description ?? "",
+        whatsappNumber:
+            generals.find((x) => x.correlative == "whatsapp_number")
+                ?.description ?? "",
+        whatsappMessage:
+            generals.find((x) => x.correlative == "whatsapp_message")
+                ?.description ?? "",
         privacyPolicy:
             generals.find((x) => x.correlative == "privacy_policy")
                 ?.description ?? "",
@@ -133,6 +139,16 @@ const Generals = ({ generals }) => {
                     correlative: "support_email",
                     name: "Correo de soporte",
                     description: formData.supportEmail,
+                },
+                {
+                    correlative: "whatsapp_number",
+                    name: "Número de WhatsApp",
+                    description: formData.whatsappNumber,
+                },
+                {
+                    correlative: "whatsapp_message",
+                    name: "Mensaje de WhatsApp",
+                    description: formData.whatsappMessage,
                 },
                 {
                     correlative: "privacy_policy",
@@ -428,6 +444,46 @@ const Generals = ({ generals }) => {
                                 }
                                 required
                             />
+                        </div>
+                        <div className="mb-3">
+                            <label
+                                htmlFor="whatsappNumber"
+                                className="form-label"
+                            >
+                                Número de WhatsApp
+                            </label>
+                            <input
+                                type="tel"
+                                className="form-control"
+                                id="whatsappNumber"
+                                placeholder="Ej: 51987654321"
+                                value={formData.whatsappNumber}
+                                onChange={(e) =>
+                                    setFormData({
+                                        ...formData,
+                                        whatsappNumber: e.target.value,
+                                    })
+                                }
+                            />
+                            <small className="form-text text-muted">
+                                Ingresa el número con código de país (sin + ni espacios)
+                            </small>
+                        </div>
+                        <div className="mb-3">
+                            <TextareaFormGroup
+                                label="Mensaje predeterminado de WhatsApp"
+                                placeholder="Ej: Hola, me gustaría obtener más información..."
+                                value={formData.whatsappMessage}
+                                onChange={(e) =>
+                                    setFormData({
+                                        ...formData,
+                                        whatsappMessage: e.target.value,
+                                    })
+                                }
+                            />
+                            <small className="form-text text-muted">
+                                Mensaje que se mostrará automáticamente al abrir WhatsApp
+                            </small>
                         </div>
                     </div>
 
