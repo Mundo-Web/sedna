@@ -117,138 +117,8 @@ const Footer = ({ terms, footerLinks = [] }) => {
 
             <footer className="bg-[#3E2F4D]">
                 {" "}
-                {/* <div className="px-[5%] max-w-xl lg:max-w-[82rem]  mx-auto py-10 lg:pt-16 lg:pb-8">
-                    <div className=" flex flex-col gap-6 lg:flex-row ">
-
-                        <div className="flex flex-col gap-6 lg:w-8/12 lg:grid lg:grid-cols-3">
-                            {sedesData.map((sede, index) => (
-                                <div
-                                    key={index}
-                                    className="w-full text-white flex flex-col gap-2 mt-0"
-                                >
-                                    <p className="mb-2">
-                                        {cleanText(sede.title) ||
-                                            "Información no disponible"}
-                                    </p>
-                                    {sede.ubications.map((ubication, index) => (
-                                        <p key={index} className="text-[14px]">
-                                            {ubication}
-                                        </p>
-                                    ))}
-
-                                    <p className="flex gap-2 text-[14px]">
-                                        {t("public.form.phone", "Teléfono")}:{" "}
-                                        {sede.phones.map((phone, index) => (
-                                            <p key={index} className="">
-                                                {phone}
-                                            </p>
-                                        ))}
-                                    </p>
-                                    {sede.emails.map((email, index) => (
-                                        <p key={index} className="text-[14px]">
-                                            {email}
-                                        </p>
-                                    ))}
-                                </div>
-                            ))}
-                            {sedesData && sedesData.length > 0 && (
-                                <div className="w-full text-white flex flex-col gap-2">
-                                    <p className="mb-2">
-                                        {t(
-                                            "public.contact.office_hours",
-                                            "Horario de Atención"
-                                        )}
-                                    </p>
-                                    {sedesData[0]?.business_hours.map(
-                                        (horario, index) => {
-                                            
-                                            const firstColonIndex =
-                                                horario.indexOf(":");
-
-                                            return (
-                                                <div
-                                                    key={`hour-${index}`}
-                                                    className="text-[14px] mb-2"
-                                                >
-                                                  
-                                                    <p className="font-medium">
-                                                        {horario.substring(
-                                                            0,
-                                                            firstColonIndex + 1
-                                                        )}
-                                                    </p>
-                                                   
-                                                    <p className="ml-0">
-                                                        {horario
-                                                            .substring(
-                                                                firstColonIndex +
-                                                                    1
-                                                            )
-                                                            .trim()}
-                                                    </p>
-                                                </div>
-                                            );
-                                        }
-                                    )}
-                                </div>
-                            )}
-                            <div className="w-full text-white flex flex-col gap-2">
-                                <p className="mb-2 font-bold">
-                                    {t("public.footer.politycs", "Politicas")}
-                                </p>
-                                <a
-                                    className="text-[14px] cursor-pointer"
-                                    onClick={() => openModal(0)}
-                                >
-                                    {t(
-                                        "public.footer.privacity",
-                                        "Políticas de privacidad"
-                                    )}
-                                </a>
-                                <a
-                                    onClick={() => openModal(1)}
-                                    className="text-[14px] cursor-pointer"
-                                >
-                                    {t(
-                                        "public.form.terms",
-                                        "Términos y Condiciones"
-                                    )}
-                                </a>
-                                <p
-                                    onClick={() => openModal(2)}
-                                    className="text-[14px] cursor-pointer"
-                                >
-                                    {t(
-                                        "public.footer.change",
-                                        "Políticas de cambio"
-                                    )}
-                                </p>
-                                <a
-                                    href="/libro-de-reclamaciones"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="text-[14px]"
-                                >
-                                    {t(
-                                        "public.footer.complaints",
-                                        "Libro de reclamaciones"
-                                    )}
-                                </a>
-                            </div>
-
-                            <div className="w-full text-white flex flex-col gap-2">
-                                <p className="mb-2 font-bold">
-                                    {t(
-                                        "public.footer.socials",
-                                        "Nuestras redes"
-                                    )}
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div> */}
-                
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 md:justify-center w-full px-[5%] py-10 md:py-16 text-white">
+           
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 md:justify-center w-full px-[5%] 2xl:px-0 2xl:max-w-7xl mx-auto py-10 md:py-16 text-white">
                     {/* Columna 1 - Logo y descripción */}
                     <div className="lg:col-span-2 flex flex-col gap-3 max-w-sm">
                         <a href="/">
@@ -395,7 +265,7 @@ const Footer = ({ terms, footerLinks = [] }) => {
                     </div>
                 </div>
                 <div className="bg-[#EBE4F3] text-[#1F1827] py-3 flex items-center justify-center">
-                    <div className="flex flex-col md:flex-row md:justify-between items-center gap-5 w-full px-[5%] font-Poppins_Regular text-sm">
+                    <div className="flex flex-col md:flex-row md:justify-between items-center gap-5 w-full px-[5%] 2xl:px-0 2xl:max-w-7xl mx-auto font-Poppins_Regular text-sm">
                         <div className="text-center">
                             <p>
                                 {t(

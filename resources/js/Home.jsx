@@ -752,8 +752,8 @@ const Home = ({
             </section>
 
 
-            <section className="px-[5%] pt-10 lg:pt-20">
-                <div className="bg-[#F5F2F9] py-10 lg:py-16 px-5 md:px-10 rounded-xl overflow-hidden flex flex-col lg:flex-row items-start gap-12">
+            <section className="px-[5%] 2xl:px-0 2xl:max-w-7xl mx-auto pt-10 lg:pt-20">
+                <div className="bg-[#F5F2F9] py-10 lg:py-16 px-5 md:px-10 rounded-xl overflow-hidden flex flex-col lg:flex-row items-start gap-12 2xl:gap-20">
                     <div className="w-full lg:w-2/5 ">
                         <div className="flex flex-col gap-2">
                             <h2 className="font-Poppins_SemiBold text-[#3E2F4D] text-3xl sm:text-4xl md:text-3xl lg:text-[44px] !leading-tight ">
@@ -762,9 +762,9 @@ const Home = ({
                             <p className="font-Poppins_Regular text-[#5C4774] text-base 2xl:text-lg">{landingCaracters?.description}</p>
                         </div>
                     </div>
-                    <div className="w-full lg:w-3/5  xl:pl-[4%] 2xl:pl-[10%]">
+                    <div className="w-full lg:w-3/5  ">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                            <div className="flex flex-col gap-4 p-4 2xl:p-6 bg-white rounded-lg group hover:bg-[#7B5E9A] aspect-square">
+                            <div className="flex flex-col gap-4 p-4 2xl:p-6 bg-white rounded-lg group hover:bg-[#7B5E9A] aspect-square *:duration-300 transition-all">
                                 <div className="flex flex-row gap-4 items-center">
                                     <div className="rounded-full aspect-square w-16 bg-[#F5F2F9] group-hover:bg-white flex flex-col justify-center items-center">
                                         <img className="object-contain" src={`/api/landing_home/media/${landingCaractersOne?.image}`} onError={handleImageError} />
@@ -776,7 +776,7 @@ const Home = ({
                                 <p className="font-Poppins_Regular text-[#5C4774] text-base 2xl:text-lg group-hover:text-white">{landingCaractersOne?.description}</p>
                             </div>
 
-                            <div className="flex flex-col gap-4 p-4 2xl:p-6 bg-white rounded-lg group hover:bg-[#7B5E9A] aspect-square">
+                            <div className="flex flex-col gap-4 p-4 2xl:p-6 bg-white rounded-lg group hover:bg-[#7B5E9A] aspect-square *:duration-300 transition-all">
                                 <div className="flex flex-row gap-4 items-center">
                                     <div className="rounded-full aspect-square w-16 bg-[#F5F2F9] group-hover:bg-white flex flex-col justify-center items-center">
                                         <img className="object-contain" src={`/api/landing_home/media/${landingCaractersTwo?.image}`} onError={handleImageError} />
@@ -788,7 +788,7 @@ const Home = ({
                                 <p className="font-Poppins_Regular text-[#5C4774] text-base 2xl:text-lg group-hover:text-white">{landingCaractersTwo?.description}</p>
                             </div>
 
-                            <div className="flex flex-col gap-4 p-4 2xl:p-6 bg-white rounded-lg group hover:bg-[#7B5E9A] aspect-square">
+                            <div className="flex flex-col gap-4 p-4 2xl:p-6 bg-white rounded-lg group hover:bg-[#7B5E9A] aspect-square *:duration-300 transition-all">
                                 <div className="flex flex-row gap-4 items-center">
                                     <div className="rounded-full aspect-square w-16 bg-[#F5F2F9] group-hover:bg-white flex flex-col justify-center items-center">
                                         <img className="object-contain" src={`/api/landing_home/media/${landingCaractersTree?.image}`} onError={handleImageError} />
@@ -800,7 +800,7 @@ const Home = ({
                                 <p className="font-Poppins_Regular text-[#5C4774] text-base 2xl:text-lg group-hover:text-white">{landingCaractersTree?.description}</p>
                             </div>
 
-                            <div className="flex flex-col gap-4 p-4 2xl:p-6 bg-white rounded-lg group hover:bg-[#7B5E9A] aspect-square">
+                            <div className="flex flex-col gap-4 p-4 2xl:p-6 bg-white rounded-lg group hover:bg-[#7B5E9A] aspect-square *:duration-300 transition-all">
                                 <div className="flex flex-row gap-4 items-center">
                                     <div className="rounded-full aspect-square w-16 bg-[#F5F2F9] group-hover:bg-white flex flex-col justify-center items-center">
                                         <img className="object-contain" src={`/api/landing_home/media/${landingCaractersFour?.image}`} onError={handleImageError} />
@@ -817,14 +817,14 @@ const Home = ({
             </section>
 
 
-            <section className="flex flex-col gap-6 px-[5%] py-10 lg:py-16 my-10 lg:my-16 bg-cover bg-center" style={{ backgroundImage: `url(/api/landing_home/media/${landingContact?.image})` }}>
-
-                <div className="flex flex-col gap-2 max-w-xl mx-auto text-center">
-                    <h2 className="font-Poppins_SemiBold text-[#3E2F4D] text-3xl sm:text-4xl md:text-3xl lg:text-[44px] !leading-tight ">
-                        <TextWithHighlight text={landingContact?.title} ></TextWithHighlight>
-                    </h2>
-                </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 max-w-4xl 2xl:max-w-6xl mx-auto gap-5">
+            <section className="py-10 lg:py-16 bg-cover bg-bottom" style={{ backgroundImage: `url(/api/landing_home/media/${landingContact?.image})` }}>
+                <div className="flex flex-col gap-6 px-[5%] 2xl:px-0 2xl:max-w-7xl mx-auto py-10 lg:py-16">
+                    <div className="flex flex-col gap-2 max-w-xl mx-auto text-center">
+                        <h2 className="font-Poppins_SemiBold text-[#3E2F4D] text-3xl sm:text-4xl md:text-3xl lg:text-[44px] !leading-tight ">
+                            <TextWithHighlight text={landingContact?.title} ></TextWithHighlight>
+                        </h2>
+                    </div>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 max-w-4xl 2xl:max-w-6xl mx-auto gap-5">
                     <div className="flex flex-col gap-2 p-6 2xl:p-8 bg-white rounded-lg">
                         <div className="rounded-full aspect-square w-16 bg-[#F5F2F9] flex flex-col justify-center items-center">
                             <img
@@ -879,196 +879,10 @@ const Home = ({
                         </div>
                     </div>
                 </div>
-
+                </div>
             </section>
 
 
-            {/* {indicators && (
-                <ScrollAnimation>
-                    <div className=" h-auto w-full bg-[#F8F8F8] mt-[36px] lg:mt-0">
-                        {" "}
-                        <div className="lg:max-w-[82rem] mx-auto lg:px-[5%]">
-                            <Swiper
-                                slidesPerView={3}
-                                spaceBetween={30}
-                                loop={true}
-                                breakpoints={{
-                                    0: { slidesPerView: 1.5, spaceBetween: 0 },
-                                    640: {
-                                        slidesPerView: 1.5,
-                                        spaceBetween: 10,
-                                    },
-                                    1024: {
-                                        slidesPerView: 3,
-                                        spaceBetween: 180,
-                                    },
-                                }}
-                            >
-                                {indicators.map((benefit, index) => (
-                                    <SwiperSlide key={index}>
-                                        <div className="flex gap-4 w-full my-6 lg:my-7 ">
-                                            <div className="bg-white rounded-xl h-[60px] w-[60px] lg:h-[80px] lg:w-[80px]  flex items-center justify-center">
-                                                <img
-                                                    src={`/api/indicator/media/${benefit.symbol}`}
-                                                    className="h-[32.2px] w-[32.2px] lg:h-[40.2px] lg:w-[40.2px] "
-                                                />
-                                            </div>
-                                            <div className="text-[#242424]">
-                                                <h1 className="text-4xl lg:text-5xl font-medium leading-[102%]">
-                                                    {benefit.name}{" "}
-                                                    <span className="text-[#224483]">
-                                                        +
-                                                    </span>
-                                                </h1>
-                                                <h2 className="font-normal">
-                                                    {benefit.description}
-                                                </h2>
-                                            </div>
-                                            <span className="hidden lg:block lg:absolute -right-20 top-1/2 -translate-x-1/2  -translate-y-1/2 h-12 w-1 bg-[#242424] rounded-full"></span>
-                                        </div>
-                                    </SwiperSlide>
-                                ))}
-                            </Swiper>
-                        </div>
-                    </div>
-                </ScrollAnimation>
-            )} */}
-
-            {/* {benefits && landingBenefits && (
-                <ScrollAnimation>
-                    <div className="px-[5%] lg:max-w-[82rem] lg:mx-auto mt-10 lg:mt-14 lg:flex lg:justify-between lg:items-center">
-                        <h2 className="text-[32px] font-medium leading-[102%] max-w-[16rem] lg:text-6xl lg:max-w-[46rem] lg:tracking-wide ">
-                            <TextWithHighlight text={landingBenefits?.title} />
-                        </h2>
-                        <a
-                            href="/services"
-                            className=" mt-5 bg-[#EFF0F1] w-max text-[#242424] py-1 pl-1 pr-3  gap-2 rounded-full flex items-center lg:h-14"
-                        >
-                            <div className="bg-[#224483] w-12 p-2 rounded-full">
-                                <img
-                                    src="/assets/img/icons/treatment.png"
-                                    className=" h-auto    "
-                                />
-                            </div>
-                            {t(
-                                "public.btn.all_services",
-                                "Ver todos los servicios"
-                            )}
-                        </a>
-                    </div>
-                </ScrollAnimation>
-            )} */}
-
-            {/* {benefits && landingBenefits && (
-                <ScrollAnimation>
-                    <HealthSection
-                        landingBenefits={landingBenefits}
-                        benefits={benefits}
-                    />
-                </ScrollAnimation>
-            )}
-            {services && landingServices && (
-                <ScrollAnimation>
-                    <div className="px-[5%] lg:max-w-[82rem] lg:mx-auto mt-10 lg:mt-10 lg:flex lg:justify-between lg:items-center">
-                        <h2 className="text-[32px] font-medium leading-[102%] max-w-[16rem] lg:text-6xl lg:max-w-[44rem] lg:tracking-wide ">
-                            <TextWithHighlight text={landingServices?.title} />
-                        </h2>
-                        <a
-                            href="/services"
-                            className=" w-max mt-5 bg-[#EFF0F1] text-[#242424] py-1 pl-1 pr-3  gap-2 rounded-full flex items-center lg:h-14"
-                        >
-                            <div className="bg-[#224483] w-12 p-2 rounded-full">
-                                <img
-                                    src="/assets/img/icons/treatment.png"
-                                    className=" h-auto    "
-                                />
-                            </div>
-                            {t(
-                                "public.btn.all_services",
-                                "Ver todos los servicios"
-                            )}
-                        </a>
-                    </div>
-                </ScrollAnimation>
-            )}
-            {services && landingServices && (
-                <ScrollAnimation>
-                    <TratamientoSection
-                        setIsModalOpen={setIsModalOpen}
-                        isModalOpen={isModalOpen}
-                        services={services}
-                        landingServices={landingServices}
-                    />
-                </ScrollAnimation>
-            )}
-            {services && landingServices && (
-                <ScrollAnimation>
-                    <div className="px-[5%]  py-4 lg:hidden ">
-                        <div className="bg-[#F8F8F8] rounded-3xl p-4">
-                            <h2 className="text-[32px] font-medium leading-[102%] max-w-[16rem]">
-                                {landingServices?.description}
-                            </h2>
-                            <motion.div
-                                className="w-full px-[5%] lg:px-0 flex items-center justify-center lg:justify-start mt-4"
-                                initial={{ opacity: 0 }}
-                                animate={{ opacity: 1 }}
-                                transition={{ delay: 0.6 }}
-                            >
-                                <motion.button
-                                    onClick={() => setIsModalOpen(true)}
-                                    className="bg-[#EFF0F1] text-[#242424] py-1 pl-1 pr-3 gap-2 rounded-full flex items-center"
-                                    variants={buttonVariants}
-                                    initial="hidden"
-                                    animate={["visible", "pulse"]}
-                                    whileHover="hover"
-                                    style={{
-                                        position: "relative",
-                                        overflow: "hidden",
-                                    }}
-                                >
-                                    <motion.span
-                                        className="absolute inset-0 bg-[#224483] opacity-0 rounded-full"
-                                        initial={{ scale: 0 }}
-                                        whileTap={{
-                                            scale: 2,
-                                            opacity: 0.3,
-                                            transition: { duration: 0.5 },
-                                        }}
-                                    />
-                                    <div className="bg-[#224483] w-12 p-2 rounded-full">
-                                        <img
-                                            src="/assets/img/icons/calendar-check.png"
-                                            className="h-auto"
-                                            alt="Calendario"
-                                        />
-                                    </div>
-                                    {t(
-                                        "public.btn.appointment",
-                                        "Reserva tu cita"
-                                    )}
-                                </motion.button>
-                            </motion.div>
-                        </div>
-                    </div>
-                </ScrollAnimation>
-            )}
-            {testimonies && landingTestimonies && (
-                <ScrollAnimation>
-                    <div className="px-[5%] flex items-center justify-center mt-9  lg:mt-32">
-                        <h2 className="text-[32px] font-medium leading-[102%] w-full text-center lg:text-6xl lg:max-w-3xl lg:tracking-wide  ">
-                            <TextWithHighlight
-                                text={landingTestimonies?.title}
-                            />
-                        </h2>
-                    </div>
-                </ScrollAnimation>
-            )}
-            {testimonies && (
-                <ScrollAnimation>
-                    <TestimonioSection testimonies={testimonies} />
-                </ScrollAnimation>
-            )}
-            {staff_boss && <AcercaDe staff_boss={staff_boss} />} */}
             <Footer />
             {/* Modal */}
             <ModalAppointment
