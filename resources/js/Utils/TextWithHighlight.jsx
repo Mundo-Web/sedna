@@ -1,4 +1,4 @@
-const TextWithHighlight = ({ text = "", split = false, split_coma = false,split_dos_puntos=false }) => {
+const TextWithHighlight = ({ text = "", split = false, split_coma = false, split_dos_puntos = false, className = "" }) => {
     // Función para procesar el texto con resaltados
     const safeText = text || "";
 
@@ -22,7 +22,7 @@ const TextWithHighlight = ({ text = "", split = false, split_coma = false,split_
         const remainingText = words.slice(1).join(" ");
 
         return (
-            <div className="flex flex-col">
+            <div className={`flex flex-col ${className}`}>
                 <span className="block">{firstWord}</span>
                 <span className="block">
                     {renderHighlightedText(remainingText)}
@@ -37,7 +37,7 @@ const TextWithHighlight = ({ text = "", split = false, split_coma = false,split_
         const remainingText = words.slice(1).join(" ");
 
         return (
-            <div className="flex flex-col">
+            <div className={`flex flex-col ${className}`}>
                 <span className="block">{firstWord}</span>
                 <span className="block">
                     {renderHighlightedText(remainingText)}
@@ -51,7 +51,7 @@ const TextWithHighlight = ({ text = "", split = false, split_coma = false,split_
         const remainingText = words.slice(1).join(" ");
 
         return (
-            <div className="flex flex-col">
+            <div className={`flex flex-col ${className}`}>
                 <span className="block">{firstWord}</span>
                 <span className="block">
                     {renderHighlightedText(remainingText)}
@@ -60,7 +60,7 @@ const TextWithHighlight = ({ text = "", split = false, split_coma = false,split_
         );
     }
 
-    return <span>{renderHighlightedText(safeText)}</span>;
+    return <span className={className}>{renderHighlightedText(safeText)}</span>;
 };
 
 export default TextWithHighlight;

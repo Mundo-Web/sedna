@@ -43,12 +43,12 @@ const MegaMenuPopup = ({ isOpen, onClose, data }) => {
   const currentData = menuData[activeSection];
 
   return (
-    <div className="fixed bg-black/70 inset-0 z-50 flex items-start justify-center mt-[72px]">
-      <div className="bg-white 2xl:rounded-lg w-full max-h-[90vh] overflow-hidden">
-        <div className="flex flex-row h-full">
+    <div className="fixed bg-black/70 inset-0 z-50 flex items-start justify-center mt-[100px]">
+      <div className="bg-gradient-to-r from-gray-50 to-white  w-full max-h-[90vh] overflow-hidden">
+        <div className="flex flex-row h-full px-[5%] 2xl:px-0 2xl:max-w-7xl mx-auto">
 
           {/* Sidebar */}
-          <div className="w-1/5 bg-gray-50 border-t border-r border-gray-200 p-10 2xl:p-16">
+          <div className="w-1/5 bg-gray-50  border-r border-gray-200 py-10 pr-4 2xl:py-16 2xl:pr-10">
             <nav className="space-y-1 w-full h-full max-h-96 overflow-y-auto">
               {keys.map(key => (
                 <button
@@ -67,11 +67,11 @@ const MegaMenuPopup = ({ isOpen, onClose, data }) => {
           </div>
 
           {/* Content */}
-          <div className="w-4/5 px-8 py-8 overflow-y-auto border-t border-gray-200 relative">
+          <div className="w-4/5 p-10 bg-white  2xl:py-16 overflow-y-auto  border-gray-200 relative">
             <div className="flex justify-end mb-1 absolute right-5">
               <button
                 onClick={onClose}
-                className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-full transition-colors"
+                className="p-2 bg-[#F5F2F9] text-[#7B5E9A] hover:text-gray-600 hover:bg-gray-100 rounded-full transition-colors"
               >
                 <X className="h-5 w-5" />
               </button>
@@ -93,7 +93,7 @@ const MegaMenuPopup = ({ isOpen, onClose, data }) => {
               <a
                 key={index}
                 href={`/${currentData.type}/${service.slug}`} // aquí armas la ruta
-                className="bg-white border border-gray-200 hover:bg-[#F5F2F9] rounded-lg p-4 2xl:p-6 cursor-pointer block"
+                className="bg-transparent  hover:bg-[#F5F2F9] p-4 2xl:p-6 cursor-pointer block"
               >
                 <h3 className="text-base 2xl:text-lg font-semibold text-gray-900 mb-1">
                   {service.title}

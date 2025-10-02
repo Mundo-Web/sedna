@@ -538,7 +538,7 @@ const Header = ({
                     }`}
                 >
                     <div
-                        className={`px-[5%] w-full py-4 lg:py-0 flex justify-between items-center text-[#3E2F4D] shadow-lg lg:shadow-none`}
+                        className={`px-[5%] 2xl:px-0 2xl:max-w-7xl mx-auto w-full py-2  flex justify-between items-center text-[#3E2F4D] shadow-lg lg:shadow-none`}
                     >
                         <motion.div
                             variants={itemVariants}
@@ -549,7 +549,7 @@ const Header = ({
                                     whileHover={{ scale: 1.05 }}
                                     src="/assets/img/sedna_logo.svg"
                                     alt="Sedna Logo"
-                                    className="object-cover object-top h-12 xs:h-14 sm:h-16 w-full"
+                                    className="object-contain h-10 lg:h-16 w-auto"
                                 />
                             </a>
                         </motion.div>
@@ -558,16 +558,16 @@ const Header = ({
                             variants={containerVariants}
                             className="hidden xl:flex py-6 mx-auto justify-center items-center font-normal text-base"
                         >
-                            <nav className="flex gap-2">
+                            <nav className="flex items-center gap-1">
                                 {[
-                                    "/",
+                                  
                                     "#solutions",
                                     "#services",
                                     "#options",
                                     "/contact",
                                 ].map((path) => {
                                     const text = {
-                                        "/": t("public.header.home", "Inicio"),
+                                     
                                         "#solutions": t(
                                             "public.header.solutions",
                                             "Soluciones"
@@ -601,20 +601,32 @@ const Header = ({
                                                     handleLinkClick(path);
                                                 }}
                                                 variants={itemVariants}
-                                                whileHover={{ scale: 1.05 }}
+                                                whileHover={{ backgroundColor: "#F5F2F9" }}
                                                 whileTap={{ scale: 0.95 }}
-                                                className={`relative py-2 rounded-full transition-all duration-300 ${
+                                                className={`relative py-2.5 px-4 rounded-full transition-all duration-300 font-Poppins_Medium text-base flex items-center gap-1.5 ${
                                                     isActive(path)
-                                                        ? "bg-[#EFF0F1] pl-7 pr-3"
-                                                        : "bg-transparent px-5"
+                                                        ? "bg-[#EFF0F1] text-[#3E2F4D]"
+                                                        : "bg-transparent text-[#3E2F4D] hover:bg-[#F5F2F9]"
                                                 }`}
                                             >
-                                                {text}
                                                 {isActive(path) && (
                                                     <motion.span
                                                         layoutId="activeDot"
-                                                        className="absolute  left-3 top-[40%] -translate-x-1/2 -translate-y-1/2 h-2 w-2 bg-[#3E2F4D] rounded-full"
+                                                        className="h-2 w-2 bg-[#3E2F4D] rounded-full"
                                                     />
+                                                )}
+                                                {text}
+                                                {["#solutions", "#services", "#options"].includes(path) && (
+                                                    <svg 
+                                                        xmlns="http://www.w3.org/2000/svg" 
+                                                        width="16" 
+                                                        height="16" 
+                                                        viewBox="0 0 24 24" 
+                                                        fill="none"
+                                                        className={`transition-transform duration-300 ${activeMegaMenu === path ? 'rotate-180' : ''}`}
+                                                    >
+                                                        <path d="M6 9L12 15L18 9" stroke="#3E2F4D" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                                                    </svg>
                                                 )}
                                             </motion.a>
                                             <AnimatePresence>
@@ -644,62 +656,68 @@ const Header = ({
 
                         <motion.div
                             variants={itemVariants}
-                            className="p-3 flex flex-row justify-center items-center">
-                                <button onClick={() => setSearchModalOpen(true)} >
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none">
-                                        <path d="M17.5 17.5L22 22" stroke="#3E2F4D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                        <path d="M20 11C20 6.02944 15.9706 2 11 2C6.02944 2 2 6.02944 2 11C2 15.9706 6.02944 20 11 20C15.9706 20 20 15.9706 20 11Z" stroke="#3E2F4D" stroke-width="1.5" stroke-linejoin="round"/>
+                            className="hidden xl:flex items-center gap-3">
+                                <motion.button 
+                                    onClick={() => setSearchModalOpen(true)}
+                                    whileHover={{ scale: 1.1 }}
+                                    whileTap={{ scale: 0.9 }}
+                                    className="p-2.5 hover:bg-[#F5F2F9] rounded-full transition-all duration-300"
+                                >
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none">
+                                        <path d="M17.5 17.5L22 22" stroke="#3E2F4D" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                                        <path d="M20 11C20 6.02944 15.9706 2 11 2C6.02944 2 2 6.02944 2 11C2 15.9706 6.02944 20 11 20C15.9706 20 20 15.9706 20 11Z" stroke="#3E2F4D" strokeWidth="2" strokeLinejoin="round"/>
                                     </svg>
-                                </button>
+                                </motion.button>
+                                
+                                <div className="w-px h-6 bg-[#E0DDE5]"></div>
+                                
+                                <LanguageDropdown 
+                                    languagesSystem={languagesSystem} 
+                                    selectLanguage={selectLanguage} 
+                                    onUseLanguage={onUseLanguage} 
+                                />
+                                
+                                <motion.a 
+                                    href="/contact"
+                                    whileHover={{ scale: 1.02, backgroundColor: "#6B4E85" }}
+                                    whileTap={{ scale: 0.98 }}
+                                    className="bg-[#7B5E9A] font-Poppins_SemiBold text-white text-base px-6 py-2.5 rounded-md transition-all duration-300 shadow-sm hover:shadow-md"
+                                >
+                                    {t("public.header.contact", "Contáctanos")}
+                                </motion.a>
                         </motion.div>
 
                         <motion.div
                             variants={itemVariants}
-                            className="flex h-full items-center gap-4 justify-end mr-4"
-                        >
-                            <LanguageDropdown 
-                                languagesSystem={languagesSystem} 
-                                selectLanguage={selectLanguage} 
-                                onUseLanguage={onUseLanguage} 
-                            />
-                        </motion.div>
-
-                        <motion.div
-                            variants={itemVariants}
-                            className="hidden xl:flex flex-col justify-center items-center font-Poppins_Medium"
-                        >
-                                <a href="/contact">
-                                    <div className="bg-[#7B5E9A] text-base 2xl:text-lg px-4 py-3 my-auto rounded-md">
-                                        <p className="leading-none text-white">
-                                            {t("public.header.contact", "Contáctanos")}
-                                        </p>
-                                    </div>
-                                </a>
-                        </motion.div>
-
-                        <motion.div
-                            variants={itemVariants}
-                            className={`xl:hidden text-base z-[50] ${
-                                isModalOpen ? "hidden" : "flex"
-                            } `}
-                        >
-                            <div>
+                            className="flex xl:hidden items-center gap-3">
+                                <motion.button 
+                                    onClick={() => setSearchModalOpen(true)}
+                                    whileHover={{ scale: 1.1 }}
+                                    whileTap={{ scale: 0.9 }}
+                                    className="p-2 hover:bg-[#F5F2F9] rounded-full transition-all duration-300"
+                                >
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none">
+                                        <path d="M17.5 17.5L22 22" stroke="#3E2F4D" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                                        <path d="M20 11C20 6.02944 15.9706 2 11 2C6.02944 2 2 6.02944 2 11C2 15.9706 6.02944 20 11 20C15.9706 20 20 15.9706 20 11Z" stroke="#3E2F4D" strokeWidth="2" strokeLinejoin="round"/>
+                                    </svg>
+                                </motion.button>
+                                
                                 <motion.button
                                     ref={btnToggleRef}
                                     onClick={toggleMenu}
                                     whileTap={{ scale: 0.9 }}
-                                    className="text-white menu-toggle rounded-full h-[50px] w-[50px] flex items-center justify-center bg-[#EFF0F1]"
+                                    whileHover={{ backgroundColor: "#E8E4EE" }}
+                                    className={`menu-toggle rounded-full h-[44px] w-[44px] flex items-center justify-center bg-[#EFF0F1] transition-all duration-300 ${
+                                        isModalOpen ? "hidden" : "flex"
+                                    }`}
                                     aria-label="Toggle menu"
                                 >
-                                    <div className="text-[#242424]">
-                                        <i
-                                            className={`fas ${
-                                                isOpen ? "fa-times" : "fa-bars"
-                                            } text-xl md:text-2xl py-3 px-3`}
-                                        />
-                                    </div>
+                                    <i
+                                        className={`fas ${
+                                            isOpen ? "fa-times" : "fa-bars"
+                                        } text-xl text-[#3E2F4D]`}
+                                    />
                                 </motion.button>
-                            </div>
                         </motion.div>
                     </div>
 
@@ -803,8 +821,8 @@ const Header = ({
                                     </a>
                                 </div>
                                 
-                                <a href="/contact" className="bg-[#7B5E9A] rounded-md text-white py-3 w-full text-center">
-                                    <span className="font-bold">{t("public.header.contact", "Contáctanos")}</span>
+                                <a href="/contact" className="bg-[#7B5E9A] text-base rounded-sm font-Poppins_SemiBold  text-white py-3 w-full text-center">
+                                    <span className="font-Poppins_SemiBold">{t("public.header.contact", "Contáctanos")}</span>
                                 </a>
                                 
                                 <ServiceModal 
