@@ -287,12 +287,12 @@ const DetailSolution = ({ landing, solutions, allSolutions, aliances, linkWhatsA
                                     >
                                         {parsedCharacteristics.map((item, index) => (
                                             <SwiperSlide key={index}>
-                                                <div className="flex flex-col gap-2 p-6 2xl:p-8 bg-[#F5F2F9] rounded-lg">
+                                                <div className="flex flex-col gap-2 p-6 2xl:p-8 bg-[#F5F2F9] group hover:bg-[#7B5E9A] rounded-lg duration-300 transition-all">
                                                     <div className="rounded-full aspect-square w-16 bg-white flex flex-col justify-center items-center">
                                                         <img src={`/api/solution/media/${item.image}`} alt={item.title} className="w-8 h-8 object-contain" onError={(e) => (e.target.src = "/api/cover/thumbnail/null")} />
                                                     </div>
-                                                    <h3 className="font-Poppins_Regular font-semibold text-[#3E2F4D] text-lg 2xl:text-xl">{item.title}</h3>
-                                                    <p className="font-Poppins_Regular text-[#5C4774] text-base 2xl:text-lg">{item.description}</p>
+                                                    <h3 className="font-Poppins_Regular font-semibold text-[#3E2F4D] group-hover:text-white text-lg 2xl:text-xl">{item.title}</h3>
+                                                    <p className="font-Poppins_Regular text-[#5C4774] group-hover:text-white text-base line-clamp-2 ">{item.description}</p>
                                                 </div>
                                             </SwiperSlide>
                                         ))}
