@@ -133,6 +133,7 @@ const Solutions = ({ brands }) => {
 
     const [isEditing, setIsEditing] = useState(false);
     const [selectedItem, setSelectedItem] = useState(null);
+    const [activeTab, setActiveTab] = useState("basic");
 
     // Estados para características y beneficios
     const [characteristics, setCharacteristics] = useState([
@@ -197,6 +198,9 @@ const Solutions = ({ brands }) => {
     const onModalOpen = (data) => {
         if (data?.id) setIsEditing(true);
         else setIsEditing(false);
+
+        // Resetear al tab inicial
+        setActiveTab("basic");
 
         // Resetear valores como en el primer código
         idRef.current.value = data?.id ?? "";
@@ -317,84 +321,6 @@ const Solutions = ({ brands }) => {
         const imageBanner = imageBannerRef.current.files[0];
         if (imageBanner) formData.append("image_banner", imageBanner);
 
-        // Añadir características y beneficios
-        /* characteristics.forEach((char, index) => {
-            formData.append(`characteristics[${index}][title]`, char.title);
-            formData.append(
-                `characteristics[${index}][description]`,
-                char.description
-            );
-            if (char.image?.file) {
-                formData.append(
-                    `characteristics[${index}][image]`,
-                    char.image.file
-                );
-            }
-        });
-
-        benefits.forEach((benefit, index) => {
-            formData.append(`benefits[${index}][title]`, benefit.title);
-            formData.append(
-                `benefits[${index}][description]`,
-                benefit.description
-            );
-            if (benefit.image?.file) {
-                formData.append(
-                    `benefits[${index}][image]`,
-                    benefit.image.file
-                );
-            }
-        });*/
-        
-        // Dentro de onModalSubmit, al procesar características
-        // characteristics.forEach((char, index) => {
-        //     formData.append(`characteristics[${index}][title]`, char.title);
-        //     formData.append(
-        //         `characteristics[${index}][description]`,
-        //         char.description
-        //     );
-
-        //     if (char.image) {
-        //         if (char.image.file) {
-        //             formData.append(
-        //                 `characteristics[${index}][image]`,
-        //                 char.image.file
-        //             );
-        //         }
-        //         // Si es una imagen existente (viene del servidor como string)
-        //         else if (typeof char.image === "string") {
-        //             formData.append(
-        //                 `characteristics[${index}][existing_image]`,
-        //                 char.image
-        //             );
-        //         }
-        //     }
-        // });
-
-        // benefits.forEach((char, index) => {
-        //     formData.append(`benefits[${index}][title]`, char.title);
-        //     formData.append(
-        //         `benefits[${index}][description]`,
-        //         char.description
-        //     );
-
-        //     if (char.image) {
-        //         if (char.image.file) {
-        //             formData.append(
-        //                 `benefits[${index}][image]`,
-        //                 char.image.file
-        //             );
-        //         }
-        //         // Si es una imagen existente (viene del servidor como string)
-        //         else if (typeof char.image === "string") {
-        //             formData.append(
-        //                 `benefits[${index}][existing_image]`,
-        //                 char.image
-        //             );
-        //         }
-        //     }
-        // });
-
         formData.append("category_name", selectedCategory);
         const result = await servicesRest.save(formData);
         if (!result) return;
@@ -448,17 +374,18 @@ const Solutions = ({ brands }) => {
                     {
                         dataField: "title",
                         caption: "Título",
-                        width: "200px",
+                   
                     },
                     {
                         dataField: "description",
                         caption: "Descripción",
+                        width: "450px",
                         cellTemplate: (container, { data }) => {
                             container.html(
                                 renderToString(
                                     <div
                                         className="text-truncate"
-                                        style={{ maxWidth: "300px" }}
+                                        style={{ maxWidth: "450px" }}
                                     >
                                         {data.description}
                                     </div>
@@ -467,18 +394,64 @@ const Solutions = ({ brands }) => {
                         },
                     },
                     {
-                        dataField: "image",
+                        dataField: "image_icon",
                         caption: "Imagen",
                         width: "100px",
                         cellTemplate: (container, { data }) => {
                             ReactAppend(
                                 container,
                                 <img
-                                    src={`/api/solution/media/${data.image}`}
+                                    src={`/api/solution/media/${data.image_icon}`}
                                     style={{
                                         width: "80px",
                                         height: "45px",
-                                        objectFit: "cover",
+                                        objectFit: "contain",
+                                        borderRadius: "4px",
+                                    }}
+                                    onError={(e) =>
+                                        (e.target.src =
+                                            "/images/default-thumbnail.jpg")
+                                    }
+                                />
+                            );
+                        },
+                    },
+                      {
+                        dataField: "image_secondary",
+                        caption: "Imagen",
+                        width: "100px",
+                        cellTemplate: (container, { data }) => {
+                            ReactAppend(
+                                container,
+                                <img
+                                    src={`/api/solution/media/${data.image_secondary}`}
+                                    style={{
+                                        width: "80px",
+                                        height: "45px",
+                                        objectFit: "contain",
+                                        borderRadius: "4px",
+                                    }}
+                                    onError={(e) =>
+                                        (e.target.src =
+                                            "/images/default-thumbnail.jpg")
+                                    }
+                                />
+                            );
+                        },
+                    },
+                      {
+                        dataField: "image_banner",
+                        caption: "Imagen",
+                        width: "100px",
+                        cellTemplate: (container, { data }) => {
+                            ReactAppend(
+                                container,
+                                <img
+                                    src={`/api/solution/media/${data.image_banner}`}
+                                    style={{
+                                        width: "90px",
+                                        height: "45px",
+                                        objectFit: "contain",
                                         borderRadius: "4px",
                                     }}
                                     onError={(e) =>
@@ -523,166 +496,175 @@ const Solutions = ({ brands }) => {
             >
                 <input ref={idRef} type="hidden" />
 
-                <div className="row">
-                    <div className="col-md-6" id="solution-container">
-                        <SelectAPIFormGroupSupport
-                            eRef={categoryRef}
-                            dropdownParent="#solution-container"
-                            label="Categoría"
-                            searchAPI="/api/admin/category_solutions/paginate"
-                            searchBy="name"
-                            allowCreate
-                            onChange={(categoryName) =>
-                                setSelectedCategory(categoryName)
-                            }
-                            initialValue={selectedItem?.category?.name || ""}
-                        />
-                        <InputFormGroup
-                            eRef={titleRef}
-                            label="Título de la solución"
-                            required
-                        />
-                        <div className="mb-3">
-                            <label className="form-label">Descripción</label>
-                            <textarea
-                                ref={descriptionRef}
-                                className="form-control"
-                                rows={4}
-                                required
-                            />
+                {/* Navegación por Tabs */}
+                <ul className="nav nav-pills nav-fill mb-4" role="tablist">
+                    <li className="nav-item" role="presentation">
+                        <button
+                            className={`nav-link ${activeTab === "basic" ? "active" : ""}`}
+                            onClick={() => setActiveTab("basic")}
+                            type="button"
+                        >
+                            <i className="fa fa-info-circle me-2"></i>
+                            Información Básica
+                        </button>
+                    </li>
+                    <li className="nav-item" role="presentation">
+                        <button
+                            className={`nav-link ${activeTab === "benefits" ? "active" : ""}`}
+                            onClick={() => setActiveTab("benefits")}
+                            type="button"
+                        >
+                            <i className="fa fa-thumbs-up me-2"></i>
+                            Banner
+                        </button>
+                    </li>
+                    <li className="nav-item" role="presentation">
+                        <button
+                            className={`nav-link ${activeTab === "media" ? "active" : ""}`}
+                            onClick={() => setActiveTab("media")}
+                            type="button"
+                        >
+                            <i className="fa fa-images me-2"></i>
+                            Recursos Visuales
+                        </button>
+                    </li>
+                </ul>
+
+                {/* Contenido de los Tabs */}
+                <div className="tab-content">
+                    {/* Tab: Información Básica */}
+                    <div
+                        className={`tab-pane fade ${activeTab === "basic" ? "show active" : ""}`}
+                    >
+                        <div className="row">
+                            <div className="col-md-6" id="solution-container">
+                                <SelectAPIFormGroupSupport
+                                    eRef={categoryRef}
+                                    dropdownParent="#solution-container"
+                                    label="Categoría"
+                                    searchAPI="/api/admin/category_solutions/paginate"
+                                    searchBy="name"
+                                    allowCreate
+                                    onChange={(categoryName) =>
+                                        setSelectedCategory(categoryName)
+                                    }
+                                    initialValue={selectedItem?.category?.name || ""}
+                                />
+                            </div>
+                            <div className="col-md-6">
+                                <InputFormGroup
+                                    eRef={titleRef}
+                                    label="Título de la solución"
+                                    required
+                                />
+                            </div>
+                            <div className="col-md-12">
+                                <div className="mb-3">
+                                    <label className="form-label">
+                                        Descripción principal
+                                        <span className="text-danger">*</span>
+                                    </label>
+                                    <textarea
+                                        ref={descriptionRef}
+                                        className="form-control"
+                                        rows={6}
+                                        placeholder="Describe de manera general la solución..."
+                                        required
+                                    />
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div className="col-md-6">
-                        <InputFormGroup
-                            eRef={howItHelpsRef}
-                            label="Cómo ayuda"
-                        />
-                        <div className="mb-3">
-                            <label className="form-label">
-                                Descripción de ayuda
-                            </label>
-                            <textarea
-                                ref={descriptionHelpsRef}
-                                className="form-control"
-                                rows={6}
-                            />
+
+                    {/* Tab: Beneficios y Ayuda */}
+                    <div
+                        className={`tab-pane fade ${activeTab === "benefits" ? "show active" : ""}`}
+                    >
+                        <div className="row">
+                            <div className="col-md-12">
+                                <InputFormGroup
+                                    eRef={howItHelpsRef}
+                                    label="¿Cómo ayuda esta solución?"
+                                />
+                            </div>
+                            <div className="col-md-12">
+                                <div className="mb-3">
+                                    <label className="form-label">
+                                        Descripción detallada de la ayuda
+                                    </label>
+                                    <textarea
+                                        ref={descriptionHelpsRef}
+                                        className="form-control"
+                                        rows={8}
+                                        placeholder="Explica en detalle cómo esta solución ayuda al cliente..."
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Tab: Recursos Visuales */}
+                    <div
+                        className={`tab-pane fade ${activeTab === "media" ? "show active" : ""}`}
+                    >
+                        <div className="row">
+                            <div className="col-md-6">
+                                <div className="border rounded p-3 h-100 bg-light">
+                                    <ImageFormGroup
+                                        eRef={imageIconRef}
+                                        label="Imagen Ícono"
+                                        aspect={1 / 1}
+                                 
+                                    />
+                                    <div className="alert alert-info mt-3 py-2">
+                                        <small>
+                                            <i className="fa fa-info-circle me-1"></i>
+                                            <strong>Uso:</strong> Card de la portada
+                                            <br />
+                                            <strong>Proporción:</strong> 1:1 (cuadrada)
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="col-md-6">
+                                <div className="border rounded p-3 h-100 bg-light">
+                                    <ImageFormGroup
+                                        eRef={imageSecondaryRef}
+                                        label="Imagen Secundaria"
+                                        aspect={1/1}
+                                    />
+                                    <div className="alert alert-info mt-3 py-2">
+                                        <small>
+                                            <i className="fa fa-info-circle me-1"></i>
+                                            <strong>Uso:</strong> Card de la portada
+                                            <br />
+                                            <strong>Proporción:</strong> 1:1 (cuadrada)
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="col-md-12 mt-3">
+                                <div className="border rounded p-3 bg-light">
+                                    <ImageFormGroup
+                                        eRef={imageBannerRef}
+                                        label="Banner Principal"
+                                        aspect={16 / 9}
+                                    />
+                                    <div className="alert alert-info mt-3 py-2">
+                                        <small>
+                                            <i className="fa fa-info-circle me-1"></i>
+                                            <strong>Uso:</strong> Cabecera de la página de detalle
+                                            <br />
+                                            <strong>Proporción:</strong> 16:9 (panorámica)
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                {/* <div className="row mt-3">
-                    <div className="col-md-12">
-                        <InputFormGroup
-                            eRef={titlesecondRef}
-                            label="Título complementario"
-                            required
-                        />
-                        <div className="mb-3">
-                            <label className="form-label">Descripción complementaria</label>
-                            <textarea
-                                ref={descriptionsecondRef}
-                                className="form-control"
-                                rows={4}
-                                required
-                            />
-                        </div>
-                    </div>
-                </div> */}
-
-                <div className="row mt-3">
-                    <div className="col-md-3">
-                        <ImageFormGroup
-                            eRef={imageIconRef}
-                            label="Imagen icono (Card en portada)"
-                            aspect={1 / 1}
-                        />
-                    </div>
-                    {/* <div className="col-md-6">
-                        <ImageFormGroup
-                            eRef={imageRef}
-                            label="Imagen principal"
-                            aspect={16 / 9}
-                        />
-                    </div> */}
-                    <div className="col-md-6">
-                        <ImageFormGroup
-                            eRef={imageSecondaryRef}
-                            label="Imagen secundaria (Card en portada)"
-                            aspect={16 / 9}
-                        />
-                    </div>
-                    <div className="col-md-12 mt-3">
-                        <ImageFormGroup
-                            eRef={imageBannerRef}
-                            label="Banner"
-                            aspect={16 / 5}
-                        />
-                    </div>
-                </div>
-
-                {/* <div className="row mt-3">
-                    <div className="col-12">
-                        <InputFormGroup
-                            eRef={valuePropositionRef}
-                            label="Propuesta de valor"
-                        />
-                        <h5 className="mb-3">Características</h5>
-                        {characteristics.map((char, index) => (
-                            <FeatureCard
-                                key={`char-${index}`}
-                                feature={char}
-                                index={index}
-                                onUpdate={updateCharacteristic}
-                                onRemove={removeCharacteristic}
-                                canRemove={characteristics.length > 1}
-                                type="characteristic"
-                                characteristics={characteristics}
-                                benefits={benefits}
-                                addCharacteristic={addCharacteristic}
-                                addBenefit={addBenefit}
-                            />
-                        ))}
-                    </div>
-                </div> */}
-
-                {/* <div className="row mt-3">
-                    <div className="col-md-6">
-                        <InputFormGroup
-                            eRef={innovationFocusRef}
-                            label="Enfoque de innovación"
-                        />
-                    </div>
-                    <div className="col-md-6">
-                        <div className="mb-3">
-                            <label className="form-label">
-                                Relación con el cliente
-                            </label>
-                            <textarea
-                                ref={customerRelationRef}
-                                className="form-control"
-                                rows={5}
-                            />
-                        </div>
-                    </div>
-                    <div className="col-md-12">
-                        <h5 className="mb-3 mt-4">Beneficios</h5>
-                        {benefits.map((benefit, index) => (
-                            <FeatureCard
-                                key={`benefit-${index}`}
-                                feature={benefit}
-                                index={index}
-                                onUpdate={updateBenefit}
-                                onRemove={removeBenefit}
-                                canRemove={benefits.length > 1}
-                                type="benefit"
-                                characteristics={characteristics}
-                                benefits={benefits}
-                                addCharacteristic={addCharacteristic}
-                                addBenefit={addBenefit}
-                            />
-                        ))}
-                    </div>
-                </div> */}
+         
             </Modal>
         </>
     );

@@ -16,6 +16,7 @@ class SolutionSubtheme extends Model
 
         'slug',
         'title',
+        'subtitle',
         'description',
         'image',
         'how_it_helps',

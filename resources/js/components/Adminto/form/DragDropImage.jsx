@@ -37,8 +37,9 @@ const DragDropImage = ({
                     textAlign: "center",
                     cursor: "pointer",
                     aspectRatio: aspect,
-                    backgroundSize: "cover",
+                    backgroundSize: "contain",
                     backgroundPosition: "center",
+                    backgroundRepeat: "no-repeat",
                     backgroundImage: currentImage
                         ? `url(${
                               typeof currentImage === "string"

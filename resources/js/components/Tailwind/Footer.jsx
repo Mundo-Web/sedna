@@ -334,12 +334,12 @@ const Footer = ({ terms, footerLinks = [] }) => {
                             isOpen={modalOpen === index}
                             onRequestClose={closeModal}
                             contentLabel={title}
-                            className="fixed top-[5%] left-1/2 -translate-x-1/2 bg-white p-6 rounded-3xl shadow-lg w-[95%] max-w-4xl max-h-[90vh] mb-10 overflow-y-auto scrollbar-hide"
+                            className="fixed top-[5%] left-1/2 -translate-x-1/2 bg-white p-6 rounded-lg shadow-lg w-[95%] max-w-4xl max-h-[90vh] mb-10 overflow-y-auto scrollbar-hide"
                             overlayClassName="fixed inset-0 bg-black bg-opacity-50 z-50 overflow-auto  scrollbar-hide "
                         >
                             <button
                                 onClick={closeModal}
-                                className="float-right  text-red-500 hover:text-red-700 transition-all duration-300 "
+                                className="float-right  text-[#5C4774] hover:text-[#3E2F4D] transition-all duration-300 "
                             >
                                 <X width="2rem" strokeWidth="4px" />
                             </button>
