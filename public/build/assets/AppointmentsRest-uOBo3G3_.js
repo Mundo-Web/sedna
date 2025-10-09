@@ -1,1 +1,0 @@
-var p=Object.defineProperty;var n=(t,s,a)=>s in t?p(t,s,{enumerable:!0,configurable:!0,writable:!0,value:a}):t[s]=a;var e=(t,s,a)=>(n(t,typeof s!="symbol"?s+"":s,a),a);import{B as i}from"./Results-DFOKnyj8.js";class r extends i{constructor(){super(...arguments);e(this,"path","admin/appointments")}}export{r as A};

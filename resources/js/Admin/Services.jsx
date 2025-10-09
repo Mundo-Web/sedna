@@ -130,6 +130,7 @@ const Services = ({ brands }) => {
 
     const [isEditing, setIsEditing] = useState(false);
     const [selectedItem, setSelectedItem] = useState(null);
+    const [activeTab, setActiveTab] = useState("basic");
 
     // Estados para características y beneficios
     const [characteristics, setCharacteristics] = useState([
@@ -193,6 +194,9 @@ const Services = ({ brands }) => {
     const onModalOpen = (data) => {
         if (data?.id) setIsEditing(true);
         else setIsEditing(false);
+
+        // Resetear al tab inicial
+        setActiveTab("basic");
 
         // Resetear valores como en el primer código
         idRef.current.value = data?.id ?? "";
@@ -536,94 +540,141 @@ const Services = ({ brands }) => {
             >
                 <input ref={idRef} type="hidden" />
 
-                <div className="row" id="service-container">
-                    <div className="col-md-6">
-                        <SelectAPIFormGroupSupport
-                            eRef={categoryRef}
-                            dropdownParent="#service-container"
-                            label="Categoría"
-                            searchAPI="/api/admin/category_services/paginate"
-                            searchBy="name"
-                            allowCreate
-                            onChange={(categoryName) =>
-                                setSelectedCategory(categoryName)
-                            }
-                            initialValue={selectedItem?.category?.name || ""}
-                        />
+                {/* Navegación por Tabs */}
+                <ul className="nav nav-pills nav-fill mb-4" role="tablist">
+                    <li className="nav-item" role="presentation">
+                        <button
+                            className={`nav-link ${activeTab === "basic" ? "active" : ""}`}
+                            onClick={() => setActiveTab("basic")}
+                            type="button"
+                        >
+                            <i className="fa fa-info-circle me-2"></i>
+                            Información Básica
+                        </button>
+                    </li>
+                    <li className="nav-item" role="presentation">
+                        <button
+                            className={`nav-link ${activeTab === "benefits" ? "active" : ""}`}
+                            onClick={() => setActiveTab("benefits")}
+                            type="button"
+                        >
+                            <i className="fa fa-thumbs-up me-2"></i>
+                            Banner
+                        </button>
+                    </li>
+                    <li className="nav-item" role="presentation">
+                        <button
+                            className={`nav-link ${activeTab === "media" ? "active" : ""}`}
+                            onClick={() => setActiveTab("media")}
+                            type="button"
+                        >
+                            <i className="fa fa-images me-2"></i>
+                            Recursos Visuales
+                        </button>
+                    </li>
+                </ul>
 
-                        <InputFormGroup
-                            eRef={titleRef}
-                            label="Título del servicio"
-                            required
-                        />
-                        <div className="mb-3">
-                            <label className="form-label">Descripción</label>
-                            <textarea
-                                ref={descriptionRef}
-                                className="form-control"
-                                rows={4}
-                                required
-                            />
+                {/* Contenido de los Tabs */}
+                <div className="tab-content">
+                    {/* Tab: Información Básica */}
+                    <div
+                        className={`tab-pane fade ${activeTab === "basic" ? "show active" : ""}`}
+                    >
+                        <div className="row" id="service-container">
+                            <div className="col-md-6">
+                                <SelectAPIFormGroupSupport
+                                    eRef={categoryRef}
+                                    dropdownParent="#service-container"
+                                    label="Categoría"
+                                    searchAPI="/api/admin/category_services/paginate"
+                                    searchBy="name"
+                                    allowCreate
+                                    onChange={(categoryName) =>
+                                        setSelectedCategory(categoryName)
+                                    }
+                                    initialValue={selectedItem?.category?.name || ""}
+                                />
+                            </div>
+                            <div className="col-md-6">
+                                <InputFormGroup
+                                    eRef={titleRef}
+                                    label="Título del servicio"
+                                    required
+                                />
+                            </div>
+                            <div className="col-md-12">
+                                <div className="mb-3">
+                                    <label className="form-label">
+                                        Descripción principal
+                                        <span className="text-danger">*</span>
+                                    </label>
+                                    <textarea
+                                        ref={descriptionRef}
+                                        className="form-control"
+                                        rows={6}
+                                        placeholder="Describe de manera general el servicio..."
+                                        required
+                                    />
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div className="col-md-6">
-                        <InputFormGroup
-                            eRef={howItHelpsRef}
-                            label="Cómo ayuda"
-                        />
-                        <div className="mb-3">
-                            <label className="form-label">
-                                Descripción de ayuda
-                            </label>
-                            <textarea
-                                ref={descriptionHelpsRef}
-                                className="form-control"
-                                rows={4}
-                            />
+
+                    {/* Tab: Beneficios y Ayuda */}
+                    <div
+                        className={`tab-pane fade ${activeTab === "benefits" ? "show active" : ""}`}
+                    >
+                        <div className="row">
+                            <div className="col-md-12">
+                                <InputFormGroup
+                                    eRef={howItHelpsRef}
+                                    label="¿Cómo ayuda este servicio?"
+                                />
+                            </div>
+                            <div className="col-md-12">
+                                <div className="mb-3">
+                                    <label className="form-label">
+                                        Descripción detallada de la ayuda
+                                    </label>
+                                    <textarea
+                                        ref={descriptionHelpsRef}
+                                        className="form-control"
+                                        rows={8}
+                                        placeholder="Explica en detalle cómo este servicio ayuda al cliente..."
+                                    />
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                {/* <div className="row mt-3">
-                    <div className="col-md-12">
-                        <InputFormGroup
-                            eRef={titlesecondRef}
-                            label="Título complementario"
-                            required
-                        />
-                        <div className="mb-3">
-                            <label className="form-label">Descripción complementaria</label>
-                            <textarea
-                                ref={descriptionsecondRef}
-                                className="form-control"
-                                rows={4}
-                                required
-                            />
+                    {/* Tab: Recursos Visuales */}
+                    <div
+                        className={`tab-pane fade ${activeTab === "media" ? "show active" : ""}`}
+                    >
+                        <div className="row">
+                            <div className="col-md-4">
+                                <ImageFormGroup
+                                    eRef={imageSecondaryRef}
+                                    label="Imagen del servicio"
+                                    aspect={1 / 1}
+                                />
+                                <small className="text-muted">
+                                    <i className="fa fa-info-circle me-1"></i>
+                                    Proporción recomendada: 1:1 (horizontal)
+                                </small>
+                            </div>
+                            <div className="col-md-8">
+                                <ImageFormGroup
+                                    eRef={imageBannerRef}
+                                    label="Banner del servicio"
+                                    aspect={16 / 9}
+                                />
+                                <small className="text-muted">
+                                    <i className="fa fa-info-circle me-1"></i>
+                                    Proporción recomendada: 16:9 (panorámica)
+                                </small>
+                            </div>
                         </div>
-                    </div>
-                </div> */}
-
-                <div className="row mt-3">
-                    {/* <div className="col-md-6">
-                        <ImageFormGroup
-                            eRef={imageRef}
-                            label="Imagen principal"
-                            aspect={16 / 9}
-                        />
-                    </div> */}
-                    <div className="col-md-6">
-                        <ImageFormGroup
-                            eRef={imageSecondaryRef}
-                            label="Imagen secundaria"
-                            aspect={16 / 9}
-                        />
-                    </div>
-                    <div className="col-md-6 mt-3">
-                        <ImageFormGroup
-                            eRef={imageBannerRef}
-                            label="Banner"
-                            aspect={16 / 5}
-                        />
                     </div>
                 </div>
 

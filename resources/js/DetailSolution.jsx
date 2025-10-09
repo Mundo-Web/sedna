@@ -173,12 +173,12 @@ const DetailSolution = ({ landing, solutions, allSolutions, aliances, linkWhatsA
 
 
             <section className="px-[5%]  bg-center min-h-60 bg-cover bg-no-repeat flex flex-col md:justify-center items-center relative py-10 gap-5 2xl:gap-8" style={{ backgroundImage: `url('/api/landing_home/media/${landingHero?.image}')` }} >
-                <div className="flex flex-row items-start justify-start md:justify-center w-full max-w-2xl 2xl:max-w-3xl md:text-center">
+                <div className="flex flex-row items-start justify-start md:justify-center w-full max-w-2xl 2xl:max-w-2xl md:text-center">
                     <h2 className="font-Poppins_Medium text-white text-3xl sm:text-4xl lg:text-[44px] !leading-tight">{solutions?.how_it_helps}</h2>
                 </div>
 
                 <div className="flex flex-col items-center justify-start w-full max-w-2xl 2xl:max-w-3xl gap-5 md:text-center">
-                    <p className="font-Poppins_Regular text-base 2xl:text-lg text-white">
+                    <p className="font-Poppins_Regular text-base 2xl:text-xl text-white">
                         {solutions?.description_helps}
                     </p>
                 </div>
@@ -210,7 +210,7 @@ const DetailSolution = ({ landing, solutions, allSolutions, aliances, linkWhatsA
                     {/* Sección de contenido de la subsolución activa */}
                     {(activeSubsolution?.title || activeSubsolution?.description || activeSubsolution?.image) && (
                         <>
-                            <section className="grid grid-cols-1 md:grid-cols-2 gap-10 px-[5%] 2xl:px-0 2xl:max-w-7xl mx-auto pt-10 lg:pt-16">
+                            <section className="grid grid-cols-1 md:grid-cols-2 gap-16 px-[5%] 2xl:px-0 2xl:max-w-7xl mx-auto pt-10 lg:pt-16">
                                 <div className="flex flex-col gap-3 items-left justify-center">
                                     <h2 className="font-Poppins_Medium text-[#3E2F4D] text-3xl sm:text-4xl lg:text-[44px] !leading-tight !tracking-tight">
                                         {activeSubsolution?.title}
@@ -314,12 +314,12 @@ const DetailSolution = ({ landing, solutions, allSolutions, aliances, linkWhatsA
                                                     className="flex flex-col gap-4 p-4 2xl:p-6 bg-white rounded-lg group hover:bg-[#7B5E9A] transition-colors duration-300"
                                                 >
                                                     <div className="flex flex-row gap-4 items-center">
-                                                        <div className="rounded-full aspect-square w-16 bg-[#F5F2F9] group-hover:bg-white flex justify-center items-center overflow-hidden">
+                                                        <div className="rounded-full aspect-square w-20 bg-[#F5F2F9] group-hover:bg-white flex justify-center items-center overflow-hidden">
                                                             {benefit.image && (
                                                                 <img
                                                                     src={`/api/solution/media/${benefit.image}`}
                                                                     alt={benefit.title}
-                                                                    className="object-cover w-8 h-8"
+                                                                    className="object-cover w-10 h-10"
                                                                     onError={(e) => (e.target.src = "/api/cover/thumbnail/null")}
                                                                 />
                                                             )}

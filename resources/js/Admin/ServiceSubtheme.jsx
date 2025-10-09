@@ -69,6 +69,7 @@ const FeatureCard = ({
                     </div>
                     <div className="col-md-6">
                         <DragDropImage
+                            current="service"
                             label="Imagen"
                             currentImage={feature.image}
                             onChange={handleImageChange}
@@ -116,6 +117,7 @@ const ServiceSubtheme = ({ services }) => {
     // Form elements ref - Siguiendo el patrón del primer código
     const idRef = useRef();
     const titleRef = useRef();
+    const subtitleRef = useRef();
     const descriptionRef = useRef();
     const serviceRef = useRef();
     
@@ -137,6 +139,7 @@ const ServiceSubtheme = ({ services }) => {
 
     const [isEditing, setIsEditing] = useState(false);
     const [selectedItem, setSelectedItem] = useState(null);
+    const [activeTab, setActiveTab] = useState("basic");
 
     // Estados para características y beneficios
     const [characteristics, setCharacteristics] = useState([
@@ -208,9 +211,13 @@ const ServiceSubtheme = ({ services }) => {
         if (data?.id) setIsEditing(true);
         else setIsEditing(false);
 
+        // Resetear al tab inicial
+        setActiveTab("basic");
+
         // Resetear valores como en el primer código
         idRef.current.value = data?.id ?? "";
         titleRef.current.value = data?.title ?? "";
+        subtitleRef.current.value = data?.subtitle ?? "";
         descriptionRef.current.value = data?.description ?? "";
         
         $(serviceRef.current).val(data?.service_id ?? "").trigger("change");
@@ -269,6 +276,7 @@ const ServiceSubtheme = ({ services }) => {
         const request = {
             id: idRef.current.value || undefined,
             title: titleRef.current.value,
+               subtitle: subtitleRef.current.value,
             description: descriptionRef.current.value,
             how_it_helps: howItHelpsRef.current.value,
             description_helps: descriptionHelpsRef.current.value,
@@ -488,76 +496,148 @@ const ServiceSubtheme = ({ services }) => {
             >
                 <input ref={idRef} type="hidden" />
 
-                <div className="row" id="service-container">
-                    <div className="col-md-6">
-
-                        <SelectFormGroup
-                            eRef={serviceRef}
-                            label="Servicio"
-                            required
-                            dropdownParent="#service-container"
-                            onChange={(e) =>
-                                setSelectedService(e.target.value)
-                            }
+                {/* Navegación por Tabs */}
+                <ul className="nav nav-pills nav-fill mb-4" role="tablist">
+                    <li className="nav-item" role="presentation">
+                        <button
+                            className={`nav-link ${activeTab === "basic" ? "active" : ""}`}
+                            onClick={() => setActiveTab("basic")}
+                            type="button"
                         >
-                            {services.map((item, index) => (
-                                <option key={index} value={item.id}>
-                                    {item.title}
-                                </option>
-                            ))}
-                        </SelectFormGroup>
+                            <i className="fa fa-info-circle me-2"></i>
+                            Información General
+                        </button>
+                    </li>
+                    <li className="nav-item" role="presentation">
+                        <button
+                            className={`nav-link ${activeTab === "benefits" ? "active" : ""}`}
+                            onClick={() => setActiveTab("benefits")}
+                            type="button"
+                        >
+                            <i className="fa fa-thumbs-up me-2"></i>
+                            Beneficios
+                        </button>
+                    </li>
+                    <li className="nav-item" role="presentation">
+                        <button
+                            className={`nav-link ${activeTab === "characteristics" ? "active" : ""}`}
+                            onClick={() => setActiveTab("characteristics")}
+                            type="button"
+                        >
+                            <i className="fa fa-star me-2"></i>
+                            Características
+                        </button>
+                    </li>
+                </ul>
 
-                        <InputFormGroup
-                            eRef={titleRef}
-                            label="Título del tema"
-                            required
-                        />
+                {/* Contenido de los Tabs */}
+                <div className="tab-content">
+                    {/* Tab: Información General */}
+                    <div
+                        className={`tab-pane fade ${activeTab === "basic" ? "show active" : ""}`}
+                    >
+                        <div className="row">
+                            <div className="row col-md-6">
+                                <div className="col-md-6" id="service-container">
+                                    <SelectFormGroup
+                                        eRef={serviceRef}
+                                        label="Servicio"
+                                        required
+                                        dropdownParent="#service-container"
+                                        onChange={(e) =>
+                                            setSelectedService(e.target.value)
+                                        }
+                                    >
+                                        {services.map((item, index) => (
+                                            <option key={index} value={item.id}>
+                                                {item.title}
+                                            </option>
+                                        ))}
+                                    </SelectFormGroup>
+                                </div>
 
-                        <div className="mb-3">
-                            <label className="form-label">Descripción</label>
-                            <textarea
-                                ref={descriptionRef}
-                                className="form-control"
-                                rows={4}
-                                required
-                            />
+                                <div className="col-md-6">
+                                    <InputFormGroup
+                                        eRef={subtitleRef}
+                                        label="Subtítulo del tema"
+                                        required
+                                    />
+                                </div>
+                                <div className="col-md-12">
+                                    <InputFormGroup
+                                        eRef={titleRef}
+                                        label="Título del tema"
+                                        required
+                                    />
+                                </div>
+                                <div className="col-md-12">
+                                    <div className="mb-0">
+                                        <label className="form-label">
+                                            Descripción principal
+                                            <span className="text-danger">*</span>
+                                        </label>
+                                        <textarea
+                                            ref={descriptionRef}
+                                            className="form-control"
+                                            rows={5}
+                                            placeholder="Describe el tema del servicio..."
+                                            required
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="row col-md-6">
+                                <div className="col-md-12">
+                                    <ImageFormGroup
+                                        eRef={imageRef}
+                                        label="Banner del tema"
+                                        aspect={1 / 1}
+                                    />
+                                    <small className="text-muted">
+                                        <i className="fa fa-info-circle me-1"></i>
+                                        Proporción recomendada: 1:1 (cuadrada) - Mínimo 800x800px
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr className="my-4" />
+
+                        <div className="row col-md-12">
+                            <div className="col-md-12">
+                                <InputFormGroup
+                                    eRef={howItHelpsRef}
+                                    label="¿Cómo ayuda este servicio?"
+                                />
+                            </div>
+                            <div className="col-md-12">
+                                <div className="mb-3">
+                                    <label className="form-label">
+                                        Descripción detallada de la ayuda
+                                    </label>
+                                    <textarea
+                                        ref={descriptionHelpsRef}
+                                        className="form-control"
+                                        rows={4}
+                                        placeholder="Explica en detalle cómo este servicio ayuda..."
+                                    />
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div className="col-md-6">
-                        <InputFormGroup
-                            eRef={howItHelpsRef}
-                            label="Cómo ayuda"
-                        />
-                        <div className="mb-3">
-                            <label className="form-label">
-                                Descripción de ayuda
-                            </label>
-                            <textarea
-                                ref={descriptionHelpsRef}
-                                className="form-control"
-                                rows={4}
-                            />
-                        </div>
-                    </div>
-                </div>
 
-                <div className="row mt-3">
-                    <div className="col-md-12">
-                        <ImageFormGroup
-                            eRef={imageRef}
-                            label="Imagen principal"
-                            aspect={16 / 5}
-                        />
-                    </div>
-                </div>
-
-                <div className="row mt-3">
-                    <div className="col-12">
+                    {/* Tab: Beneficios */}
+                    <div
+                        className={`tab-pane fade ${activeTab === "benefits" ? "show active" : ""}`}
+                    >
                         <InputFormGroup
                             eRef={titleBenefitRef}
-                            label="Título de Beneficios"
+                            label="Título de la sección de beneficios"
                         />
-                        <h5 className="mb-3">Beneficios</h5>
+
+                        <hr className="my-4" />
+
+                        <h5 className="mb-3">Lista de Beneficios</h5>
                         {characteristics.map((char, index) => (
                             <FeatureCard
                                 key={`char-${index}`}
@@ -574,29 +654,36 @@ const ServiceSubtheme = ({ services }) => {
                             />
                         ))}
                     </div>
-                </div>
 
-                <div className="row mt-3">
-                    <div className="col-md-6">
-                        <InputFormGroup
-                            eRef={titleCharacteristicsRef}
-                            label="Titulo de características"
-                        />
-                    </div>
-                    <div className="col-md-6">
-                        <div className="mb-3">
-                            <label className="form-label">
-                                Descripcion de características
-                            </label>
-                            <textarea
-                                ref={descriptionCharacteristicsRef}
-                                className="form-control"
-                                rows={5}
-                            />
+                    {/* Tab: Características */}
+                    <div
+                        className={`tab-pane fade ${activeTab === "characteristics" ? "show active" : ""}`}
+                    >
+                        <div className="row">
+                            <div className="col-md-12">
+                                <InputFormGroup
+                                    eRef={titleCharacteristicsRef}
+                                    label="Título de características"
+                                />
+                            </div>
+                            <div className="col-md-12">
+                                <div className="mb-3">
+                                    <label className="form-label">
+                                        Descripción de características
+                                    </label>
+                                    <textarea
+                                        ref={descriptionCharacteristicsRef}
+                                        className="form-control"
+                                        rows={3}
+                                        placeholder="Descripción introductoria de las características..."
+                                    />
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div className="col-md-12">
-                        <h5 className="mb-3 mt-4">Caracteristicas</h5>
+
+                        <hr className="my-4" />
+
+                        <h5 className="mb-3">Lista de Características</h5>
                         {benefits.map((benefit, index) => (
                             <FeatureCard
                                 key={`benefit-${index}`}
@@ -614,6 +701,7 @@ const ServiceSubtheme = ({ services }) => {
                         ))}
                     </div>
                 </div>
+
             </Modal>
         </>
     );
