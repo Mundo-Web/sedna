@@ -42,7 +42,7 @@ const DetailService = ({ landing, services, allServices, linkWhatsApp, randomIma
     const handleServicesMenu = () => {
         setShowServicesMenu(!showServicesMenu);
     };
-   
+
     // Animaciones
     const containerVariants = {
         hidden: { opacity: 0 },
@@ -130,24 +130,24 @@ const DetailService = ({ landing, services, allServices, linkWhatsApp, randomIma
 
     const { t } = useTranslation();
     const parsedCharacteristics = activeSubservice?.characteristics;
-    const parsedBenefits= activeSubservice?.benefits;
+    const parsedBenefits = activeSubservice?.benefits;
 
     const ArrowIcon = () => (
         <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
-          <mask id="mask0_226_5036" style={{maskType: 'alpha'}} maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="21">
-            <rect y="0.984375" width="20" height="20" fill="#D9D9D9"/>
-          </mask>
-          <g mask="url(#mask0_226_5036)">
-            <path d="M13.4791 11.8203H3.33325V10.1536H13.4791L8.81242 5.48698L9.99992 4.32031L16.6666 10.987L9.99992 17.6536L8.81242 16.487L13.4791 11.8203Z" fill="#7D3CB5"/>
-          </g>
+            <mask id="mask0_226_5036" style={{ maskType: 'alpha' }} maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="21">
+                <rect y="0.984375" width="20" height="20" fill="#D9D9D9" />
+            </mask>
+            <g mask="url(#mask0_226_5036)">
+                <path d="M13.4791 11.8203H3.33325V10.1536H13.4791L8.81242 5.48698L9.99992 4.32031L16.6666 10.987L9.99992 17.6536L8.81242 16.487L13.4791 11.8203Z" fill="#7D3CB5" />
+            </g>
         </svg>
-      );
+    );
 
     return (
         <div className="font-poppins">
             <Header />
 
-            <section className="bg-center h-[87vh] lg:h-[65vh] bg-cover bg-no-repeat flex flex-col justify-center relative"  style={{ backgroundImage: `url('/api/service/media/${services.image_banner}')` }}>
+            <section className="bg-center h-[87vh] lg:h-[65vh] bg-cover bg-no-repeat flex flex-col justify-center relative" style={{ backgroundImage: `url('/api/service/media/${services.image_banner}')` }}>
                 <div className="flex flex-col lg:flex-row h-full justify-center items-start lg:items-end relative">
                     <div className="absolute  top-0 left-0 bg-gradient-to-r from-[rgba(0,0,0,0.4)] via-[rgba(0,0,0,0.4)] to-[rgba(0,0,0,0)] blur-xl h-full w-full"></div>
                     <div className="px-[5%] z-20 2xl:px-0 w-full 2xl:max-w-7xl mx-auto flex items-center h-full">
@@ -166,7 +166,7 @@ const DetailService = ({ landing, services, allServices, linkWhatsApp, randomIma
             </section>
 
 
-           
+
             <section className="px-[5%]  bg-center min-h-60 bg-cover bg-no-repeat flex flex-col md:justify-center items-center relative py-10 gap-5 2xl:gap-8" style={{ backgroundImage: `url('/api/landing_home/media/${landingHero?.image}')` }} >
                 <div className="flex flex-row items-start justify-start md:justify-center w-full max-w-2xl 2xl:max-w-2xl md:text-center">
                     <h2 className="font-Poppins_Medium text-white text-3xl sm:text-4xl lg:text-[44px] !leading-tight">{services?.how_it_helps}</h2>
@@ -183,40 +183,39 @@ const DetailService = ({ landing, services, allServices, linkWhatsApp, randomIma
                 <>
                     <section className="w-full px-[5%] pt-10 lg:pt-16">
                         <div className="flex flex-wrap items-center justify-center gap-5 2xl:gap-8 max-w-4xl mx-auto text-[#3E2F4D] font-Poppins_Regular text-base 2xl:text-lg">
-                        {allSubServices.map((service) => {
-                            const isActive = service.id === activeSubservice.id;
-                            return (
-                                <button
-                                    key={service.id}
-                                    onClick={() => setActiveSubsolution(service)}
-                                    className={`pb-[1px] border-b hover:border-[#3E2F4D] transition-all duration-200 ${
-                                        isActive ? 'font-bold border-[#3E2F4D]' : 'border-transparent'
-                                    } hover:font-bold`}
-                                >
-                                    {service.subtitle}
-                                </button>
-                            );
-                        })}
+                            {allSubServices.map((service) => {
+                                const isActive = service.id === activeSubservice.id;
+                                return (
+                                    <button
+                                        key={service.id}
+                                        onClick={() => setActiveSubsolution(service)}
+                                        className={`pb-[1px] border-b hover:border-[#3E2F4D] transition-all duration-200 ${isActive ? 'font-bold border-[#3E2F4D]' : 'border-transparent'
+                                            } hover:font-bold`}
+                                    >
+                                        {service.subtitle}
+                                    </button>
+                                );
+                            })}
                         </div>
                     </section>
 
 
                     {(activeSubservice?.title || activeSubservice?.description || activeSubservice?.image) && (
                         <>
-                               <section className="grid grid-cols-1 md:grid-cols-2 gap-16 px-[5%] 2xl:px-0 2xl:max-w-7xl mx-auto pt-10 lg:pt-16">
+                            <section className="grid grid-cols-1 md:grid-cols-2 gap-16 px-[5%] 2xl:px-0 2xl:max-w-7xl mx-auto pt-10 lg:pt-16">
                                 <div className="flex flex-col gap-3 items-left justify-center">
-                                   <h2 className="font-Poppins_Medium text-[#3E2F4D] text-3xl sm:text-4xl lg:text-[44px] !leading-tight !tracking-tight">
+                                    <h2 className="font-Poppins_Medium text-[#3E2F4D] text-3xl sm:text-4xl lg:text-[44px] !leading-tight !tracking-tight">
                                         {activeSubservice?.title}
                                     </h2>
-                                  <p className="font-Poppins_Regular text-base 2xl:text-lg text-[#4B246D]">
+                                    <p className="font-Poppins_Regular text-base 2xl:text-lg text-[#4B246D]">
                                         {activeSubservice?.description}
                                     </p>
                                 </div>
                                 <div className="flex flex-col gap-3 items-center justify-start">
-                                    <img 
-                                     className="object-cover w-full h-full rounded-lg aspect-[4/3] overflow-hidden"
-                                        src={`/api/serviceSubtheme/media/${activeSubservice.image}`} 
-                                        onError={(e) => (e.target.src = "/api/cover/thumbnail/null")} 
+                                    <img
+                                        className="object-cover w-full h-full rounded-lg aspect-[4/3] overflow-hidden"
+                                        src={`/api/serviceSubtheme/media/${activeSubservice.image}`}
+                                        onError={(e) => (e.target.src = "/api/cover/thumbnail/null")}
                                         alt={activeSubservice.title}
                                     />
                                 </div>
@@ -227,7 +226,7 @@ const DetailService = ({ landing, services, allServices, linkWhatsApp, randomIma
 
                     {(activeSubservice?.how_it_helps || activeSubservice?.description_helps) && (
                         <>
-                              <section className="flex flex-col md:justify-center items-center gap-5 2xl:gap-8 px-[5%] 2xl:px-0 2xl:max-w-7xl mx-auto pt-10 lg:pt-16">
+                            <section className="flex flex-col md:justify-center items-center gap-5 2xl:gap-8 px-[5%] 2xl:px-0 2xl:max-w-7xl mx-auto pt-10 lg:pt-16">
                                 <div className="flex flex-row items-start justify-start md:justify-center w-full max-w-2xl 2xl:max-w-3xl md:text-center">
                                     <h2 className="font-Poppins_Medium text-[#3E2F4D] text-3xl sm:text-4xl lg:text-[44px] !leading-tight">{activeSubservice?.how_it_helps}</h2>
                                 </div>
@@ -242,61 +241,61 @@ const DetailService = ({ landing, services, allServices, linkWhatsApp, randomIma
                     )}
 
                     {(activeSubservice?.title_benefit || parsedCharacteristics.length > 0) && (
-                       <>
-                                                <section className="flex flex-col gap-5 2xl:gap-8 px-[5%] 2xl:px-0 2xl:max-w-7xl mx-auto pt-10 lg:pt-16">
-                                                    <div className="flex flex-row items-start justify-start w-full">
-                                                        <h2 className="font-Poppins_Medium text-[#3E2F4D] text-3xl sm:text-4xl 2xl:text-[44px] !leading-tight !tracking-tight max-w-xl 2xl:max-w-2xl">
-                                                            {activeSubservice?.title_benefit}
-                                                        </h2>
+                        <>
+                            <section className="flex flex-col gap-5 2xl:gap-8 px-[5%] 2xl:px-0 2xl:max-w-7xl mx-auto pt-10 lg:pt-16">
+                                <div className="flex flex-row items-start justify-start w-full">
+                                    <h2 className="font-Poppins_Medium text-[#3E2F4D] text-3xl sm:text-4xl 2xl:text-[44px] !leading-tight !tracking-tight max-w-xl 2xl:max-w-2xl">
+                                        {activeSubservice?.title_benefit}
+                                    </h2>
+                                </div>
+
+                                <div className="w-full">
+                                    <Swiper
+                                        className="carrusel_opciones"
+                                        loop={true}
+                                        grabCursor={true}
+                                        centeredSlides={false}
+                                        initialSlide={0}
+                                        spaceBetween={20}
+                                        breakpoints={{
+                                            0: {
+                                                slidesPerView: 1,
+                                                spaceBetween: 15,
+                                            },
+                                            600: {
+                                                slidesPerView: 2,
+                                                spaceBetween: 20,
+                                            },
+                                            1024: {
+                                                slidesPerView: 3,
+                                                spaceBetween: 20,
+                                            },
+                                            1350: {
+                                                slidesPerView: 4,
+                                                spaceBetween: 20,
+                                            },
+                                        }}
+                                    >
+                                        {parsedCharacteristics.map((item, index) => (
+                                            <SwiperSlide key={index}>
+                                                <div className="flex flex-col gap-2 p-6 2xl:p-8 bg-[#F5F2F9] group hover:bg-[#7B5E9A] rounded-lg duration-300 transition-all">
+                                                    <div className="rounded-full aspect-square w-16 bg-white flex flex-col justify-center items-center">
+                                                        <img src={`/api/service/media/${item.image}`} alt={item.title} className="w-8 h-8 object-contain" onError={(e) => (e.target.src = "/api/cover/thumbnail/null")} />
                                                     </div>
-                    
-                                                    <div className="w-full">
-                                                        <Swiper
-                                                            className="carrusel_opciones"
-                                                            loop={true}
-                                                            grabCursor={true}
-                                                            centeredSlides={false}
-                                                            initialSlide={0}
-                                                            spaceBetween={20}
-                                                            breakpoints={{
-                                                                0: {
-                                                                    slidesPerView: 1,
-                                                                    spaceBetween: 15,
-                                                                },
-                                                                600: {
-                                                                    slidesPerView: 2,
-                                                                    spaceBetween: 20,
-                                                                },
-                                                                1024: {
-                                                                    slidesPerView: 3,
-                                                                    spaceBetween: 20,
-                                                                },
-                                                                1350: {
-                                                                    slidesPerView: 4,
-                                                                    spaceBetween: 20,
-                                                                },
-                                                            }}
-                                                        >
-                                                            {parsedCharacteristics.map((item, index) => (
-                                                                <SwiperSlide key={index}>
-                                                                    <div className="flex flex-col gap-2 p-6 2xl:p-8 bg-[#F5F2F9] group hover:bg-[#7B5E9A] rounded-lg duration-300 transition-all">
-                                                                        <div className="rounded-full aspect-square w-16 bg-white flex flex-col justify-center items-center">
-                                                                            <img src={`/api/service/media/${item.image}`} alt={item.title} className="w-8 h-8 object-contain" onError={(e) => (e.target.src = "/api/cover/thumbnail/null")} />
-                                                                        </div>
-                                                                        <h3 className="font-Poppins_Regular font-semibold text-[#3E2F4D] group-hover:text-white text-lg 2xl:text-xl">{item.title}</h3>
-                                                                        <p className="font-Poppins_Regular text-[#5C4774] group-hover:text-white text-base line-clamp-2 ">{item.description}</p>
-                                                                    </div>
-                                                                </SwiperSlide>
-                                                            ))}
-                                                        </Swiper>
-                                                    </div>
-                                                </section>
-                                            </>
+                                                    <h3 className="font-Poppins_Regular font-semibold text-[#3E2F4D] group-hover:text-white text-lg 2xl:text-xl">{item.title}</h3>
+                                                    <p className="font-Poppins_Regular text-[#5C4774] group-hover:text-white text-base line-clamp-2 ">{item.description}</p>
+                                                </div>
+                                            </SwiperSlide>
+                                        ))}
+                                    </Swiper>
+                                </div>
+                            </section>
+                        </>
                     )}
 
 
                     {(activeSubservice?.title_characteristics || activeSubservice?.description_characteristics || parsedBenefits.length > 0) && (
-                          <>
+                        <>
                             <section className="px-[5%] 2xl:px-0 2xl:max-w-7xl mx-auto pt-10 lg:pt-16">
                                 <div className="bg-[#F5F2F9] py-10 lg:py-16 px-5 md:px-10 rounded-xl overflow-hidden flex flex-col lg:flex-row items-start gap-12">
                                     <div className="w-full lg:w-3/5 order-2 lg:order-1">
@@ -346,66 +345,66 @@ const DetailService = ({ landing, services, allServices, linkWhatsApp, randomIma
 
                 </>
             )}
-           
 
-             <div  className={`${allSubServices.length > 0 ? 'mt-10 lg:mt-16' : ''}   bg-cover bg-bottom`}  style={{ backgroundImage: "url('/assets/img/servicios/texturacontactos.png')" }}>
-               <section className={` flex flex-col lg:flex-row gap-6  px-[5%] 2xl:px-0 2xl:max-w-7xl mx-auto   `}>
-                <div className="flex flex-col w-full lg:w-1/2 gap-5 py-10 lg:py-16">
-                    <div className="flex flex-col max-w-xl">
-                        <h2 className="font-Poppins_SemiBold text-[#3E2F4D] text-3xl sm:text-4xl md:text-3xl lg:text-[44px] !leading-tight">
-                            {landingFooter?.title}
-                        </h2>
-                    </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 max-w-4xl 2xl:max-w-6xl mx-auto gap-5">
-                        <div className="flex flex-col gap-2 p-6 2xl:p-8 bg-white rounded-lg">
-                            <div className="rounded-full aspect-square w-16 bg-[#F5F2F9] flex flex-col justify-center items-center">
-                                <img
-                                    src={`/api/landing_home/media/${landingCardone?.image}`}
-                                    className="object-cover w-8 h-8"
-                                    onError={(e) => (e.target.src = "/api/cover/thumbnail/null")}
-                                />
-                            </div>
-                            <h2 className="font-Poppins_SemiBold text-[#3E2F4D] text-lg 2xl:text-xl">
-                                {landingCardone?.title}
+
+            <div className={`${allSubServices.length > 0 ? 'mt-10 lg:mt-16' : ''}   bg-cover bg-bottom`} style={{ backgroundImage: "url('/assets/img/servicios/texturacontactos.png')" }}>
+                <section className={` flex flex-col lg:flex-row gap-6  px-[5%] 2xl:px-0 2xl:max-w-7xl mx-auto   `}>
+                    <div className="flex flex-col w-full lg:w-1/2 gap-5 py-10 lg:py-16">
+                        <div className="flex flex-col max-w-xl">
+                            <h2 className="font-Poppins_SemiBold text-[#3E2F4D] text-3xl sm:text-4xl md:text-3xl lg:text-[44px] !leading-tight">
+                                {landingFooter?.title}
                             </h2>
-
-                            <p className="font-Poppins_Regular text-[#5C4774] text-base 2xl:text-lg">{landingCardone?.description}</p>
-                            <a href={landingCardone?.link}>
-                                <div className="flex flex-row gap-2 items-center justify-start">
-                                    <span className="font-Poppins_Regular font-semibold text-[#5C4774] text-base 2xl:text-lg hover:underline">{landingCardone?.subtitle}</span>
-                                    <ArrowIcon />
-                                </div>
-                            </a>
                         </div>
-
-                        <div className="flex flex-col gap-2 p-6 2xl:p-8 bg-white rounded-lg">
-                            <div className="rounded-full aspect-square w-16 bg-[#F5F2F9] flex flex-col justify-center items-center">
-
-                                <img
-                                    src={`/api/landing_home/media/${landingCardsecond?.image}`}
-                                    className="object-cover w-8 h-8"
-                                    onError={(e) => (e.target.src = "/api/cover/thumbnail/null")}
-                                />
-
-                            </div>
-                            <h2 className="font-Poppins_SemiBold text-[#3E2F4D] text-lg 2xl:text-xl">
-                                {landingCardsecond?.title}
-                            </h2>
-                            <p className="font-Poppins_Regular text-[#5C4774] text-base 2xl:text-lg">{landingCardsecond?.description}</p>
-                            <a href={landingCardsecond?.link}>
-                                <div className="flex flex-row gap-2 items-center justify-start">
-                                    <span className="font-Poppins_Regular font-semibold text-[#5C4774] text-base 2xl:text-lg hover:underline">{landingCardsecond?.subtitle}</span>
-                                    <ArrowIcon />
+                        <div className="grid grid-cols-1 md:grid-cols-2 max-w-4xl 2xl:max-w-6xl mx-auto gap-5">
+                            <div className="flex flex-col gap-2 p-6 2xl:p-8 bg-white rounded-lg">
+                                <div className="rounded-full aspect-square w-16 bg-[#F5F2F9] flex flex-col justify-center items-center">
+                                    <img
+                                        src={`/api/landing_home/media/${landingCardone?.image}`}
+                                        className="object-cover w-8 h-8"
+                                        onError={(e) => (e.target.src = "/api/cover/thumbnail/null")}
+                                    />
                                 </div>
-                            </a>
+                                <h2 className="font-Poppins_SemiBold text-[#3E2F4D] text-lg 2xl:text-xl">
+                                    {landingCardone?.title}
+                                </h2>
+
+                                <p className="font-Poppins_Regular text-[#5C4774] text-base 2xl:text-lg">{landingCardone?.description}</p>
+                                <a href={landingCardone?.link}>
+                                    <div className="flex flex-row gap-2 items-center justify-start">
+                                        <span className="font-Poppins_Regular font-semibold text-[#5C4774] text-base 2xl:text-lg hover:underline">{landingCardone?.subtitle}</span>
+                                        <ArrowIcon />
+                                    </div>
+                                </a>
+                            </div>
+
+                            <div className="flex flex-col gap-2 p-6 2xl:p-8 bg-white rounded-lg">
+                                <div className="rounded-full aspect-square w-16 bg-[#F5F2F9] flex flex-col justify-center items-center">
+
+                                    <img
+                                        src={`/api/landing_home/media/${landingCardsecond?.image}`}
+                                        className="object-cover w-8 h-8"
+                                        onError={(e) => (e.target.src = "/api/cover/thumbnail/null")}
+                                    />
+
+                                </div>
+                                <h2 className="font-Poppins_SemiBold text-[#3E2F4D] text-lg 2xl:text-xl">
+                                    {landingCardsecond?.title}
+                                </h2>
+                                <p className="font-Poppins_Regular text-[#5C4774] text-base 2xl:text-lg">{landingCardsecond?.description}</p>
+                                <a href={landingCardsecond?.link}>
+                                    <div className="flex flex-row gap-2 items-center justify-start">
+                                        <span className="font-Poppins_Regular font-semibold text-[#5C4774] text-base 2xl:text-lg hover:underline">{landingCardsecond?.subtitle}</span>
+                                        <ArrowIcon />
+                                    </div>
+                                </a>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div className="flex flex-col w-full lg:w-1/2">
-                    <img className="object-bottom object-contain w-full h-full max-w-xl mx-auto" src={`/api/landing_home/media/${landingFooter?.image}`} onError={handleImageError} />
-                </div>
-            </section>
-         </div>
+                    <div className="flex flex-col w-full lg:w-1/2">
+                        <img className="object-bottom object-contain w-full h-full max-w-xl mx-auto" src={`/api/landing_home/media/${landingFooter?.image}`} onError={handleImageError} />
+                    </div>
+                </section>
+            </div>
 
 
             {/* <div className="min-h-screen">
