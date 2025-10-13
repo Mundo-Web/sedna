@@ -40,8 +40,8 @@ function Blog({ categories, postRecent, landing }) {
 
                     <section className="flex flex-col gap-6 px-[5%] py-12 lg:py-40 bg-cover bg-center" style={{ backgroundImage: `url('/api/landing_home/media/${landingsuscription?.image}')` }}>
                         <div className="flex flex-col gap-4 xl:gap-6 max-w-2xl mx-auto text-center">
-                            <p className='font-Poppins_Regular font-semibold text-[#5C4774]'>{landingsuscription?.title}</p>
-                            <h2 className="font-Poppins_Regular font-semibold text-[#1F1827] text-2xl md:text-3xl 2xl:text-4xl !leading-tight">
+                            <p className='font-Poppins_Medium text-2xl text-[#5C4774]'>{landingsuscription?.title}</p>
+                            <h2 className="font-Poppins_Medium text-[#1F1827] text-2xl md:text-3xl lg:text-[32px] !leading-tight">
                                 {landingsuscription?.description}
                             </h2>
                             <div className="relative bg-[#F5F2F9] mt-2 p-2 w-full max-w-lg mx-auto rounded-lg flex flex-col md:flex-row gap-5">

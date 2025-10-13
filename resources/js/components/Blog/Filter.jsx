@@ -116,18 +116,44 @@ const Filter = ({ categories, filter, setFilter, landing }) => {
 
                 {/* Botones de categorías */}
                 <motion.div
-                    className="flex flex-wrap max-w-3xl gap-3 justify-center items-center lg:justify-start"
+                    className="flex flex-wrap px-[5%] 2x:px-0  2xl:max-w-7xl gap-3 justify-center items-center lg:justify-start"
                     variants={containerVariants}
                 >
-                    Filtrar por:
+                    <span className="text-[#3E2F4D] font-Poppins_Medium">Filtrar por:</span>
+
+                    {/* Botón "Todos los resultados" */}
+                    <motion.button
+                        className={`px-4 py-2.5  text-[#3E2F4D] transition-all duration-300 ${
+                            filter.category === null
+                                ? "text-[#3E2F4D] font-Poppins_Medium border-b border-[#7B5E9A] bg-transparent"
+                                : " font-Poppins_Regular"
+                        }`}
+                        onClick={() =>
+                            setFilter((old) => ({
+                                ...old,
+                                category: null,
+                            }))
+                        }
+                        whileHover="hover"
+                        whileTap="tap"
+                        variants={buttonHover}
+                        initial={{ scale: 0.9 }}
+                        animate={{ scale: 1 }}
+                        transition={{
+                            type: "spring",
+                            delay: 0,
+                        }}
+                    >
+                        Todos los resultados
+                    </motion.button>
 
                     {categories.map((item, index) => (
                         <motion.button
                             key={index}
-                            className={`px-4 py-2.5 rounded-3xl ${
+                            className={`px-4 text-[#3E2F4D] py-2.5  transition-all duration-300 ${
                                 item.id == filter.category
-                                    ? "bg-[#5C4774] text-white"
-                                    : "bg-slate-100 text-negro"
+                                    ? " font-Poppins_Medium border-b border-[#7B5E9A] bg-transparent"
+                                    : " font-Poppins_Regular"
                             }`}
                             onClick={() =>
                                 setFilter((old) => ({
@@ -138,7 +164,6 @@ const Filter = ({ categories, filter, setFilter, landing }) => {
                                             : item.id,
                                 }))
                             }
-                            variants={itemVariants}
                             whileHover="hover"
                             whileTap="tap"
                             variants={buttonHover}
@@ -146,7 +171,7 @@ const Filter = ({ categories, filter, setFilter, landing }) => {
                             animate={{ scale: 1 }}
                             transition={{
                                 type: "spring",
-                                delay: index * 0.05,
+                                delay: (index + 1) * 0.05,
                             }}
                         >
                             {item.name}

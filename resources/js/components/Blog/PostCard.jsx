@@ -62,12 +62,12 @@ const PostCard = ({
                     className="flex flex-col w-full"
                     variants={contentVariants}
                 >
-                    <h3 className="text-lg sm:text-xl md:text-2xl font-semibold text-negro line-clamp-2">
+                    <h3 className="text-lg sm:text-xl font-Poppins_Medium lg:text-[28px]  text-[#3E2F4D] line-clamp-2">
                         <TextWithHighlight text={name} />
                     </h3>
 
                     <motion.p 
-                        className="mt-2 sm:mt-3 2xl:mt-4 text-sm sm:text-base text-negro line-clamp-4"
+                        className="mt-2 sm:mt-3 font-Poppins_Regular 2xl:mt-4 text-base lg:text-lg text-[#3E2F4D] line-clamp-4"
                     >
                         {summary || "Sin descripción"}
                     </motion.p>
@@ -78,7 +78,7 @@ const PostCard = ({
                     className="flex flex-row"
                     whileHover={{ x: 3 }} // Pequeño movimiento al hover
                 >
-                    <span className="rounded-sm text-sm text-[#3E2F4D] font-medium mb-1 px-3 py-2 bg-[#D7C8E6]">{category.name}</span>
+                    <span className="rounded-sm text-sm text-[#3E2F4D] font-Poppins_Medium mb-1 px-3 py-2 bg-[#D7C8E6]">{category.name}</span>
                 </motion.div>
 
                 <motion.div 
@@ -100,7 +100,7 @@ const PostCard = ({
                 className="flex justify-between items-center mt-2 sm:mt-3 w-full gap-4"
                 variants={contentVariants}
             >
-                <span className="text-xs sm:text-sm text-end font-medium leading-snug text-[#3E2F4D]">
+                <span className="text-xs sm:text-sm text-end font-Poppins_Medium leading-snug text-[#3E2F4D]">
                     {moment(post_date).format("ll")}
                 </span>
             </motion.div>
