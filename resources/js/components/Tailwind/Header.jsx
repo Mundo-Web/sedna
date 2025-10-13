@@ -850,8 +850,8 @@ const Header = ({
 
                 {/* Modal de búsqueda */}
                 {searchModalOpen && (
-                <div className="fixed inset-0 bg-black/50 z-50 flex items-start justify-center pt-20">
-                    <div ref={searchModalRef} className="bg-white w-full max-w-xl rounded-lg shadow-xl mx-4">
+                <div className="fixed font-Poppins_Regular inset-0 bg-black/50 z-50 flex items-start justify-center pt-20">
+                    <div ref={searchModalRef} className="bg-white w-full max-w-xl py-2 rounded-lg shadow-xl mx-4">
                     <div className="relative">
                         <input
                         type="text"

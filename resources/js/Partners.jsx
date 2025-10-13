@@ -43,7 +43,7 @@ const Partners = ({ landing, aliances }) => {
     <div>
       <Header />
 
-          <section className="flex flex-col md:justify-center items-center gap-5 2xl:gap-8 px-[5%] pt-10 lg:pt-16">
+          <section className="flex flex-col md:justify-center items-center gap-5 2xl:gap-8 px-[5%] 2xl:px-0 2xl:max-w-7xl mx-auto pt-10 lg:pt-16">
                 <div className="flex flex-row items-start justify-start md:justify-center w-full max-w-2xl 2xl:max-w-3xl md:text-center">
                     <h2 className="font-Poppins_Medium text-[#3E2F4D] text-3xl sm:text-4xl lg:text-[44px] !leading-tight"><TextWithHighlight text={landingHero?.title} ></TextWithHighlight></h2>
                 </div>
@@ -55,7 +55,7 @@ const Partners = ({ landing, aliances }) => {
                 </div>
           </section>
 
-          <section className="flex flex-col md:justify-center items-center px-[5%] pt-10 lg:pt-16">
+          <section className="flex flex-col md:justify-center items-center px-[5%] 2xl:px-0 2xl:max-w-7xl mx-auto pt-10 lg:pt-16">
             <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-12">
                 {aliances.map((logo, index) => (
                     <div className="flex flex-col items-center justify-center h-[60px] gap-3">
@@ -72,8 +72,9 @@ const Partners = ({ landing, aliances }) => {
           </section>
 
 
-          <section className="flex flex-col lg:flex-row gap-6 px-[5%]  mt-10 lg:mt-16 bg-cover bg-bottom" style={{ backgroundImage: "url('/assets/img/servicios/texturacontactos.png')" }}>
-                <div className="flex flex-col w-full lg:w-1/2 gap-5 py-10 lg:py-16">
+          <section className="flex flex-col lg:flex-row gap-6 mt-10 lg:mt-16 bg-cover bg-bottom" style={{ backgroundImage: "url('/assets/img/servicios/texturacontactos.png')" }}>
+               <div className="flex flex-col lg:flex-row gap-6 px-[5%] 2xl:px-0 2xl:max-w-7xl mx-auto ">
+                 <div className="flex flex-col w-full lg:w-1/2 gap-5 py-10 lg:py-16">
                     <div className="flex flex-col max-w-xl">
                         <h2 className="font-Poppins_SemiBold text-[#3E2F4D] text-3xl sm:text-4xl md:text-3xl lg:text-[44px] !leading-tight">
                             {landingFooter?.title}
@@ -127,6 +128,7 @@ const Partners = ({ landing, aliances }) => {
                 <div className="flex flex-col w-full lg:w-1/2">
                     <img className="object-bottom object-contain w-full h-full max-w-xl mx-auto" src={`/api/landing_home/media/${landingFooter?.image}`}  onError={handleImageError} />
                 </div>
+               </div>
             </section>
 
       <Footer />
