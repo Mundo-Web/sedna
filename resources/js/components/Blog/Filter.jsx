@@ -80,25 +80,26 @@ const Filter = ({ categories, filter, setFilter, landing }) => {
                 {/* Campo de búsqueda */}
                 <motion.label
                     htmlFor="txt-search"
-                    className="col-span-1 px-6 py-4 flex items-center rounded-3xl bg-[#F5F2F9] min-w-[350px] sm:min-w-[500px] max-w-2xl mx-auto"
+                    className="col-span-1 px-6 py-4 flex items-center rounded-xl bg-[#F5F2F9] min-w-[350px] sm:min-w-[500px] max-w-2xl mx-auto"
                     variants={itemVariants}
                     whileHover={{ y: -3 }}
                     whileFocus="focus"
                     variants={inputFocus}
                 >
-                    <motion.i
-                        className="fas fa-search text-negro mr-2"
-                        whileHover={{ scale: 1.1 }}
-                    />
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M17.5 17.5L22 22" stroke="#3E2F4D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M20 11C20 6.02944 15.9706 2 11 2C6.02944 2 2 6.02944 2 11C2 15.9706 6.02944 20 11 20C15.9706 20 20 15.9706 20 11Z" stroke="#3E2F4D" stroke-width="1.5" stroke-linejoin="round"/>
+</svg>
+
                     <motion.input
                         id="txt-search"
                         type="text"
                         placeholder={t(
                             "public.post.search",
-                            "Buscar publicación"
+                            "Busca un tema o noticia"
                         )}
                         value={searchTerm}
-                        className="w-full bg-transparent border-none outline-none text-slate-800"
+                        className="w-full pl-4 bg-transparent border-none outline-none text-slate-800"
                         // onChange={(e) =>
                         //     setFilter((old) => ({
                         //         ...old,

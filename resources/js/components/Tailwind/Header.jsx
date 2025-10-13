@@ -539,15 +539,14 @@ const Header = ({
                     initial="hidden"
                     animate="visible"
                     variants={containerVariants}
-                    className={`font-poppins static lg:w-full top-0 z-40 transition-colors duration-300 ${
-                        backgroundType === "none"
-                            ? "bg-transparent mt-0"
+                    className={`font-poppins static lg:w-full top-0 z-40 transition-all duration-300 ${
+                        activeMegaMenu 
+                            ? "bg-white z-[999999999]" 
                             : isScrolled
                             ? "bg-[#224483] pt-0 !mt-0"
+                            : backgroundType === "none"
+                            ? "bg-transparent mt-0"
                             : "bg-transparent top-4 pt-8 md:pt-14 lg:pt-10"
-                    } ${
-                        isScrolled &&
-                        "bg-[#224483] pt-0 !mt-0 transition-all duration-150"
                     }`}
                 >
                     <div

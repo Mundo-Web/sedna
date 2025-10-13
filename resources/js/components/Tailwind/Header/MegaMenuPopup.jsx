@@ -44,11 +44,11 @@ const MegaMenuPopup = ({ isOpen, onClose, data }) => {
 
   return (
     <div className="fixed bg-black/70 inset-0 z-50 flex items-start justify-center mt-[100px]">
-      <div className="bg-gradient-to-r from-gray-50 to-white  w-full max-h-[90vh] overflow-hidden">
+      <div className="bg-gradient-to-r border-t border-[#DACFE7] from-gray-50 to-white  w-full max-h-[90vh] overflow-hidden">
         <div className="flex flex-row h-full px-[5%] 2xl:px-0 2xl:max-w-7xl mx-auto">
 
           {/* Sidebar */}
-          <div className="w-1/5 bg-gray-50  border-r border-gray-200 py-10 pr-4 2xl:py-16 2xl:pr-10">
+          <div className="w-1/5 bg-gray-50  border-r border-[#DACFE7] py-10 pr-4 2xl:py-16 2xl:pr-10">
             <nav className="space-y-1 w-full h-full max-h-96 overflow-y-auto">
               {keys.map(key => (
                 <button

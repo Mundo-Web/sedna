@@ -66,16 +66,16 @@ const FAQs = ({ faqs,landing }) => {
           landing={landing}
       />
 
-      <section className='px-[5%] py-10 lg:py-16'>
-        <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-5 xl:gap-8'>
+      <section className='px-[5%] 2xl:px-0 2xl:max-w-7xl mx-auto py-10 lg:py-16'>
+        <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 lg:gap-10'>
           {filteredFaqs.length > 0 ? (
               filteredFaqs.map((faq, index) => (
                 <a href={`/faqs/${faq.slug}`} key={index}>
                   <div className='flex flex-col gap-3 rounded-xl text-[#3E2F4D] px-3 py-2'>
-                    <p className='text-xs font-Poppins_Regular'>
+                    <p className='text-sm font-Poppins_Regular '>
                       {t("public.subtitle.adv","Anuncio")} | {new Date(faq.created_at).toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' })}
                     </p>
-                    <h1 className='flex font-Poppins_Regular font-semibold cursor-pointer'>
+                    <h1 className='flex font-Poppins_Medium  text-2xl cursor-pointer'>
                       <span className='line-clamp-4'>{faq.name}</span>
                     </h1>
                   </div>

@@ -74,12 +74,12 @@ const Results = ({ filter }) => {
 
     return (
         <>
-            <section className="px-[5%] pt-0 grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <section className="px-[5%] 2xl:px-0 2xl:max-w-7xl mx-auto pt-0 grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {results.map((item, index) => {
                     return <PostCard key={index} {...item} firstImage />;
                 })}
             </section>
-            <div className="p-[5%]">
+            <div className="p-[5%] 2xl:px-0 2xl:max-w-7xl mx-auto">
                 <FilterPagination
                     pages={pages}
                     current={currentPage}
